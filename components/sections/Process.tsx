@@ -37,12 +37,18 @@ export default function Process() {
       ref={root}
       id="process"
       aria-label="How we work"
-      className="relative border-t border-line bg-ink py-24 md:py-32 lg:py-40"
+      className="relative border-t border-line bg-ink py-28 md:py-36 lg:py-44"
     >
+      {/* Section divider: a brass hairline that fades across the top edge, so
+          one section visibly ends before the next begins. */}
+      <span
+        className="section-divider pointer-events-none absolute inset-x-0 top-0"
+        aria-hidden="true"
+      />
       <div className="shell grid gap-16 lg:grid-cols-12 lg:gap-10">
         <div className="lg:col-span-4">
           <div className="lg:sticky lg:top-32">
-            <SectionLabel index="05">How we work</SectionLabel>
+            <SectionLabel index="06">How we work</SectionLabel>
             <h2 data-split className="mt-8 text-display font-semibold text-bone">
               Six steps, in order, every time.
             </h2>

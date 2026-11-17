@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
-import { Clock, Mail, MapPin, MessageCircle, Phone, Siren } from "lucide-react";
+import { Clock, Mail, MapPin, Phone } from "lucide-react";
+import { WhatsAppIcon } from "@/components/ui/WhatsAppIcon";
 import { site } from "@/lib/site";
 import { JsonLd, breadcrumbSchema, localBusinessSchema } from "@/lib/schema";
 import { PageHero } from "@/components/ui/PageHero";
 import { Section, SectionLabel } from "@/components/ui/Section";
 import { Copy } from "@/components/ui/Placeholder";
-import ContactForm from "@/components/sections/ContactForm";
+import EnquiryForm from "@/components/sections/EnquiryForm";
 import RevealEngine from "@/components/layout/RevealEngine";
 
 export const metadata: Metadata = {
@@ -20,29 +21,13 @@ export const metadata: Metadata = {
   },
 };
 
-const channels = [
-  {
-    icon: Phone,
-    k: "Call",
-    v: site.contact.phone,
-    href: site.contact.phoneHref,
-    note: "For enquiries and survey bookings.",
-  },
-  {
-    icon: MessageCircle,
-    k: "WhatsApp",
-    v: site.contact.whatsapp,
-    href: site.contact.whatsappHref,
-    note: "Send site photographs and details directly.",
-  },
-  {
-    icon: Mail,
-    k: "Email",
-    v: site.contact.email,
-    href: site.contact.emailHref,
-    note: "For written scopes, tenders and documentation.",
-  },
-];
+const emailChannel = {
+  icon: Mail,
+  k: "Email",
+  v: site.contact.email,
+  href: site.contact.emailHref,
+  note: "For written scopes, tenders and documentation.",
+};
 
 export default function ContactPage() {
   return (
@@ -57,62 +42,79 @@ export default function ContactPage() {
 
       <PageHero
         eyebrow="Contact"
-        index="03"
+        index="06"
         breadcrumb={[
           { label: "Home", href: "/" },
           { label: "Contact", href: "/contact" },
         ]}
         title={
           <>
-            Talk to someone who will{" "}
-            <span className="accent-serif text-brass">walk</span> the site.
+            Discuss your <span className="accent-serif text-brass">security</span> requirements
+            with our team.
           </>
         }
-        lead="Call, message or send the details below. For anything time-critical, use the control room number rather than the form."
+        lead="Contact our team by phone, WhatsApp or through the enquiry form below for further information and assistance."
       >
         <div className="mt-16 grid gap-px border border-line bg-line md:grid-cols-3" data-stagger>
-          {channels.map((channel) => (
-            <a
-              key={channel.k}
-              href={channel.href}
-              data-stagger-item
-              className="group relative bg-void p-8 transition-colors duration-500 hover:bg-raise"
-            >
-              <span className="ticks pointer-events-none absolute inset-0" aria-hidden="true" />
-              <channel.icon className="h-5 w-5 text-brass" strokeWidth={1.25} />
-              <p className="mt-6 font-mono text-[10px] uppercase tracking-[0.2em] text-dim">
-                {channel.k}
-              </p>
-              <p className="mt-2 font-display text-lg font-semibold text-bone">
-                <Copy text={channel.v} />
-              </p>
-              <p className="mt-3 text-sm text-mist">{channel.note}</p>
-            </a>
-          ))}
-        </div>
-
-        {/* Emergency */}
-        <div
-          className="mt-px flex flex-col gap-5 border border-t-0 border-line bg-raise p-8 sm:flex-row sm:items-center sm:justify-between"
-          data-reveal="up"
-        >
-          <div className="flex items-start gap-4">
-            <Siren className="mt-0.5 h-5 w-5 shrink-0 text-alert" strokeWidth={1.5} />
-            <div>
-              <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-alert">
-                Incident in progress
-              </p>
-              <p className="mt-2 max-w-xl text-sm text-mist">
-                Call the police on 112 first. Then reach the BSM control room so a supervisor can be
-                dispatched and the incident recorded.
-              </p>
-            </div>
+          {/* All three lines, in BSM's order. The first is the primary number. */}
+          <div data-stagger-item className="group relative bg-void p-8">
+            <span className="ticks pointer-events-none absolute inset-0" aria-hidden="true" />
+            <Phone className="h-5 w-5 text-brass" strokeWidth={1.25} />
+            <p className="mt-6 font-mono text-[10px] uppercase tracking-[0.2em] text-dim">Call</p>
+            <ul className="mt-3 space-y-2">
+              {site.contact.phones.map((line) => (
+                <li key={line.href}>
+                  <a
+                    href={line.href}
+                    className="link-wipe font-display text-lg font-semibold tracking-[-0.01em] text-bone transition-colors duration-300 hover:text-brass"
+                  >
+                    {line.display}
+                  </a>
+                </li>
+              ))}
+            </ul>
+            <p className="mt-4 text-sm text-mist">For enquiries and survey bookings.</p>
           </div>
+
+          <div data-stagger-item className="group relative bg-void p-8">
+            <span className="ticks pointer-events-none absolute inset-0" aria-hidden="true" />
+            <WhatsAppIcon className="h-5 w-5 text-brass" />
+            <p className="mt-6 font-mono text-[10px] uppercase tracking-[0.2em] text-dim">
+              WhatsApp
+            </p>
+            <ul className="mt-3 space-y-2">
+              {site.contact.whatsapps.map((line) => (
+                <li key={line.href}>
+                  <a
+                    href={line.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="link-wipe font-display text-lg font-semibold tracking-[-0.01em] text-bone transition-colors duration-300 hover:text-brass"
+                  >
+                    {line.display}
+                  </a>
+                </li>
+              ))}
+            </ul>
+            <p className="mt-4 text-sm text-mist">
+              Contact us on WhatsApp for further enquiries and assistance.
+            </p>
+          </div>
+
           <a
-            href={`tel:${site.contact.emergencyPhone}`}
-            className="shrink-0 border border-alert/60 px-6 py-3.5 text-center font-mono text-[11px] uppercase tracking-[0.18em] text-alert transition-colors duration-300 hover:bg-alert hover:text-void"
+            href={emailChannel.href}
+            data-stagger-item
+            className="group relative bg-void p-8 transition-colors duration-500 hover:bg-raise"
           >
-            <Copy text={site.contact.emergencyPhone} />
+            <span className="ticks pointer-events-none absolute inset-0" aria-hidden="true" />
+            <emailChannel.icon className="h-5 w-5 text-brass" strokeWidth={1.25} />
+            <p className="mt-6 font-mono text-[10px] uppercase tracking-[0.2em] text-dim">
+              {emailChannel.k}
+            </p>
+            <p className="mt-3 font-display text-lg font-semibold tracking-[-0.01em] text-bone">
+              {emailChannel.v}
+            </p>
+            <p className="mt-4 text-sm text-mist">{emailChannel.note}</p>
           </a>
         </div>
       </PageHero>
@@ -126,11 +128,11 @@ export default function ContactPage() {
               Request security.
             </h2>
             <p data-reveal="up" className="mt-8 max-w-xl text-mist">
-              The more specific you are about the site and the hours, the more useful our first
-              reply will be.
+              Leave a contact number and we will call you back. Add a line about the site and the
+              hours if you can — it makes our first reply more useful.
             </p>
-            <div className="mt-12" data-reveal="up" data-delay="0.08">
-              <ContactForm />
+            <div className="mt-12 max-w-xl" data-reveal="up" data-delay="0.08">
+              <EnquiryForm idPrefix="contact" />
             </div>
           </div>
 
@@ -181,35 +183,6 @@ export default function ContactPage() {
         </div>
       </Section>
 
-      {/* Map */}
-      <section aria-label="Office location map" className="relative border-t border-line">
-        <div className="shell py-16">
-          <SectionLabel index="02">Find us</SectionLabel>
-          <h2 data-split className="mt-8 max-w-2xl text-display font-semibold text-bone">
-            Based in Goa. On site across the state.
-          </h2>
-          <p data-reveal="up" className="mt-6 max-w-xl text-sm text-dim">
-            The map below is centred on Goa. Replace the embed URL in{" "}
-            <code className="font-mono text-brass">lib/site.ts</code> with BSM&apos;s exact office
-            location once confirmed.
-          </p>
-        </div>
-
-        <div className="relative border-t border-line" data-reveal="up">
-          <div className="relative h-[55vh] min-h-[380px] w-full overflow-hidden bg-surface">
-            <iframe
-              src={site.contact.mapsEmbed}
-              title="Map showing BSM's location in Goa, India"
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-              className="absolute inset-0 h-full w-full border-0 grayscale-[0.9] contrast-[1.1] invert-[0.92] hue-rotate-180"
-            />
-          </div>
-          <span className="pointer-events-none absolute left-6 top-6 border border-brass/50 bg-void/85 px-3 py-2 font-mono text-[10px] uppercase tracking-[0.2em] text-brass backdrop-blur">
-            BSM · Goa, India
-          </span>
-        </div>
-      </section>
       <RevealEngine />
     </>
   );

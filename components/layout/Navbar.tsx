@@ -7,6 +7,7 @@ import { site } from "@/lib/site";
 import { gsap, prefersReducedMotion } from "@/lib/gsap";
 import { Logo } from "@/components/ui/Logo";
 import { TransitionLink } from "./PageTransition";
+import { RequestSecurityTrigger } from "@/components/ui/RequestSecurityButton";
 import { setScrollLocked } from "./SmoothScroll";
 
 export default function Navbar() {
@@ -82,12 +83,12 @@ export default function Navbar() {
             : "border-b border-transparent bg-transparent"
         }`}
       >
-        <nav className="shell flex h-20 items-center justify-between md:h-24" aria-label="Primary">
-          <TransitionLink href="/" aria-label="BSM — home" className="relative z-10">
-            <Logo />
+        <nav className="shell flex h-28 items-center justify-between md:h-32" aria-label="Primary">
+          <TransitionLink href="/" aria-label="BSM — home" className="relative z-10 flex items-center">
+            <Logo size={104} priority className="transition-opacity duration-300 hover:opacity-85" />
           </TransitionLink>
 
-          <ul className="hidden items-center gap-10 lg:flex">
+          <ul className="hidden items-center gap-5 lg:flex xl:gap-8">
             {site.nav.map((item) => {
               const active =
                 item.href === "/" ? pathname === "/" : pathname.startsWith(item.href);
@@ -96,7 +97,7 @@ export default function Navbar() {
                   <TransitionLink
                     href={item.href}
                     aria-current={active ? "page" : undefined}
-                    className="group relative block py-2 font-mono text-[11px] uppercase tracking-[0.2em] text-mist transition-colors duration-300 hover:text-bone aria-[current=page]:text-bone"
+                    className="group relative block py-2 font-mono text-[14px] uppercase tracking-[0.14em] text-mist transition-colors duration-300 hover:text-bone aria-[current=page]:text-bone"
                   >
                     <span
                       className={`absolute -left-3 top-1/2 h-1 w-1 -translate-y-1/2 bg-brass transition-opacity duration-300 ${
@@ -115,17 +116,12 @@ export default function Navbar() {
           <div className="flex items-center gap-3">
             <a
               href={site.contact.phoneHref}
-              className="hidden items-center gap-2 border border-line px-5 py-3 font-mono text-[11px] uppercase tracking-[0.18em] text-mist transition-colors duration-300 hover:border-brass hover:text-brass md:inline-flex"
+              className="hidden items-center gap-2 border border-brass/60 bg-brass/10 px-5 py-3 font-mono text-[12px] font-semibold uppercase tracking-[0.14em] text-brass transition-colors duration-300 hover:border-brass hover:bg-brass/20 md:inline-flex lg:hidden xl:inline-flex"
             >
               <Phone className="h-3.5 w-3.5" strokeWidth={1.75} />
               {site.contact.phone}
             </a>
-            <TransitionLink
-              href="/contact"
-              className="hidden bg-brass px-6 py-3.5 font-mono text-[11px] uppercase tracking-[0.18em] text-void transition-colors duration-300 hover:bg-brass-lit lg:inline-block"
-            >
-              Request Security
-            </TransitionLink>
+            <RequestSecurityTrigger className="hidden bg-brass px-6 py-3.5 font-mono text-[12px] font-bold uppercase tracking-[0.16em] text-void transition-colors duration-300 hover:bg-brass-lit lg:inline-block" />
 
             <button
               ref={toggleRef}
@@ -164,7 +160,7 @@ export default function Navbar() {
         >
           <div className="menu-sheet absolute inset-0 bg-ink">
             <span className="grain-layer" aria-hidden="true" />
-            <div className="shell flex h-full flex-col justify-between pb-10 pt-28">
+            <div className="shell flex h-full flex-col justify-between pb-10 pt-36">
               <ul>
                 {site.nav.map((item, i) => {
                   const active =
@@ -203,13 +199,10 @@ export default function Navbar() {
                 >
                   {site.contact.email}
                 </a>
-                <TransitionLink
-                  href="/contact"
-                  onNavigate={() => setOpen(false)}
-                  className="mt-4 block bg-brass px-6 py-4 text-center font-mono text-[11px] uppercase tracking-[0.2em] text-void"
-                >
-                  Request Security
-                </TransitionLink>
+                <RequestSecurityTrigger
+                  onActivate={() => setOpen(false)}
+                  className="mt-4 block w-full bg-brass px-6 py-4 text-center font-mono text-[12px] font-bold uppercase tracking-[0.18em] text-void"
+                />
               </div>
             </div>
           </div>

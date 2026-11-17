@@ -26,8 +26,8 @@ export const metadata: Metadata = {
 const leadership = [
   { role: "Founder / Managing Director", name: "[NAME]", note: "[BACKGROUND AND EXPERIENCE]" },
   { role: "Operations Head", name: "[NAME]", note: "[BACKGROUND AND EXPERIENCE]" },
-  { role: "Field Supervisor — North Goa", name: "[NAME]", note: "[BACKGROUND AND EXPERIENCE]" },
-  { role: "Field Supervisor — South Goa", name: "[NAME]", note: "[BACKGROUND AND EXPERIENCE]" },
+  { role: "Field Supervisor", name: "[NAME]", note: "[BACKGROUND AND EXPERIENCE]" },
+  { role: "Field Supervisor", name: "[NAME]", note: "[BACKGROUND AND EXPERIENCE]" },
 ];
 
 const standards = [
@@ -297,7 +297,7 @@ export default function AboutPage() {
             <div className="grid gap-px border border-line bg-line sm:grid-cols-2" data-stagger>
               {leadership.map((person, i) => (
                 <article key={i} data-stagger-item className="bg-ink p-7">
-                  <div className="relative aspect-4/5 w-full border border-line bg-surface">
+                  <div className="relative aspect-4/5 w-full border-2 border-brass/55 bg-surface">
                     <div className="absolute inset-0 grid place-items-center">
                       <span className="border border-brass/40 px-3 py-1.5 font-mono text-[9px] uppercase tracking-[0.2em] text-brass">
                         [Portrait]

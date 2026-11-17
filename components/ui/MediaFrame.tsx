@@ -46,7 +46,8 @@ export function MediaFrame({
     <figure className={`group relative ${className}`} data-parallax-scope>
       <div
         data-clip
-        className="relative w-full overflow-hidden border border-line bg-surface"
+        /* Subtle brass keyline on every photograph — one hairline, no glow. */
+        className="relative w-full overflow-hidden border-2 border-brass/55 bg-surface transition-colors duration-500 group-hover:border-brass/80"
         style={{ aspectRatio: ratio }}
       >
         {src ? (

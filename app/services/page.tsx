@@ -47,7 +47,7 @@ export default function ServicesPage() {
 
       <PageHero
         eyebrow="Services"
-        index="02"
+        index="03"
         breadcrumb={[
           { label: "Home", href: "/" },
           { label: "Services", href: "/services" },

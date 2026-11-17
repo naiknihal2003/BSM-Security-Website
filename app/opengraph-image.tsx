@@ -45,7 +45,7 @@ export default function OpengraphImage() {
               maxWidth: 940,
             }}
           >
-            Security You Can Trust.
+            Protecting industries.
           </div>
           <div
             style={{
@@ -57,7 +57,7 @@ export default function OpengraphImage() {
               maxWidth: 940,
             }}
           >
-            Protection You Can Count On.
+            Securing Businesses. Building Trust.
           </div>
         </div>
 

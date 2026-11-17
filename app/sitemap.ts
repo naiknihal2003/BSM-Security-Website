@@ -7,6 +7,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/", priority: 1, freq: "monthly" },
     { path: "/services", priority: 0.9, freq: "monthly" },
     { path: "/about", priority: 0.8, freq: "yearly" },
+    { path: "/clients", priority: 0.7, freq: "monthly" },
+    { path: "/gallery", priority: 0.7, freq: "monthly" },
+    { path: "/branch", priority: 0.7, freq: "yearly" },
     { path: "/contact", priority: 0.8, freq: "yearly" },
   ];
 

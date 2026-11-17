@@ -18,7 +18,7 @@ export function PageHero({
   children?: ReactNode;
 }) {
   return (
-    <section className="relative overflow-hidden bg-void pb-16 pt-32 md:pb-24 md:pt-44">
+    <section className="relative overflow-hidden bg-void pb-16 pt-40 md:pb-24 md:pt-52">
       <span className="grain-layer" aria-hidden="true" />
       <div className="pointer-events-none absolute inset-0 grid-veil opacity-30" aria-hidden="true" />
       <div

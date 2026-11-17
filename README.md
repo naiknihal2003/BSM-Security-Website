@@ -30,15 +30,27 @@ grep -rn "\[[A-Z][A-Z /&-]*\]" lib/ app/ components/
 
 | Field | Placeholder |
 | --- | --- |
-| Phone | `[PHONE NUMBER]` (and `phoneHref`) |
-| Control room | `[24/7 CONTROL ROOM NUMBER]` |
-| Email | `[EMAIL]` (and `emailHref`) |
-| WhatsApp | `[WHATSAPP NUMBER]` — `whatsappHref` needs the full international number, digits only, e.g. `https://wa.me/919812345678` |
-| Address | `[OFFICE ADDRESS]`, `[CITY / TALUKA]`, `[PIN CODE]` |
-| Business hours | `[OPENING HOURS]`, `[CONTROL ROOM AVAILABILITY]` |
+| Business hours | `[OPENING HOURS]` |
 | Legal entity | `[BSM LEGAL ENTITY NAME]` |
 | `site.url` | currently `https://www.bsmsecurity.in` — set the real domain; it drives canonical URLs, sitemap, OG tags and schema |
-| Google Map | `mapsEmbed` — replace with Google Maps → Share → Embed a map |
+
+Phone, WhatsApp, email and the Head Office address are set. `contact.phones`
+holds all three general lines in order and `contact.phone` / `phoneHref` is the
+primary one, used wherever a single number is shown.
+
+**Offices** live in the `offices` array in the same file and drive `/branch`:
+Head Office (Margao) and Branch Office – Goa (Chimbel), each with its address,
+numbers, WhatsApp, email, one photograph frame and one Google Maps embed.
+Head Office address B renders as text and is deliberately not mapped, so the
+site shows exactly two mapped locations.
+
+Three addresses, kept apart on purpose: general enquiries
+`contact@bsmsecurityagency.com`, Head Office `headoffice@bsmsecurityagency.com`,
+Branch Office `bsmgoa.dgr@gmail.com`. The enquiry form always delivers to the
+general address.
+
+`coreStrengths`, `vision` and `mission` hold copy supplied by BSM and are
+reproduced on the home page verbatim — presentation only, no rewording.
 
 ### 2. Services — `lib/site.ts`
 
@@ -47,11 +59,13 @@ bracketed (`[EVENT SECURITY SCOPE DETAILS]` and so on). **Specialised Services**
 (`slug: "specialised-services"`) is entirely unconfirmed — every line is marked
 *to be confirmed*. Delete the whole entry if BSM does not offer those services.
 
-### 3. Credentials — `components/sections/Credentials.tsx`
+### 3. Clients — `lib/site.ts`
 
-PSARA licence, GST, PF/ESIC, insurance and personnel verification are listed as
-*fields to ask for*, never as claims BSM has them. Fill in the verified values,
-or remove any row that does not apply.
+`clients`, `testimonials` and `clientFacts` drive `/clients`. Every entry is a
+bracketed placeholder: no client name, logo, testimonial or figure has been
+invented. Replace the bracketed strings, and point `logo` at a file in
+`public/media` once BSM supplies artwork. Publish a client name only with that
+client's written permission.
 
 ### 4. Leadership and history — `app/about/page.tsx`
 
@@ -101,23 +115,50 @@ identifiable person's face to an invented BSM job title is a different and worse
 kind of fiction than a generic stock interior, so those four cards render the
 `[Portrait]` frame until BSM supplies real photographs and names.
 
+`/gallery` is driven by the `gallery` array at the bottom of `lib/media.ts`.
+Entries point at a shot declared above; an entry with no `shot` renders the
+placeholder frame and states what photograph belongs there. Add BSM's files to
+`public/media`, declare them in `media`, and the page picks them up with no
+layout change.
+
+The official BSM logo is `public/bsm-logo.jpg`, declared as `logo` in
+`lib/media.ts` and rendered by `<Logo />` at its native square ratio in the
+navbar and footer. It is never stretched or recoloured.
+
 `next.config.ts` also allows `images.unsplash.com` if you would rather serve
 from a remote CDN; add your own hostname to `remotePatterns` for anything else.
 
-### 6. Enquiry form delivery
+### 6. Enquiry delivery
 
-`app/api/enquiry/route.ts` validates submissions and forwards them to whatever
-endpoint is set in `ENQUIRY_WEBHOOK_URL` (an email service, a CRM, or a
-Slack/Teams incoming webhook — anything that accepts a JSON `POST`).
+One form, in two places: the **Request Security** drawer and the enquiry block
+on `/contact` both render `components/sections/EnquiryForm.tsx` and post to
+`app/api/enquiry/route.ts`. Two fields only — contact number (required, +91,
+ten digits starting 6-9) and enquiry (optional). Submissions are validated
+again on the server, rate limited per IP, and screened with a honeypot and a
+minimum fill time.
+
+Delivery is by email through [Resend](https://resend.com):
 
 ```bash
 cp .env.example .env.local
-# ENQUIRY_WEBHOOK_URL="https://..."
+# RESEND_API_KEY=re_...
+# ENQUIRY_FROM_EMAIL="BSM Security <enquiries@your-verified-domain>"
+# ENQUIRY_TO_EMAIL=contact@bsmsecurityagency.com
 ```
 
-Until that variable is set the endpoint returns `501` and the form tells the
-visitor plainly that delivery is not connected yet, pointing them at phone,
-email and WhatsApp instead. It never silently swallows an enquiry.
+`ENQUIRY_FROM_EMAIL` must be an address on a domain verified with Resend, or
+the provider rejects the send. The API key is read server-side only and is
+never exposed to the browser.
+
+Until `RESEND_API_KEY` and `ENQUIRY_FROM_EMAIL` are both set, the endpoint
+returns `501` and the form states that the enquiry has **not** been delivered,
+pointing the visitor at phone, email and WhatsApp instead. A rejected send
+returns `502` and shows the same kind of error. A success message is only ever
+shown once Resend has accepted the message for delivery.
+
+`ENQUIRY_WEBHOOK_URL` is still honoured, as a fallback for deployments that
+forward enquiries to a CRM or chat webhook rather than email. It is used only
+when the Resend variables are unset.
 
 ---
 
@@ -127,16 +168,17 @@ email and WhatsApp instead. It never silently swallows an enquiry.
 app/
   layout.tsx            fonts, metadata, LocalBusiness schema, global chrome
   page.tsx              home
-  about|services|contact/page.tsx
+  about|clients|services|gallery|branch|contact/page.tsx
   api/enquiry/route.ts  enquiry endpoint
   sitemap.ts robots.ts opengraph-image.tsx twitter-image.tsx icon.svg
   not-found.tsx loading.tsx globals.css
 components/
   layout/   Navbar, Footer, SmoothScroll, RevealEngine, PageTransition,
-            ScrollProgress, BackToTop, CustomCursor, Intro
-  sections/ Hero, Statement, ServicesOverview, WhyBSM, Industries, Process,
-            GoaPresence, Credentials, CallToAction, ContactForm
-  ui/       Button, MediaFrame, Section, PageHero, Placeholder, Logo, GoaMap
+            EnquiryModal, ScrollProgress, BackToTop, Intro
+  sections/ Hero, Statement, CoreStrengths, VisionMission, ServicesOverview,
+            Industries, Process, GoaPresence, CallToAction, EnquiryForm
+  ui/       Button, MediaFrame, Section, PageHero, Placeholder, Logo,
+            RequestSecurityButton
 lib/
   site.ts    all copy and contact data (single source of truth)
   media.ts   every image: src, alt, caption and replacement brief
@@ -176,8 +218,7 @@ and clean up the same way.
    from a parent it no longer belongs to, the app tears down on navigation. Pin
    an inner element instead (see `components/sections/Industries.tsx`).
 
-**Reduced motion:** `prefers-reduced-motion: reduce` disables Lenis, the custom
-cursor, the intro, the page curtain and every scroll effect. The pre-animation
+**Reduced motion:** `prefers-reduced-motion: reduce` disables Lenis, the intro, the page curtain and every scroll effect. The pre-animation
 hidden states are applied only by the `anim-ready` class, which an inline script
 in `app/layout.tsx` adds before paint and only when JS is running and motion is
 allowed — so the page can never be stuck invisible.
@@ -210,5 +251,4 @@ Skip link, keyboard-operable navigation and mobile menu (Escape closes, focus
 returns to the toggle), visible brass focus rings, `aria-current` on the active
 nav item, labelled form fields with inline errors and a live region, semantic
 headings, and `alt` text driven by the `alt`/`label` props on every media frame.
-The custom cursor is additive only — it never replaces focus or hover states and
-is disabled on touch and coarse pointers.
+The site uses the visitor's native pointer — there is no custom cursor.

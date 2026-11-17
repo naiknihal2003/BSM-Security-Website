@@ -54,7 +54,7 @@ export default function ServicesOverview() {
     <Section id="services" label="Services">
       <div className="grid gap-10 lg:grid-cols-12">
         <div className="lg:col-span-4">
-          <SectionLabel index="02">What we do</SectionLabel>
+          <SectionLabel index="04">What we do</SectionLabel>
           <h2 data-split className="mt-8 text-display font-semibold text-bone">
             Security services, matched to the site.
           </h2>

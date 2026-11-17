@@ -42,7 +42,7 @@ export default function Statement() {
           <div className="mt-14 grid gap-px border border-line bg-line sm:grid-cols-3" data-stagger>
             {[
               { k: "Based in", v: "Goa", note: "Local teams, local knowledge, local response." },
-              { k: "Operating across", v: "North & South", note: "Coastal, urban and industrial Goa." },
+              { k: "Operating across", v: "India", note: "Coastal, urban and industrial sites." },
               { k: "Built on", v: "Procedure", note: "Written plans, documented rounds, reporting." },
             ].map((item) => (
               <div key={item.k} data-stagger-item className="bg-void p-7">

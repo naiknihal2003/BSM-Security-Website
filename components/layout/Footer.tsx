@@ -1,21 +1,21 @@
-import { Mail, MapPin, Phone, MessageCircle } from "lucide-react";
+import { Mail, MapPin, Phone } from "lucide-react";
+import { WhatsAppIcon } from "@/components/ui/WhatsAppIcon";
 import { site, services } from "@/lib/site";
 import { TransitionLink } from "./PageTransition";
 import { Copy } from "@/components/ui/Placeholder";
-import { LogoMark } from "@/components/ui/Logo";
+import { Logo } from "@/components/ui/Logo";
+import { RequestSecurityTrigger } from "@/components/ui/RequestSecurityButton";
 
 export default function Footer() {
-  const year = new Date().getFullYear();
-
   return (
     <footer className="relative border-t border-line bg-ink">
       <div className="shell py-20 md:py-28">
         <div className="grid gap-14 lg:grid-cols-12">
           {/* Identity */}
           <div className="lg:col-span-5">
-            <div className="flex items-center gap-4">
-              <LogoMark className="h-10 w-9 text-brass" />
-              <span className="font-display text-3xl font-semibold tracking-[-0.03em]">BSM</span>
+            <div className="flex items-center gap-5">
+              <Logo size={84} />
+              <span className="sr-only">BSM Security</span>
             </div>
             <p className="mt-6 max-w-sm text-mist">
               A professional security agency based in Goa, India. Trained personnel, written
@@ -26,15 +26,10 @@ export default function Footer() {
                 href={site.contact.whatsappHref}
                 className="inline-flex items-center gap-2 border border-line px-5 py-3 font-mono text-[11px] uppercase tracking-[0.18em] text-mist transition-colors duration-300 hover:border-brass hover:text-brass"
               >
-                <MessageCircle className="h-3.5 w-3.5" strokeWidth={1.75} />
+                <WhatsAppIcon className="h-3.5 w-3.5" />
                 WhatsApp
               </a>
-              <TransitionLink
-                href="/contact"
-                className="inline-flex items-center gap-2 bg-brass px-5 py-3 font-mono text-[11px] uppercase tracking-[0.18em] text-void transition-colors duration-300 hover:bg-brass-lit"
-              >
-                Request Security
-              </TransitionLink>
+              <RequestSecurityTrigger className="inline-flex items-center gap-2 bg-brass px-5 py-3 font-mono text-[11px] uppercase tracking-[0.18em] text-void transition-colors duration-300 hover:bg-brass-lit" />
             </div>
           </div>
 
@@ -78,14 +73,38 @@ export default function Footer() {
             <ul className="mt-6 space-y-4 text-sm">
               <li className="flex gap-3">
                 <Phone className="mt-0.5 h-4 w-4 shrink-0 text-brass" strokeWidth={1.5} />
-                <a href={site.contact.phoneHref} className="text-mist hover:text-bone">
-                  <Copy text={site.contact.phone} />
-                </a>
+                <span className="flex flex-col gap-1.5">
+                  {site.contact.phones.map((line) => (
+                    <a
+                      key={line.href}
+                      href={line.href}
+                      className="text-mist transition-colors duration-300 hover:text-bone"
+                    >
+                      {line.display}
+                    </a>
+                  ))}
+                </span>
+              </li>
+              <li className="flex gap-3">
+                <WhatsAppIcon className="mt-0.5 h-4 w-4 shrink-0 text-brass" />
+                <span className="flex flex-col gap-1.5">
+                  {site.contact.whatsapps.map((line) => (
+                    <a
+                      key={line.href}
+                      href={line.href}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="text-mist transition-colors duration-300 hover:text-bone"
+                    >
+                      {line.display}
+                    </a>
+                  ))}
+                </span>
               </li>
               <li className="flex gap-3">
                 <Mail className="mt-0.5 h-4 w-4 shrink-0 text-brass" strokeWidth={1.5} />
                 <a href={site.contact.emailHref} className="text-mist hover:text-bone">
-                  <Copy text={site.contact.email} />
+                  {site.contact.email}
                 </a>
               </li>
               <li className="flex gap-3">
@@ -101,19 +120,27 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Oversized wordmark: the closing beat of the page */}
+        {/* Oversized wordmark: the closing beat of the page.
+            The two words are set as explicit lines, and the size is capped
+            against the shell's own max width — sized off the viewport alone,
+            the last letters of SECURITY ran past the container on wide
+            screens and were clipped. */}
         <div className="mt-20 overflow-hidden border-t border-line pt-10">
           <p
-            className="select-none font-display text-[22vw] font-semibold leading-[0.8] tracking-[-0.05em] text-bone/[0.05] lg:text-[16vw]"
+            className="select-none font-display text-[17.5vw] font-semibold leading-[0.84] tracking-normal text-white md:text-[17vw] lg:text-[min(16vw,16.5rem)]"
+            /* Archivo kerns the TY pair tightly enough at this size that the Y
+               tucks under the T. Kerning off, tracking neutral. */
+            style={{ fontKerning: "none", fontFeatureSettings: '"kern" 0' }}
             aria-hidden="true"
           >
-            BSM SECURITY
+            <span className="block">BSM</span>
+            <span className="block">SECURITY</span>
           </p>
         </div>
 
         <div className="mt-10 flex flex-col gap-4 border-t border-line pt-8 font-mono text-[10px] uppercase tracking-[0.16em] text-dim md:flex-row md:items-center md:justify-between">
           <p>
-            © {year} <Copy text={site.legalName} />. All rights reserved.
+            © 2013 {site.legalName}. All rights reserved.
           </p>
           <p>Goa · India</p>
         </div>

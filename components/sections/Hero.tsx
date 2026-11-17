@@ -3,10 +3,9 @@
 import { useEffect, useRef } from "react";
 import { ArrowDown } from "lucide-react";
 import { gsap, prefersReducedMotion } from "@/lib/gsap";
-import { site } from "@/lib/site";
 import { Button } from "@/components/ui/Button";
+import { RequestSecurityButton } from "@/components/ui/RequestSecurityButton";
 import { MediaFrame } from "@/components/ui/MediaFrame";
-import { Copy } from "@/components/ui/Placeholder";
 import { media } from "@/lib/media";
 
 /**
@@ -38,7 +37,6 @@ export default function Hero() {
           { clipPath: "inset(0% 0 0 0)", duration: 1.5, ease: "expo.inOut" },
           "-=1.4",
         )
-        .to(".hero-meta", { opacity: 1, y: 0, duration: 0.8, stagger: 0.06 }, "-=0.8")
         .to(".hero-cue", { opacity: 1, duration: 0.6 }, "-=0.5");
 
       // The cue keeps breathing until the visitor starts scrolling.
@@ -57,7 +55,7 @@ export default function Hero() {
   return (
     <section
       ref={root}
-      className="relative overflow-hidden bg-void pt-28 md:pt-36"
+      className="relative overflow-hidden bg-void pt-36 md:pt-44"
       aria-label="Introduction"
     >
       <span className="grain-layer" aria-hidden="true" />
@@ -85,30 +83,27 @@ export default function Hero() {
 
             <h1 className="mt-8 text-hero font-semibold text-bone">
               <span className="block overflow-hidden pb-[0.08em]">
-                <span className="hero-line block">Security You</span>
+                <span className="hero-line block">Protecting industries.</span>
+              </span>
+              <span className="block overflow-hidden pb-[0.08em]">
+                <span className="hero-line block text-mist">Securing Businesses.</span>
               </span>
               <span className="block overflow-hidden pb-[0.08em]">
                 <span className="hero-line block">
-                  Can <span className="accent-serif text-brass">Trust.</span>
+                  Building <span className="accent-serif text-brass">Trust.</span>
                 </span>
-              </span>
-              <span className="block overflow-hidden pb-[0.08em]">
-                <span className="hero-line block text-mist">Protection You</span>
-              </span>
-              <span className="block overflow-hidden pb-[0.08em]">
-                <span className="hero-line block text-mist">Can Count On.</span>
               </span>
             </h1>
 
             <p className="hero-sub mt-8 max-w-xl text-lead text-mist">
-              BSM provides trained security personnel and managed protection across Goa — from
+              BSM provides trained security personnel and managed protection across India — from
               beachfront resorts and gated communities to corporate offices, industrial estates
               and events. Local presence, written deployment plans, supervision you can verify.
             </p>
 
             <div className="mt-9 flex flex-wrap items-center gap-4">
               <span className="hero-cta inline-block">
-                <Button href="/contact">Request Security</Button>
+                <RequestSecurityButton />
               </span>
               <span className="hero-cta inline-block">
                 <Button href="/contact#enquiry" variant="outline">
@@ -130,25 +125,6 @@ export default function Hero() {
               />
             </div>
           </div>
-        </div>
-      </div>
-
-      {/* Meta strip: the technical register that runs through the whole site */}
-      <div className="relative border-t border-line">
-        <div className="shell grid grid-cols-2 divide-line font-mono text-[10px] uppercase tracking-[0.18em] text-dim md:grid-cols-4 md:divide-x">
-          {[
-            { k: "Based in", v: "Goa, India" },
-            { k: "Coverage", v: "North & South Goa" },
-            { k: "Control room", v: site.contact.emergencyPhone },
-            { k: "Enquiries", v: site.contact.phone },
-          ].map((item, i) => (
-            <div key={item.k} className={`hero-meta py-6 ${i % 2 === 0 ? "pr-4" : "pl-4 md:pl-6"} md:px-6 md:first:pl-0`}>
-              <p className="text-dim/60">{item.k}</p>
-              <p className="mt-2 text-bone/90">
-                <Copy text={item.v} />
-              </p>
-            </div>
-          ))}
         </div>
       </div>
 

@@ -9,8 +9,8 @@
 
 export const site = {
   name: "BSM",
-  legalName: "[BSM LEGAL ENTITY NAME]",
-  tagline: "Security You Can Trust. Protection You Can Count On.",
+  legalName: "BSM Security Agency",
+  tagline: "Protecting industries. Securing Businesses. Building Trust.",
   description:
     "BSM is a professional security agency based in Goa, India, providing trained security personnel and managed protection services for corporate, residential, industrial, hospitality and event environments.",
   url: "https://www.bsmsecurity.in",
@@ -18,36 +18,47 @@ export const site = {
   region: "Goa, India",
 
   contact: {
-    phone: "[PHONE NUMBER]",
-    phoneHref: "tel:[PHONE NUMBER]",
-    emergencyPhone: "[24/7 CONTROL ROOM NUMBER]",
-    email: "[EMAIL]",
-    emailHref: "mailto:[EMAIL]",
-    whatsapp: "[WHATSAPP NUMBER]",
-    whatsappHref: "https://wa.me/[WHATSAPP NUMBER]",
+    /* All three lines, in the order BSM gave them. The first is primary. */
+    phones: [
+      { display: "+91 94212 49677", href: "tel:+919421249677" },
+      { display: "+91 87889 65649", href: "tel:+918788965649" },
+      { display: "+91 87623 26038", href: "tel:+918762326038" },
+    ],
+    phone: "+91 94212 49677",
+    phoneHref: "tel:+919421249677",
+    email: "contact@bsmsecurityagency.com",
+    emailHref: "mailto:contact@bsmsecurityagency.com",
+    /* WhatsApp lines, same formatting as the phone list. */
+    whatsapps: [{ display: "+91 94212 49677", href: "https://wa.me/919421249677" }],
+    whatsapp: "+91 94212 49677",
+    whatsappHref: "https://wa.me/919421249677",
     address: {
-      street: "[OFFICE ADDRESS]",
-      locality: "[CITY / TALUKA]",
+      street: "Kurtarkar Classic A2, Shop no. G-7, Opposite Lawande Hospital, Aquem",
+      locality: "Margao",
       region: "Goa",
-      postalCode: "[PIN CODE]",
+      postalCode: "403601",
       country: "India",
     },
     hours: [
       { days: "Monday – Saturday", time: "[OPENING HOURS]" },
       { days: "Sunday", time: "[OPENING HOURS]" },
-      { days: "Control room", time: "[CONTROL ROOM AVAILABILITY]" },
     ],
-    // Replace with the embed URL from Google Maps -> Share -> Embed a map.
-    mapsEmbed: "https://www.google.com/maps?q=Goa,+India&output=embed",
-    mapsLink: "https://www.google.com/maps/search/?api=1&query=Goa%2C+India",
+    mapsLink:
+      "https://www.google.com/maps/search/?api=1&query=Kurtarkar+Classic+A2,+Shop+no.+G-7,+Opposite+Lawande+Hospital,+Aquem,+Margao,+Goa+403601",
   },
 
   nav: [
     { label: "Home", href: "/" },
-    { label: "About", href: "/about" },
+    { label: "About Us", href: "/about" },
+    { label: "Clients", href: "/clients" },
     { label: "Services", href: "/services" },
+    { label: "Gallery", href: "/gallery" },
+    { label: "Branch", href: "/branch" },
     { label: "Contact", href: "/contact" },
   ],
+
+  /** Where enquiries are delivered. Mirrors ENQUIRY_TO_EMAIL on the server. */
+  enquiryInbox: "contact@bsmsecurityagency.com",
 } as const;
 
 export type ServiceSlug =
@@ -255,10 +266,10 @@ export const values = [
 ];
 
 export const goaPresence = [
-  { name: "North Goa", note: "[COVERAGE DETAILS]" },
-  { name: "South Goa", note: "[COVERAGE DETAILS]" },
-  { name: "Panaji & Capital Region", note: "[COVERAGE DETAILS]" },
-  { name: "Industrial Estates", note: "[COVERAGE DETAILS]" },
+  { name: "Coastal properties", note: "[COVERAGE DETAILS]" },
+  { name: "Urban and commercial", note: "[COVERAGE DETAILS]" },
+  { name: "Industrial estates", note: "[COVERAGE DETAILS]" },
+  { name: "Residential societies", note: "[COVERAGE DETAILS]" },
 ];
 
 export const faqs = [
@@ -283,3 +294,209 @@ export const faqs = [
     a: "Yes. Seasonal and event deployments are planned from a site survey and a written deployment plan. [SCALING TERMS]",
   },
 ];
+
+/* --------------------------------------------------------------------------
+   Clients
+   Structure only. No client name, logo, sector claim or testimonial has been
+   invented: every entry below is a bracketed placeholder that renders in the
+   unverified treatment until BSM supplies the real information. To populate,
+   replace the bracketed strings (and drop a logo file into /public/media,
+   pointing `logo` at it).
+   -------------------------------------------------------------------------- */
+
+export type ClientEntry = {
+  /** Client name, or a bracketed placeholder until BSM confirms it. */
+  name: string;
+  /** Environment the deployment covers. */
+  sector: string;
+  /** Optional one line about the deployment. */
+  note?: string;
+  /** Path to a logo in /public/media. Omitted until BSM supplies artwork. */
+  logo?: string;
+};
+
+export const clients: ClientEntry[] = [
+  { name: "[CLIENT NAME]", sector: "Corporate", note: "[DEPLOYMENT SUMMARY]" },
+  { name: "[CLIENT NAME]", sector: "Hospitality", note: "[DEPLOYMENT SUMMARY]" },
+  { name: "[CLIENT NAME]", sector: "Residential", note: "[DEPLOYMENT SUMMARY]" },
+  { name: "[CLIENT NAME]", sector: "Industrial", note: "[DEPLOYMENT SUMMARY]" },
+  { name: "[CLIENT NAME]", sector: "Events", note: "[DEPLOYMENT SUMMARY]" },
+  { name: "[CLIENT NAME]", sector: "Retail & commercial", note: "[DEPLOYMENT SUMMARY]" },
+];
+
+export type Testimonial = {
+  quote: string;
+  attribution: string;
+  role: string;
+};
+
+export const testimonials: Testimonial[] = [
+  { quote: "[CLIENT TESTIMONIAL]", attribution: "[NAME]", role: "[ROLE, ORGANISATION]" },
+  { quote: "[CLIENT TESTIMONIAL]", attribution: "[NAME]", role: "[ROLE, ORGANISATION]" },
+  { quote: "[CLIENT TESTIMONIAL]", attribution: "[NAME]", role: "[ROLE, ORGANISATION]" },
+];
+
+/** Figures BSM will confirm; shown as fields, never as claims. */
+export const clientFacts = [
+  { k: "Active deployments", v: "[NUMBER]" },
+  { k: "Sites covered", v: "[NUMBER]" },
+  { k: "Years in operation", v: "[NUMBER]" },
+  { k: "Personnel on roll", v: "[NUMBER]" },
+];
+
+/* --------------------------------------------------------------------------
+   Offices
+   Supplied by BSM. Addresses, numbers, emails, names and designations are
+   reproduced exactly as given — nothing here is inferred or invented.
+   Exactly two locations are mapped: Head Office address A and the Goa branch.
+   Head Office address B is shown as text and is deliberately NOT mapped.
+   -------------------------------------------------------------------------- */
+
+export type OfficePerson = {
+  name: string;
+  role: string;
+  /** Marks the one non-partner advisory role at the Head Office. */
+  advisory?: boolean;
+  phone?: { display: string; href: string };
+  email?: { display: string; href: string };
+  responsibilities?: string;
+};
+
+export type Office = {
+  id: string;
+  index: string;
+  kind: string;
+  name: string;
+  /** The mapped address. */
+  address: string;
+  /** Shown as text only — never a second map pin for this office. */
+  additionalAddress?: string;
+  /** Google Maps embed for the mapped address. */
+  mapEmbed: string;
+  /** Opens the location in Google Maps. */
+  mapLink: string;
+  mapTitle: string;
+  phones: { display: string; href: string }[];
+  whatsapps: { display: string; href: string }[];
+  email: { display: string; href: string };
+  leadershipLabel: string;
+  leadership: OfficePerson[];
+};
+
+export const offices: Office[] = [
+  {
+    id: "head-office",
+    index: "01",
+    kind: "Head Office",
+    name: "Head Office — Margao",
+    address:
+      "Kurtarkar Classic A2, Shop no. G-7, Opposite Lawande Hospital, Aquem, Margao, Goa – 403601.",
+    additionalAddress:
+      "42/D/7, God's Gift Residency, Plot no. 15, Dicarpale Davorlim, Navelim, Salcete, Goa.",
+    mapEmbed:
+      "https://www.google.com/maps?q=Kurtarkar+Classic+A2,+Shop+no.+G-7,+Opposite+Lawande+Hospital,+Aquem,+Margao,+Goa+403601&output=embed",
+    mapLink:
+      "https://www.google.com/maps/search/?api=1&query=Kurtarkar+Classic+A2,+Shop+no.+G-7,+Opposite+Lawande+Hospital,+Aquem,+Margao,+Goa+403601",
+    mapTitle: "Map showing the BSM Head Office at Aquem, Margao, Goa",
+    phones: [
+      { display: "+91 94212 49677", href: "tel:+919421249677" },
+      { display: "+91 87889 65649", href: "tel:+918788965649" },
+    ],
+    whatsapps: [
+      { display: "+91 94212 49677", href: "https://wa.me/919421249677" },
+      { display: "+91 87889 65649", href: "https://wa.me/918788965649" },
+    ],
+    email: {
+      display: "headoffice@bsmsecurityagency.com",
+      href: "mailto:headoffice@bsmsecurityagency.com",
+    },
+    leadershipLabel: "Leadership and management",
+    leadership: [
+      {
+        name: "Mr. Dattatray B Naik",
+        role: "Principal Partner",
+        phone: { display: "+91 94212 49677", href: "tel:+919421249677" },
+      },
+      { name: "Lt. Col. Bhupinder S Malhi (retd.)", role: "Partner" },
+      { name: "Mrs. Bhagyashree Dattatray Naik", role: "Partner" },
+      {
+        name: "Adv Nihal D Naik",
+        role: "Legal Advisor",
+        advisory: true,
+      },
+    ],
+  },
+  {
+    id: "branch-office-goa",
+    index: "02",
+    kind: "Branch Office – Goa",
+    name: "Branch Office — Chimbel, Old Goa",
+    address: "Kadamba Society, Chimbel, Old Goa – 403006.",
+    mapEmbed:
+      "https://www.google.com/maps?q=Kadamba+Society,+Chimbel,+Old+Goa+403006&output=embed",
+    mapLink: "https://maps.app.goo.gl/63YNGea5Lz9BS3yAA?g_st=iw",
+    mapTitle: "Map showing the BSM Branch Office at Kadamba Society, Chimbel, Old Goa",
+    phones: [{ display: "+91 87623 26038", href: "tel:+918762326038" }],
+    whatsapps: [{ display: "+91 87623 26038", href: "https://wa.me/918762326038" }],
+    email: { display: "bsmgoa.dgr@gmail.com", href: "mailto:bsmgoa.dgr@gmail.com" },
+    leadershipLabel: "Branch leadership",
+    leadership: [
+      {
+        name: "Mr. Vighnesh Shet (M.D)",
+        role: "Branch In-Charge – Panjim Operations",
+        responsibilities:
+          "Responsible for branch administration, security operations, manpower coordination, client relations and operational supervision.",
+        phone: { display: "+91 87623 26038", href: "tel:+918762326038" },
+        email: { display: "bsmgoa.dgr@gmail.com", href: "mailto:bsmgoa.dgr@gmail.com" },
+      },
+    ],
+  },
+];
+
+/* --------------------------------------------------------------------------
+   Core strengths, vision and mission — supplied by BSM, reproduced verbatim.
+   -------------------------------------------------------------------------- */
+
+export const coreStrengths = [
+  {
+    index: "01",
+    title: "Experienced Leadership",
+    body: "Over three decades of security industry experience at the leadership level.",
+  },
+  {
+    index: "02",
+    title: "Established Agency",
+    body: "Established in 2013 as a DGR-sponsored security agency.",
+  },
+  {
+    index: "03",
+    title: "PSU Operational Experience",
+    body: "Operational experience in providing security services to major Public Sector Undertakings.",
+  },
+  {
+    index: "04",
+    title: "Professional Management",
+    body: "Strong leadership, structured supervision and professional operational management.",
+  },
+  {
+    index: "05",
+    title: "Military-Guided Training",
+    body: "Emphasis on military-guided training, discipline, alertness and professional conduct.",
+  },
+  {
+    index: "06",
+    title: "Trained Security Personnel",
+    body: "Experienced security supervisors and trained personnel committed to maintaining high standards of security.",
+  },
+  {
+    index: "07",
+    title: "Compliance & Client Commitment",
+    body: "Commitment to statutory compliance, service quality and client satisfaction.",
+  },
+];
+
+export const vision =
+  "To establish BSM Security Agency as a trusted and respected name in the security industry through professional management, disciplined personnel and reliable security solutions.";
+
+export const mission =
+  "To safeguard people, property, infrastructure and business operations by delivering dependable, professionally managed and well-supervised security services, driven by discipline, integrity and commitment.";

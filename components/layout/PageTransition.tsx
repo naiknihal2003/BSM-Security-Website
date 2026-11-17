@@ -12,6 +12,7 @@ import {
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import { gsap, prefersReducedMotion } from "@/lib/gsap";
+import { Logo } from "@/components/ui/Logo";
 import { jumpToTop, scrollToTarget } from "./SmoothScroll";
 
 type TransitionContextValue = { navigate: (href: string) => void };
@@ -147,8 +148,11 @@ export function TransitionProvider({ children }: { children: ReactNode }) {
               className="curtain-panel h-full flex-1 scale-y-0 border-r border-white/5 bg-ink last:border-r-0"
             />
           ))}
-          <span className="curtain-mark pointer-events-none absolute inset-0 flex translate-y-3 items-center justify-center font-display text-[13vw] font-semibold tracking-[-0.04em] text-bone/10 opacity-0 md:text-[7vw]">
-            BSM
+          <span className="curtain-mark pointer-events-none absolute inset-0 flex translate-y-3 flex-col items-center justify-center gap-6 opacity-0">
+            <Logo size={260} imgClassName="w-[22vw] max-w-[150px] md:w-[9vw]" />
+            <span className="font-display text-[13vw] font-semibold leading-none tracking-[-0.04em] text-[#d7dbe1] md:text-[7vw]">
+              BSM
+            </span>
           </span>
         </div>
       )}

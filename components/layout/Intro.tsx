@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { gsap, prefersReducedMotion } from "@/lib/gsap";
+import { Logo } from "@/components/ui/Logo";
 
 /**
  * A brief entrance, shown once per browsing session. It waits on the webfonts
@@ -64,14 +65,17 @@ export default function Intro() {
       aria-hidden="true"
       className="fixed inset-0 z-[125] grid place-items-center bg-void"
     >
-      <div className="w-[min(22rem,70vw)] text-center">
-        <p className="intro-mark font-display text-4xl font-semibold tracking-[-0.03em] text-bone">
+      <div className="flex w-[min(26rem,78vw)] flex-col items-center text-center">
+        <span className="intro-mark block">
+          <Logo size={176} priority />
+        </span>
+        <p className="intro-mark mt-8 font-display text-6xl font-semibold tracking-[-0.03em] text-bone md:text-7xl">
           BSM
         </p>
-        <p className="intro-mark mt-2 font-mono text-[10px] uppercase tracking-[0.3em] text-dim">
+        <p className="intro-mark mt-3 font-mono text-[11px] uppercase tracking-[0.3em] text-dim">
           Security · Goa
         </p>
-        <div className="intro-rule mt-6 h-px w-full origin-left bg-brass" />
+        <div className="intro-rule mt-7 h-px w-full origin-left bg-brass" />
       </div>
     </div>
   );

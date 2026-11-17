@@ -71,6 +71,8 @@ export default function RevealEngine() {
             duration: mode === "scale" ? 1.6 : 1.1,
             delay,
             ease: "expo.out",
+            // Releasing the layer afterwards keeps long pages cheap to scroll.
+            onComplete: () => gsap.set(el, { willChange: "auto" }),
             scrollTrigger: { trigger: el, start: "top 90%", once: true },
           });
         });
@@ -119,7 +121,7 @@ export default function RevealEngine() {
 
         /* ---- Parallax ------------------------------------------------------ */
         const mm = gsap.matchMedia();
-        mm.add("(min-width: 768px)", () => {
+        mm.add("(min-width: 1024px)", () => {
           gsap.utils.toArray<HTMLElement>("[data-parallax]").forEach((el) => {
             const strength = parseFloat(el.dataset.parallax || "0.12");
             gsap.fromTo(
@@ -132,7 +134,7 @@ export default function RevealEngine() {
                   trigger: el.closest("[data-parallax-scope]") || el,
                   start: "top bottom",
                   end: "bottom top",
-                  scrub: true,
+                  scrub: 0.4,
                 },
               },
             );

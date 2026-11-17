@@ -1,7 +1,8 @@
-import { Mail, MessageCircle, Phone, Siren } from "lucide-react";
+import { Mail, Phone } from "lucide-react";
+import { WhatsAppIcon } from "@/components/ui/WhatsAppIcon";
 import { site } from "@/lib/site";
 import { Button } from "@/components/ui/Button";
-import { Copy } from "@/components/ui/Placeholder";
+import { RequestSecurityButton } from "@/components/ui/RequestSecurityButton";
 
 export default function CallToAction({
   title = "Tell us what you need protected.",
@@ -15,8 +16,14 @@ export default function CallToAction({
   return (
     <section
       aria-label="Contact BSM"
-      className="relative overflow-hidden border-t border-line bg-void py-24 md:py-32 lg:py-40"
+      className="relative overflow-hidden border-t border-line bg-void py-28 md:py-36 lg:py-44"
     >
+      {/* Section divider: a brass hairline that fades across the top edge, so
+          one section visibly ends before the next begins. */}
+      <span
+        className="section-divider pointer-events-none absolute inset-x-0 top-0"
+        aria-hidden="true"
+      />
       <span className="grain-layer" aria-hidden="true" />
       <div
         className="pointer-events-none absolute inset-0 bg-[radial-gradient(60%_60%_at_80%_100%,rgba(200,164,92,0.10)_0%,transparent_70%)]"
@@ -38,62 +45,64 @@ export default function CallToAction({
         </p>
 
         <div className="mt-12 flex flex-wrap gap-4" data-reveal="up" data-delay="0.1">
-          <Button href="/contact">Request Security</Button>
+          <RequestSecurityButton />
           <Button href={site.contact.whatsappHref} variant="outline">
             WhatsApp
           </Button>
         </div>
 
         <div className="mt-20 grid gap-px border border-line bg-line md:grid-cols-3" data-stagger>
-          {[
-            { icon: Phone, k: "Call", v: site.contact.phone, href: site.contact.phoneHref },
-            { icon: Mail, k: "Email", v: site.contact.email, href: site.contact.emailHref },
-            {
-              icon: MessageCircle,
-              k: "WhatsApp",
-              v: site.contact.whatsapp,
-              href: site.contact.whatsappHref,
-            },
-          ].map((item) => (
-            <a
-              key={item.k}
-              href={item.href}
-              data-stagger-item
-              className="group relative bg-void p-8 transition-colors duration-500 hover:bg-raise"
-            >
-              <span className="ticks pointer-events-none absolute inset-0" aria-hidden="true" />
-              <item.icon className="h-5 w-5 text-brass" strokeWidth={1.25} />
-              <p className="mt-6 font-mono text-[10px] uppercase tracking-[0.2em] text-dim">
-                {item.k}
-              </p>
-              <p className="mt-2 font-display text-lg font-semibold text-bone">
-                <Copy text={item.v} />
-              </p>
-            </a>
-          ))}
-        </div>
-
-        <div
-          className="mt-px flex flex-col gap-4 border border-t-0 border-line bg-raise p-8 sm:flex-row sm:items-center sm:justify-between"
-          data-reveal="up"
-        >
-          <div className="flex items-start gap-4">
-            <Siren className="mt-0.5 h-5 w-5 shrink-0 text-alert" strokeWidth={1.5} />
-            <div>
-              <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-alert">
-                Urgent requirement
-              </p>
-              <p className="mt-2 text-sm text-mist">
-                For an incident in progress, contact the local police on 112 first, then reach the
-                BSM control room.
-              </p>
-            </div>
+          <div data-stagger-item className="group relative bg-void p-8">
+            <span className="ticks pointer-events-none absolute inset-0" aria-hidden="true" />
+            <Phone className="h-5 w-5 text-brass" strokeWidth={1.25} />
+            <p className="mt-6 font-mono text-[10px] uppercase tracking-[0.2em] text-dim">Call</p>
+            <ul className="mt-3 space-y-2">
+              {site.contact.phones.map((line) => (
+                <li key={line.href}>
+                  <a
+                    href={line.href}
+                    className="link-wipe font-display text-lg font-semibold tracking-[-0.01em] text-bone transition-colors duration-300 hover:text-brass"
+                  >
+                    {line.display}
+                  </a>
+                </li>
+              ))}
+            </ul>
           </div>
+
+          <div data-stagger-item className="group relative bg-void p-8">
+            <span className="ticks pointer-events-none absolute inset-0" aria-hidden="true" />
+            <WhatsAppIcon className="h-5 w-5 text-brass" />
+            <p className="mt-6 font-mono text-[10px] uppercase tracking-[0.2em] text-dim">
+              WhatsApp
+            </p>
+            <ul className="mt-3 space-y-2">
+              {site.contact.whatsapps.map((line) => (
+                <li key={line.href}>
+                  <a
+                    href={line.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="link-wipe font-display text-lg font-semibold tracking-[-0.01em] text-bone transition-colors duration-300 hover:text-brass"
+                  >
+                    {line.display}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
           <a
-            href={`tel:${site.contact.emergencyPhone}`}
-            className="shrink-0 border border-alert/60 px-6 py-3.5 text-center font-mono text-[11px] uppercase tracking-[0.18em] text-alert transition-colors duration-300 hover:bg-alert hover:text-void"
+            href={site.contact.emailHref}
+            data-stagger-item
+            className="group relative bg-void p-8 transition-colors duration-500 hover:bg-raise"
           >
-            <Copy text={site.contact.emergencyPhone} />
+            <span className="ticks pointer-events-none absolute inset-0" aria-hidden="true" />
+            <Mail className="h-5 w-5 text-brass" strokeWidth={1.25} />
+            <p className="mt-6 font-mono text-[10px] uppercase tracking-[0.2em] text-dim">Email</p>
+            <p className="mt-3 font-display text-lg font-semibold tracking-[-0.01em] text-bone">
+              {site.contact.email}
+            </p>
           </a>
         </div>
       </div>

@@ -8,9 +8,9 @@ import Footer from "@/components/layout/Footer";
 import SmoothScroll from "@/components/layout/SmoothScroll";
 import ScrollProgress from "@/components/layout/ScrollProgress";
 import BackToTop from "@/components/layout/BackToTop";
-import CustomCursor from "@/components/layout/CustomCursor";
 import Intro from "@/components/layout/Intro";
 import { TransitionProvider } from "@/components/layout/PageTransition";
+import { EnquiryProvider } from "@/components/layout/EnquiryModal";
 
 const archivo = Archivo({
   subsets: ["latin"],
@@ -61,7 +61,7 @@ export const metadata: Metadata = {
     locale: site.locale,
     url: site.url,
     siteName: "BSM Security",
-    title: "BSM — Security You Can Trust. Protection You Can Count On.",
+    title: "BSM — Protecting industries. Securing Businesses. Building Trust.",
     description: site.description,
   },
   twitter: {
@@ -106,14 +106,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body className="bg-void antialiased">
         <TransitionProvider>
-          <SmoothScroll />
-          <ScrollProgress />
-          <CustomCursor />
-          <Intro />
-          <Navbar />
-          <main id="main">{children}</main>
-          <Footer />
-          <BackToTop />
+          <EnquiryProvider>
+            <SmoothScroll />
+            <ScrollProgress />
+            <Intro />
+            <Navbar />
+            <main id="main">{children}</main>
+            <Footer />
+            <BackToTop />
+          </EnquiryProvider>
         </TransitionProvider>
         <script
           type="application/ld+json"

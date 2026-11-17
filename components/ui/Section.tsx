@@ -19,8 +19,14 @@ export function Section({
     <Tag
       id={id}
       aria-label={label}
-      className={`relative border-t border-line py-24 md:py-32 lg:py-40 ${className}`}
+      className={`relative border-t border-line py-28 md:py-36 lg:py-44 ${className}`}
     >
+      {/* Section divider: a brass hairline that fades across the top edge, so
+          one section visibly ends before the next begins. */}
+      <span
+        className="section-divider pointer-events-none absolute inset-x-0 top-0"
+        aria-hidden="true"
+      />
       {bleed ? children : <div className="shell">{children}</div>}
     </Tag>
   );

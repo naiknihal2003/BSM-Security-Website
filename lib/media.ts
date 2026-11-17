@@ -100,6 +100,20 @@ export const media = {
     label: "Hotel lobby presence",
     brief: "Guest-facing security in a hospitality setting.",
   },
+  headOffice: {
+    src: "",
+    alt: "",
+    label: "Head Office — Aquem, Margao",
+    brief:
+      "Awaiting BSM's photograph of the Head Office. Drop the file into /public/media and set `src`.",
+  },
+  branchOfficeGoa: {
+    src: "",
+    alt: "",
+    label: "Branch Office — Chimbel, Old Goa",
+    brief:
+      "Awaiting BSM's photograph of the Goa branch office. Drop the file into /public/media and set `src`.",
+  },
   night: {
     src: "/media/night-torch.jpg",
     alt: "Torch beam thrown across the ground in near darkness",
@@ -109,3 +123,56 @@ export const media = {
 } satisfies Record<string, Shot>;
 
 export type MediaKey = keyof typeof media;
+
+/**
+ * The BSM logo. The only image on the site that is genuinely BSM's own —
+ * used at its native square proportions and never stretched or recoloured.
+ */
+export const logo = {
+  src: "/bsm-logo.jpg",
+  alt: "BSM Security logo",
+  width: 1254,
+  height: 1254,
+} as const;
+
+/**
+ * Gallery.
+ *
+ * Reuses the shots declared above so there is still one source of truth per
+ * image. Entries without a `shot` render the composed placeholder frame and
+ * state what photograph belongs there — that is where BSM's own photography
+ * goes. To populate: add the file to /public/media, declare it in `media`
+ * above, and point the entry at it.
+ */
+export type GalleryItem = {
+  /** An existing shot, or omitted to render the placeholder frame. */
+  shot?: Shot;
+  /** Group the frame is filed under on the gallery page. */
+  group: string;
+  figure: string;
+  /** Used when there is no shot yet. */
+  label?: string;
+  brief?: string;
+  /** Frames marked wide span two columns on large screens. */
+  wide?: boolean;
+};
+
+export const gallery: GalleryItem[] = [
+  { shot: media.heroDeployment, group: "Personnel", figure: "Fig. 01" },
+  { shot: media.guarding, group: "Personnel", figure: "Fig. 02" },
+  { shot: media.briefing, group: "Operations", figure: "Fig. 03", wide: true },
+  { shot: media.patrol, group: "Operations", figure: "Fig. 04" },
+  { shot: media.records, group: "Operations", figure: "Fig. 05" },
+  { shot: media.corporate, group: "Sites", figure: "Fig. 06" },
+  { shot: media.residential, group: "Sites", figure: "Fig. 07" },
+  { shot: media.hospitality, group: "Sites", figure: "Fig. 08" },
+  { shot: media.industrial, group: "Sites", figure: "Fig. 09" },
+  { shot: media.event, group: "Sites", figure: "Fig. 10" },
+  { shot: media.coast, group: "Goa", figure: "Fig. 11", wide: true },
+  { shot: media.goaLandscape, group: "Goa", figure: "Fig. 12" },
+  { shot: media.estate, group: "Sites", figure: "Fig. 13" },
+  { shot: media.night, group: "Operations", figure: "Fig. 14" },
+];
+
+/** The groups, in display order. Used for the gallery filter rail. */
+export const galleryGroups = ["Personnel", "Operations", "Sites", "Goa"] as const;

@@ -1,6 +1,9 @@
+import Image from "next/image";
+import { logo } from "@/lib/media";
+
 /**
  * BSM mark: a chamfered shield cut from the same geometry as the site's
- * corner ticks — sharp, engineered, no soft radii.
+ * corner ticks. Retained for places that need a monochrome vector mark.
  */
 export function LogoMark({ className = "h-8 w-8" }: { className?: string }) {
   return (
@@ -26,18 +29,35 @@ export function LogoMark({ className = "h-8 w-8" }: { className?: string }) {
   );
 }
 
-export function Logo({ className = "" }: { className?: string }) {
+/**
+ * The official BSM logo. Square artwork rendered at its native 1:1 ratio —
+ * never stretched, cropped or recoloured. The artwork carries its own yellow
+ * keyline, so no extra border is added around it.
+ */
+export function Logo({
+  className = "",
+  size = 48,
+  priority = false,
+  imgClassName,
+}: {
+  className?: string;
+  size?: number;
+  priority?: boolean;
+  /** Tailwind width classes; when set, they replace the fixed pixel width. */
+  imgClassName?: string;
+}) {
   return (
-    <span className={`flex items-center gap-3 ${className}`}>
-      <LogoMark className="h-8 w-7 text-brass" />
-      <span className="flex flex-col leading-none">
-        <span className="font-display text-xl font-semibold tracking-[-0.03em] text-bone">
-          BSM
-        </span>
-        <span className="mt-1 font-mono text-[9px] uppercase tracking-[0.3em] text-dim">
-          Security · Goa
-        </span>
-      </span>
+    <span className={`inline-flex shrink-0 items-center ${className}`}>
+      <Image
+        src={logo.src}
+        alt={logo.alt}
+        width={size}
+        height={size}
+        priority={priority}
+        sizes={`${size}px`}
+        className={`block h-auto object-contain ${imgClassName ?? ""}`}
+        style={imgClassName ? undefined : { width: size }}
+      />
     </span>
   );
 }
