@@ -58,17 +58,28 @@ export default function AboutPage() {
           </>
         }
       >
-        <div className="mt-14 max-w-3xl space-y-8">
-          {legacy.paragraphs.map((paragraph, i) => (
-            <p
-              key={i}
-              data-reveal="up"
-              data-delay={(i * 0.06).toFixed(2)}
-              className="text-lead leading-relaxed text-mist"
-            >
-              {paragraph}
+        {/* The opening paragraph carries the standfirst weight on the left; the
+            rest of the account runs in the right column, so the text fills the
+            grid instead of hugging one edge. */}
+        <div className="mt-16 grid gap-10 lg:grid-cols-12 lg:gap-12">
+          <div className="lg:col-span-5">
+            <p data-reveal="up" className="text-lead leading-relaxed text-bone/90">
+              {legacy.paragraphs[0]}
             </p>
-          ))}
+          </div>
+
+          <div className="space-y-7 lg:col-span-6 lg:col-start-7">
+            {legacy.paragraphs.slice(1).map((paragraph, i) => (
+              <p
+                key={i}
+                data-reveal="up"
+                data-delay={((i + 1) * 0.06).toFixed(2)}
+                className="leading-relaxed text-mist"
+              >
+                {paragraph}
+              </p>
+            ))}
+          </div>
         </div>
       </PageHero>
 
