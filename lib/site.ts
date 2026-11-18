@@ -429,7 +429,7 @@ export const offices: Office[] = [
     id: "branch-office-goa",
     index: "02",
     kind: "Branch Office – Goa",
-    name: "Branch Office — Chimbel, Goa",
+    name: "Branch Office — Panjim, Old Goa",
     address:
       "House 3, Kadamba Govt Housing Society, National Hwy 4A Bypass Rd, Chimbel, Goa – 403006.",
     mapEmbed:

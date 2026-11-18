@@ -66,7 +66,10 @@ function OfficeBlock({
       className={`${tinted ? "bg-ink" : ""} ${first ? "border-t-0 pt-40 md:pt-52" : ""}`}
     >
       <SectionLabel index={office.index}>{office.kind}</SectionLabel>
-      <Heading data-split className="mt-8 max-w-3xl text-display font-semibold text-bone">
+      <Heading
+        data-split
+        className="mt-8 max-w-3xl text-display font-semibold text-bone lg:max-w-none lg:whitespace-nowrap"
+      >
         {office.name}
       </Heading>
 
