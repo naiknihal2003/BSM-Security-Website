@@ -1,6 +1,6 @@
 import { Mail, MapPin, Phone } from "lucide-react";
 import { WhatsAppIcon } from "@/components/ui/WhatsAppIcon";
-import { site, services, offices } from "@/lib/site";
+import { site, offices } from "@/lib/site";
 import { TransitionLink } from "./PageTransition";
 import { Copy } from "@/components/ui/Placeholder";
 import { Logo } from "@/components/ui/Logo";
@@ -50,17 +50,17 @@ export default function Footer() {
             </ul>
           </nav>
 
-          {/* Services */}
+          {/* Branch — each office links to its section on the branch page */}
           <div className="lg:col-span-2">
-            <h2 className="font-mono text-[10px] uppercase tracking-[0.22em] text-dim">Services</h2>
+            <h2 className="font-mono text-[10px] uppercase tracking-[0.22em] text-dim">Branch</h2>
             <ul className="mt-6 space-y-3">
-              {services.slice(0, 6).map((s) => (
-                <li key={s.slug}>
+              {offices.map((office) => (
+                <li key={office.id}>
                   <TransitionLink
-                    href={`/services#${s.slug}`}
+                    href={`/branch#${office.id}`}
                     className="link-wipe text-sm text-mist transition-colors duration-300 hover:text-bone"
                   >
-                    {s.title}
+                    {office.kind}
                   </TransitionLink>
                 </li>
               ))}

@@ -63,7 +63,9 @@ function OfficeBlock({
     <Section
       id={office.id}
       label={office.kind}
-      className={`${tinted ? "bg-ink" : ""} ${first ? "border-t-0 pt-40 md:pt-52" : ""}`}
+      className={`scroll-mt-28 md:scroll-mt-32 ${tinted ? "bg-ink" : ""} ${
+        first ? "border-t-0 pt-40 md:pt-52" : ""
+      }`}
     >
       <SectionLabel index={office.index}>{office.kind}</SectionLabel>
       <Heading
