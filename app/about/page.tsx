@@ -213,9 +213,9 @@ function LeaderBlock({ leader }: { leader: LeaderProfile }) {
         >
           {leader.name}
         </h3>
-        <div data-reveal="up" data-delay="0.04" className="mt-5 flex items-center gap-4">
-          <span className="h-px w-8 shrink-0 bg-brass" aria-hidden="true" />
-          <p className="font-mono text-[13px] font-semibold uppercase tracking-[0.16em] text-bone/90">
+        {/* The designation sits on its own brass underline. */}
+        <div data-reveal="up" data-delay="0.04" className="mt-5">
+          <p className="inline-block border-b-2 border-brass pb-2 font-mono text-[13px] font-semibold uppercase tracking-[0.16em] text-bone/90">
             {leader.designation}
           </p>
         </div>
