@@ -61,7 +61,7 @@ export default function ServicesOverview() {
         </div>
         <div className="flex items-end lg:col-span-6 lg:col-start-7">
           <p data-reveal="up" className="text-lead text-mist">
-            Seven areas of deployment. Each one starts from the same place — a survey of your site
+            Ten service categories. Each one starts from the same place — a survey of your site
             and a written plan — and ends with personnel who know that specific gate, lobby or
             perimeter.
           </p>
@@ -90,7 +90,7 @@ export default function ServicesOverview() {
               </span>
             </span>
             <span className="relative col-span-10 col-start-3 text-sm leading-relaxed text-mist md:col-span-6 md:col-start-6">
-              {service.short}
+              {service.points[0]}
             </span>
             <span className="relative col-span-1 hidden justify-end md:flex">
               <ArrowUpRight
@@ -132,7 +132,7 @@ export default function ServicesOverview() {
                 {active !== null ? services[active].title : ""}
               </p>
               <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.16em] text-dim">
-                {active !== null ? services[active].environments.slice(0, 2).join(" · ") : ""}
+                {active !== null ? `${services[active].points.length} services` : ""}
               </p>
             </div>
           </div>

@@ -29,18 +29,16 @@ export const localBusinessSchema = {
     { "@type": "Country", name: "India" },
   ],
   knowsLanguage: ["en-IN", "hi-IN", "kok"],
-  makesOffer: services
-    .filter((s) => s.slug !== "specialised-services")
-    .map((s) => ({
-      "@type": "Offer",
-      itemOffered: {
-        "@type": "Service",
-        name: s.title,
-        description: s.short,
-        serviceType: s.title,
-        areaServed: { "@type": "State", name: "Goa" },
-      },
-    })),
+  makesOffer: services.map((s) => ({
+    "@type": "Offer",
+    itemOffered: {
+      "@type": "Service",
+      name: s.title,
+      description: s.points[0],
+      serviceType: s.title,
+      areaServed: { "@type": "State", name: "Goa" },
+    },
+  })),
   openingHoursSpecification: {
     "@type": "OpeningHoursSpecification",
     description: "[OPENING HOURS]",

@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { Check, Plus } from "lucide-react";
-import { services, faqs, site } from "@/lib/site";
+import { services, faqs, site, type ServiceSlug } from "@/lib/site";
 import { JsonLd, breadcrumbSchema, faqSchema } from "@/lib/schema";
-import { media } from "@/lib/media";
+import { media, type Shot } from "@/lib/media";
 import { PageHero } from "@/components/ui/PageHero";
 import { Section, SectionLabel } from "@/components/ui/Section";
 import { MediaFrame } from "@/components/ui/MediaFrame";
@@ -24,15 +24,24 @@ export const metadata: Metadata = {
   },
 };
 
-const serviceShots = {
-  "security-guards": media.guarding,
-  "corporate-security": media.corporate,
-  "residential-security": media.residential,
-  "event-security": media.event,
-  "industrial-security": media.industrial,
-  "hospitality-security": media.hospitality,
-  "specialised-services": media.night,
-} as const;
+/**
+ * One frame per category. These are the site's licensed stand-in photographs
+ * (see lib/media.ts) chosen for the closest subject match — none of them
+ * depicts BSM, its people or its sites, and the footer says so. Replace a
+ * `src` in lib/media.ts to drop BSM's own photography in behind these frames.
+ */
+const serviceShots: Record<ServiceSlug, Shot> = {
+  "public-sector-government-defence-security": media.guarding,
+  "industrial-corporate-security": media.industrial,
+  "security-guard-services": media.heroDeployment,
+  "bouncer-personal-security-services": media.event,
+  "access-control-surveillance": media.records,
+  "banking-commercial-security": media.corporate,
+  "residential-institutional-security": media.residential,
+  "wedding-event-specialised-security": media.hospitality,
+  "security-supervision-management": media.briefing,
+  "security-training-personnel-development": media.patrol,
+};
 
 export default function ServicesPage() {
   return (
@@ -58,20 +67,23 @@ export default function ServicesPage() {
             <span className="accent-serif text-brass">not</span> the invoice.
           </>
         }
-        lead="Seven areas of deployment across Goa. Scope specifics marked in brackets are confirmed directly with BSM rather than assumed here."
+        lead="Ten service categories. Scope specifics marked in brackets are confirmed directly with BSM rather than assumed here."
       >
         {/* Contents */}
-        <ul className="mt-16 grid gap-px border border-line bg-line sm:grid-cols-2 lg:grid-cols-4" data-stagger>
+        <ul
+          className="mt-16 grid gap-px border border-line bg-line sm:grid-cols-2 lg:grid-cols-3"
+          data-stagger
+        >
           {services.map((service) => (
             <li key={service.slug} data-stagger-item>
               <a
                 href={`#${service.slug}`}
-                className="group flex h-full items-baseline gap-3 bg-void p-5 transition-colors duration-500 hover:bg-raise"
+                className="group flex h-full items-baseline gap-3 bg-void p-6 transition-colors duration-500 hover:bg-raise"
               >
                 <span className="font-mono text-[10px] tracking-[0.2em] text-dim">
                   {service.index}
                 </span>
-                <span className="font-display text-sm font-semibold text-bone transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-x-1">
+                <span className="font-display text-sm font-semibold uppercase leading-snug tracking-[0.01em] text-bone transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-x-1">
                   {service.title}
                 </span>
               </a>
@@ -89,7 +101,7 @@ export default function ServicesPage() {
             key={service.slug}
             id={service.slug}
             label={service.title}
-            className={i % 2 === 1 ? "bg-ink" : ""}
+            className={`scroll-mt-28 md:scroll-mt-32 ${i % 2 === 1 ? "bg-ink" : ""}`}
           >
             <div className="grid gap-12 lg:grid-cols-12 lg:gap-10">
               <div className={`lg:col-span-6 ${flipped ? "lg:order-2 lg:col-start-7" : ""}`}>
@@ -101,13 +113,12 @@ export default function ServicesPage() {
                   <span className="eyebrow">Service</span>
                 </div>
 
-                <h2 data-split className="mt-8 text-display font-semibold text-bone">
+                <h2
+                  data-split
+                  className="mt-8 text-title font-semibold uppercase tracking-[-0.01em] text-bone"
+                >
                   {service.title}
                 </h2>
-
-                <p data-reveal="up" className="mt-8 max-w-xl text-lead text-mist">
-                  {service.body}
-                </p>
 
                 <ul className="mt-10 space-y-px border-t border-line" data-stagger>
                   {service.points.map((point) => (
@@ -124,20 +135,9 @@ export default function ServicesPage() {
                   ))}
                 </ul>
 
-                <div className="mt-8 flex flex-wrap gap-2" data-reveal="up">
-                  {service.environments.map((env) => (
-                    <span
-                      key={env}
-                      className="border border-line px-3 py-2 font-mono text-[10px] uppercase tracking-[0.16em] text-dim"
-                    >
-                      <Copy text={env} />
-                    </span>
-                  ))}
-                </div>
-
                 <div className="mt-10" data-reveal="up">
                   <Button href="/contact" variant="outline">
-                    Enquire about {service.title}
+                    Enquire about this service
                   </Button>
                 </div>
               </div>

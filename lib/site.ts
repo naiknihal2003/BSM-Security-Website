@@ -66,129 +66,157 @@ export const site = {
 } as const;
 
 export type ServiceSlug =
-  | "security-guards"
-  | "corporate-security"
-  | "residential-security"
-  | "event-security"
-  | "industrial-security"
-  | "hospitality-security"
-  | "specialised-services";
+  | "public-sector-government-defence-security"
+  | "industrial-corporate-security"
+  | "security-guard-services"
+  | "bouncer-personal-security-services"
+  | "access-control-surveillance"
+  | "banking-commercial-security"
+  | "residential-institutional-security"
+  | "wedding-event-specialised-security"
+  | "security-supervision-management"
+  | "security-training-personnel-development";
 
 export type Service = {
   slug: ServiceSlug;
   index: string;
   title: string;
-  short: string;
-  body: string;
   points: string[];
-  environments: string[];
 };
 
+/**
+ * BSM's service categories, supplied by BSM and reproduced verbatim —
+ * headings and bullet points are not reworded, reordered or added to.
+ */
 export const services: Service[] = [
   {
-    slug: "security-guards",
+    slug: "public-sector-government-defence-security",
     index: "01",
-    title: "Security Guarding",
-    short: "Trained, uniformed guarding for static posts and access points.",
-    body: "Deployed personnel who hold the perimeter, control who enters and leaves, and keep an accurate record of everything that happens on shift. Presence is the point: a visible, disciplined post changes behaviour before an incident ever starts.",
+    title: "PUBLIC SECTOR, GOVERNMENT & DEFENCE SECURITY",
     points: [
-      "Static guarding at gates, lobbies and access points",
-      "Access control, visitor screening and gate register",
-      "Patrol rounds with documented checkpoints",
-      "Shift handover and daily occurrence reporting",
-      "[GUARD TRAINING AND VERIFICATION PROCESS]",
+      "Security services for Public Sector Undertakings (PSUs).",
+      "Security for government departments and establishments.",
+      "Security services for defence-related establishments.",
+      "Security personnel deployment for public infrastructure.",
+      "Security arrangements for government institutions and facilities.",
     ],
-    environments: ["Offices", "Gated communities", "Warehouses", "Institutions"],
   },
   {
-    slug: "corporate-security",
+    slug: "industrial-corporate-security",
     index: "02",
-    title: "Corporate Security",
-    short: "Front-of-house security that protects people, assets and reputation.",
-    body: "Security that reads as hospitality at the door and as discipline behind it. Corporate deployments are built around your working day — reception flow, contractor movement, after-hours access and the escalation path when something is wrong.",
+    title: "INDUSTRIAL & CORPORATE SECURITY",
     points: [
-      "Reception and front-desk security presence",
-      "Employee, contractor and visitor access protocols",
-      "Asset and material movement control",
-      "Incident escalation and management reporting",
-      "[CORPORATE SECURITY SCOPE DETAILS]",
+      "Security services for industrial establishments and manufacturing units.",
+      "Corporate offices and commercial premises security.",
+      "Security for factories, warehouses and industrial facilities.",
+      "Perimeter security and restricted-area monitoring.",
+      "Protection of industrial assets, equipment and infrastructure.",
     ],
-    environments: ["Corporate offices", "IT parks", "Co-working", "Banks"],
   },
   {
-    slug: "residential-security",
+    slug: "security-guard-services",
     index: "03",
-    title: "Residential Security",
-    short: "Guarding for villas, apartments and gated communities across Goa.",
-    body: "Residential security lives or dies on consistency. The same faces, the same rounds, the same discipline at 3am as at 3pm — so residents, staff and deliveries move freely while everything unfamiliar is checked.",
+    title: "SECURITY GUARD SERVICES",
     points: [
-      "Gate management and resident vehicle protocols",
-      "Visitor, delivery and domestic-staff verification",
-      "Night patrol rounds across common areas",
-      "Coordination with society management and committees",
-      "[RESIDENTIAL SECURITY SCOPE DETAILS]",
+      "Deployment of trained and uniformed security guards.",
+      "Armed and unarmed security personnel, subject to applicable licences and permissions.",
+      "Static security and round-the-clock guarding.",
+      "Entry and exit point security.",
+      "Visitor management and identity verification.",
+      "Protection of personnel, property and premises.",
     ],
-    environments: ["Villas", "Apartments", "Gated societies", "Second homes"],
   },
   {
-    slug: "event-security",
+    slug: "bouncer-personal-security-services",
     index: "04",
-    title: "Event Security",
-    short: "Crowd, access and perimeter management for events of every size.",
-    body: "Goa runs on events — weddings, festivals, conferences, beach and venue programming. Event security is planned backwards from the crowd: entry lanes, accreditation, stage and backstage lines, and a clear plan for the moment things do not go to plan.",
+    title: "BOUNCER & PERSONAL SECURITY SERVICES",
     points: [
-      "Pre-event site survey and deployment planning",
-      "Accreditation, ticket and wristband checks at entry",
-      "Crowd flow, queue and barrier management",
-      "Stage, backstage and VIP area control",
-      "[EVENT SECURITY SCOPE DETAILS]",
+      "Professional bouncer deployment for weddings and private events.",
+      "Bouncer services for clubs, bars, hotels and entertainment venues.",
+      "VIP and guest protection.",
+      "Crowd control and access management.",
+      "Prevention of unauthorised entry and disturbance management.",
+      "Security personnel for concerts, parties and special events.",
+      "Personal security assistance for individuals and special guests.",
     ],
-    environments: ["Weddings", "Festivals", "Conferences", "Private venues"],
   },
   {
-    slug: "industrial-security",
+    slug: "access-control-surveillance",
     index: "05",
-    title: "Industrial Security",
-    short: "Perimeter, material gate and shift discipline for industrial sites.",
-    body: "Industrial estates demand procedure. Gate registers that reconcile, material movement that is documented, contractor labour that is verified, and patrols that cover the parts of a site nobody else walks at night.",
+    title: "ACCESS CONTROL & SURVEILLANCE",
     points: [
-      "Perimeter patrolling and boundary integrity checks",
-      "Material inward and outward gate control",
-      "Contractor and labour verification at entry",
-      "Shift-based deployment across 24-hour operations",
-      "[INDUSTRIAL SECURITY SCOPE DETAILS]",
+      "Entry and exit monitoring.",
+      "Visitor and contractor verification.",
+      "Vehicle movement monitoring.",
+      "Restricted-area access management.",
+      "CCTV surveillance monitoring and reporting.",
+      "Security checks and incident reporting.",
     ],
-    environments: ["Factories", "Warehouses", "Industrial estates", "Plants"],
   },
   {
-    slug: "hospitality-security",
+    slug: "banking-commercial-security",
     index: "06",
-    title: "Hotel & Hospitality Security",
-    short: "Guest-facing security calibrated to hospitality standards.",
-    body: "In hospitality the security team is part of the guest experience. Presentation, language and judgement matter as much as vigilance — protecting guests, staff and property without ever making the property feel guarded.",
+    title: "BANKING & COMMERCIAL SECURITY",
     points: [
-      "Lobby, entrance and driveway presence",
-      "Guest, staff and vendor access management",
-      "Banquet, pool and beachfront area coverage",
-      "Discreet handling of guest incidents and escalations",
-      "[HOSPITALITY SECURITY SCOPE DETAILS]",
+      "Security for banks and financial establishments.",
+      "Security for commercial complexes and business premises.",
+      "ATM premises security.",
+      "Cash movement escort services, subject to applicable requirements.",
+      "Protection of valuable assets and business infrastructure.",
     ],
-    environments: ["Hotels", "Resorts", "Restaurants", "Beach clubs"],
   },
   {
-    slug: "specialised-services",
+    slug: "residential-institutional-security",
     index: "07",
-    title: "Specialised Services",
-    short: "Additional capabilities to be confirmed directly with BSM.",
-    body: "BSM may offer further capabilities beyond standing deployments. These are listed as placeholders until confirmed, so that nothing is promised on this site that has not been verified by the company.",
+    title: "RESIDENTIAL & INSTITUTIONAL SECURITY",
     points: [
-      "[PERSONAL SECURITY / BODYGUARD SERVICES — TO BE CONFIRMED]",
-      "[SURVEILLANCE AND CCTV MONITORING — TO BE CONFIRMED]",
-      "[SECURITY CONSULTING AND RISK SURVEYS — TO BE CONFIRMED]",
-      "[FACILITY AND SUPPORT MANPOWER — TO BE CONFIRMED]",
-      "[ADDITIONAL SERVICE DETAILS]",
+      "Security for residential complexes and housing societies.",
+      "Security for educational institutions and campuses.",
+      "Security for hospitals and healthcare establishments.",
+      "Security for hotels, resorts and hospitality premises.",
+      "Security for shopping complexes and retail establishments.",
     ],
-    environments: ["[SECTOR]", "[SECTOR]", "[SECTOR]", "[SECTOR]"],
+  },
+  {
+    slug: "wedding-event-specialised-security",
+    index: "08",
+    title: "WEDDING, EVENT & SPECIALISED SECURITY",
+    points: [
+      "Security arrangements for marriage ceremonies and wedding receptions.",
+      "Security for private celebrations, parties and social gatherings.",
+      "Security for corporate events and official functions.",
+      "Crowd management and access regulation.",
+      "VIP and guest movement coordination.",
+      "Entry and exit management for event venues.",
+      "Temporary security deployment for special occasions.",
+      "Event premises and infrastructure protection.",
+    ],
+  },
+  {
+    slug: "security-supervision-management",
+    index: "09",
+    title: "SECURITY SUPERVISION & MANAGEMENT",
+    points: [
+      "Deployment of experienced security supervisors.",
+      "Regular security inspections and monitoring.",
+      "Duty roster and personnel management.",
+      "Incident reporting and documentation.",
+      "Security procedure implementation.",
+      "Client coordination and operational reviews.",
+    ],
+  },
+  {
+    slug: "security-training-personnel-development",
+    index: "10",
+    title: "SECURITY TRAINING & PERSONNEL DEVELOPMENT",
+    points: [
+      "Military-guided discipline and professional conduct.",
+      "Security awareness and operational preparedness.",
+      "Emergency response and crisis management.",
+      "Fire safety awareness and evacuation procedures.",
+      "Patrolling, vigilance and surveillance techniques.",
+      "Communication, teamwork and supervisory training.",
+    ],
   },
 ];
 
