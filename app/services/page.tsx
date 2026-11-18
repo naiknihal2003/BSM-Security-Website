@@ -1,14 +1,13 @@
 import type { Metadata } from "next";
-import { Check, Plus } from "lucide-react";
-import { services, faqs, site, type ServiceSlug } from "@/lib/site";
-import { JsonLd, breadcrumbSchema, faqSchema } from "@/lib/schema";
+import { Check } from "lucide-react";
+import { services, site, type ServiceSlug } from "@/lib/site";
+import { JsonLd, breadcrumbSchema } from "@/lib/schema";
 import { media, type Shot } from "@/lib/media";
 import { PageHero } from "@/components/ui/PageHero";
-import { Section, SectionLabel } from "@/components/ui/Section";
+import { Section } from "@/components/ui/Section";
 import { MediaFrame } from "@/components/ui/MediaFrame";
 import { Copy } from "@/components/ui/Placeholder";
 import { Button } from "@/components/ui/Button";
-import CallToAction from "@/components/sections/CallToAction";
 import RevealEngine from "@/components/layout/RevealEngine";
 
 export const metadata: Metadata = {
@@ -52,7 +51,6 @@ export default function ServicesPage() {
           { name: "Services", path: "/services" },
         ])}
       />
-      <JsonLd data={faqSchema} />
 
       <PageHero
         eyebrow="Services"
@@ -67,23 +65,20 @@ export default function ServicesPage() {
             <span className="accent-serif text-brass">site</span>.
           </>
         }
-        lead="Ten service categories. Scope specifics marked in brackets are confirmed directly with BSM rather than assumed here."
+        lead="Our services are designed to address a wide range of security requirements across different sectors and establishments."
       >
         {/* Contents */}
-        <ul
-          className="mt-16 grid gap-px border border-line bg-line sm:grid-cols-2 lg:grid-cols-3"
-          data-stagger
-        >
+        <ul className="mt-16 grid gap-px border border-line bg-line sm:grid-cols-2" data-stagger>
           {services.map((service) => (
             <li key={service.slug} data-stagger-item>
               <a
                 href={`#${service.slug}`}
                 className="group flex h-full items-baseline gap-3 bg-void p-6 transition-colors duration-500 hover:bg-raise"
               >
-                <span className="font-mono text-[10px] tracking-[0.2em] text-dim">
+                <span className="font-mono text-[11px] tracking-[0.2em] text-brass">
                   {service.index}
                 </span>
-                <span className="font-display text-sm font-semibold uppercase leading-snug tracking-[0.01em] text-bone transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-x-1">
+                <span className="font-display text-sm font-semibold uppercase leading-snug tracking-[0.01em] text-white transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-x-1">
                   {service.title}
                 </span>
               </a>
@@ -119,6 +114,11 @@ export default function ServicesPage() {
                 >
                   {service.title}
                 </h2>
+                <span
+                  className="mt-6 block h-0.5 w-28 bg-brass"
+                  data-reveal="up"
+                  aria-hidden="true"
+                />
 
                 <ul className="mt-10 space-y-px border-t border-line" data-stagger>
                   {service.points.map((point) => (
@@ -128,7 +128,7 @@ export default function ServicesPage() {
                       className="flex items-start gap-4 border-b border-line py-4"
                     >
                       <Check className="mt-0.5 h-4 w-4 shrink-0 text-brass" strokeWidth={1.5} />
-                      <span className="text-sm leading-relaxed text-mist">
+                      <span className="text-sm leading-relaxed text-white">
                         <Copy text={point} />
                       </span>
                     </li>
@@ -155,77 +155,6 @@ export default function ServicesPage() {
         );
       })}
 
-      {/* Scope note */}
-      <Section label="Scope and pricing">
-        <div className="grid gap-10 lg:grid-cols-12">
-          <div className="lg:col-span-5">
-            <SectionLabel index="08">Scope &amp; pricing</SectionLabel>
-            <h2 data-split className="mt-8 text-display font-semibold text-bone">
-              Quoted from a survey, never from a phone call.
-            </h2>
-          </div>
-          <div className="lg:col-span-6 lg:col-start-7">
-            <p data-reveal="up" className="text-lead text-mist">
-              Manpower numbers, shift patterns, supervision frequency and commercial terms depend
-              on the site. BSM confirms these after a survey, in writing.
-            </p>
-            <dl className="mt-10 grid gap-px border border-line bg-line sm:grid-cols-2" data-stagger>
-              {[
-                { k: "Shift patterns", v: "[SHIFT OPTIONS]" },
-                { k: "Minimum deployment", v: "[MINIMUM TERMS]" },
-                { k: "Supervision frequency", v: "[SUPERVISION SCHEDULE]" },
-                { k: "Commercial terms", v: "[RATES AND BILLING TERMS]" },
-              ].map((row) => (
-                <div key={row.k} data-stagger-item className="bg-void p-6">
-                  <dt className="font-mono text-[10px] uppercase tracking-[0.2em] text-dim">
-                    {row.k}
-                  </dt>
-                  <dd className="mt-3 text-sm">
-                    <Copy text={row.v} />
-                  </dd>
-                </div>
-              ))}
-            </dl>
-          </div>
-        </div>
-      </Section>
-
-      {/* FAQ */}
-      <Section label="Frequently asked questions" className="bg-ink">
-        <div className="grid gap-10 lg:grid-cols-12">
-          <div className="lg:col-span-4">
-            <SectionLabel index="09">Questions</SectionLabel>
-            <h2 data-split className="mt-8 text-display font-semibold text-bone">
-              Before you enquire.
-            </h2>
-          </div>
-
-          <div className="lg:col-span-7 lg:col-start-6">
-            <div className="border-t border-line" data-stagger>
-              {faqs.map((faq) => (
-                <details key={faq.q} data-stagger-item className="group border-b border-line">
-                  <summary className="flex cursor-pointer list-none items-start justify-between gap-6 py-6 font-display text-lg font-semibold text-bone transition-colors duration-300 hover:text-brass [&::-webkit-details-marker]:hidden">
-                    {faq.q}
-                    <Plus
-                      className="mt-1 h-4 w-4 shrink-0 text-brass transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-open:rotate-45"
-                      strokeWidth={1.5}
-                    />
-                  </summary>
-                  <p className="max-w-2xl pb-7 leading-relaxed text-mist">
-                    <Copy text={faq.a} />
-                  </p>
-                </details>
-              ))}
-            </div>
-          </div>
-        </div>
-      </Section>
-
-      <CallToAction
-        eyebrow="Request security"
-        title="Tell us the site. We will tell you the plan."
-        body="Send the location, the hours you need covered and what you are protecting. A survey comes before a number."
-      />
       <RevealEngine />
     </>
   );
