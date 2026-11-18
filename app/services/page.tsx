@@ -31,15 +31,15 @@ export const metadata: Metadata = {
  */
 const serviceShots: Record<ServiceSlug, Shot> = {
   "public-sector-government-defence-security": media.publicSectorSecurity,
-  "industrial-corporate-security": media.industrial,
-  "security-guard-services": media.heroDeployment,
-  "bouncer-personal-security-services": media.event,
-  "access-control-surveillance": media.records,
-  "banking-commercial-security": media.corporate,
-  "residential-institutional-security": media.residential,
-  "wedding-event-specialised-security": media.hospitality,
-  "security-supervision-management": media.briefing,
-  "security-training-personnel-development": media.patrol,
+  "industrial-corporate-security": media.industrialCorporateSecurity,
+  "security-guard-services": media.securityGuardServices,
+  "bouncer-personal-security-services": media.bouncerPersonalSecurity,
+  "access-control-surveillance": media.accessControlSurveillance,
+  "banking-commercial-security": media.bankingCommercialSecurity,
+  "residential-institutional-security": media.residentialInstitutionalSecurity,
+  "wedding-event-specialised-security": media.weddingEventSecurity,
+  "security-supervision-management": media.securitySupervisionManagement,
+  "security-training-personnel-development": media.securityTrainingDevelopment,
 };
 
 export default function ServicesPage() {
