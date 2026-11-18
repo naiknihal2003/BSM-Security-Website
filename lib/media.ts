@@ -115,7 +115,7 @@ export const media = {
   leaderAdminPartner: {
     src: "",
     alt: "",
-    label: "Bhagyashree Dattatray Naik",
+    label: "Mrs. Bhagyashree Dattatray Naik",
     brief: "Awaiting BSM's photograph. Drop the file into /public/media and set `src`.",
   },
   headOffice: {

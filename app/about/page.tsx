@@ -58,12 +58,12 @@ export default function AboutPage() {
           </>
         }
       >
-        {/* The opening paragraph carries the standfirst weight on the left; the
-            rest of the account runs in the right column, so the text fills the
-            grid instead of hugging one edge. */}
+        {/* Two columns of the same type: the opening paragraph on the left,
+            the rest of the account on the right, so the text fills the grid
+            without one side reading larger than the other. */}
         <div className="mt-16 grid gap-10 lg:grid-cols-12 lg:gap-12">
           <div className="lg:col-span-5">
-            <p data-reveal="up" className="text-lead leading-relaxed text-bone/90">
+            <p data-reveal="up" className="text-lead leading-relaxed text-mist">
               {legacy.paragraphs[0]}
             </p>
           </div>
@@ -74,7 +74,7 @@ export default function AboutPage() {
                 key={i}
                 data-reveal="up"
                 data-delay={((i + 1) * 0.06).toFixed(2)}
-                className="leading-relaxed text-mist"
+                className="text-lead leading-relaxed text-mist"
               >
                 {paragraph}
               </p>
@@ -208,7 +208,7 @@ function LeaderBlock({ leader }: { leader: LeaderProfile }) {
         <p
           data-reveal="up"
           data-delay="0.04"
-          className="mt-4 font-mono text-[11px] uppercase tracking-[0.18em] text-mist"
+          className="mt-4 font-mono text-[13px] font-semibold uppercase tracking-[0.16em] text-bone/90"
         >
           {leader.designation}
         </p>
@@ -216,7 +216,11 @@ function LeaderBlock({ leader }: { leader: LeaderProfile }) {
         {leader.paragraphs.length > 0 && (
           <div className="mt-9 space-y-6">
             {leader.paragraphs.map((paragraph, i) => (
-              <p key={i} data-reveal="up" className="leading-relaxed text-mist">
+              <p
+                key={i}
+                data-reveal="up"
+                className="text-[1.0625rem] leading-relaxed text-mist"
+              >
                 {paragraph}
               </p>
             ))}
@@ -224,7 +228,7 @@ function LeaderBlock({ leader }: { leader: LeaderProfile }) {
         )}
 
         {leader.listIntro && (
-          <p data-reveal="up" className="mt-8 leading-relaxed text-mist">
+          <p data-reveal="up" className="mt-8 text-[1.0625rem] leading-relaxed text-mist">
             {leader.listIntro}
           </p>
         )}
@@ -238,14 +242,14 @@ function LeaderBlock({ leader }: { leader: LeaderProfile }) {
                 className="flex items-baseline gap-4 bg-ink px-6 py-5"
               >
                 <span className="mt-2 h-1 w-1 shrink-0 bg-brass" aria-hidden="true" />
-                <span className="text-sm leading-relaxed text-mist">{item}</span>
+                <span className="text-[1.0625rem] leading-relaxed text-mist">{item}</span>
               </li>
             ))}
           </ul>
         )}
 
         {leader.closing && (
-          <p data-reveal="up" className="mt-8 leading-relaxed text-mist">
+          <p data-reveal="up" className="mt-8 text-[1.0625rem] leading-relaxed text-mist">
             {leader.closing}
           </p>
         )}

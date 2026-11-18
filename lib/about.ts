@@ -71,9 +71,13 @@ export const leaders: LeaderProfile[] = [
   {
     id: "bhagyashree-dattatray-naik",
     index: "03",
-    name: "Bhagyashree Dattatray Naik",
-    designation: "Partner - Handling administration work and Accounts",
-    paragraphs: [],
+    name: "MRS. BHAGYASHREE DATTATRAY NAIK",
+    designation: "Partner – Administration & Accounts",
+    paragraphs: [
+      "Mrs. Bhagyashree Dattatray Naik plays an important role in the administrative and financial management of BSM Security Agency. She is responsible for overseeing administrative functions, accounts management, financial records and organisational coordination, ensuring smooth and efficient day-to-day operations.",
+      "Her responsibilities include maintaining financial documentation, managing accounts and payment records, coordinating administrative activities, monitoring routine financial transactions and supporting the organisation’s internal management processes.",
+      "Her systematic approach, attention to detail and commitment to organisational efficiency contribute to effective administration, financial discipline and the smooth functioning of BSM Security Agency.",
+    ],
   },
 ];
 
