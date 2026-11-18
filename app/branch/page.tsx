@@ -101,7 +101,7 @@ function OfficeBlock({
               {office.additionalAddress && (
                 <div className="mt-6 border-l border-brass/50 pl-4">
                   <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-dim">
-                    Additional address
+                    {office.additionalAddressLabel}
                   </p>
                   <address className="mt-2 not-italic leading-relaxed text-mist">
                     {office.additionalAddress}

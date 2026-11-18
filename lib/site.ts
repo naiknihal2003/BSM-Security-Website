@@ -377,6 +377,8 @@ export type Office = {
   address: string;
   /** Shown as text only — never a second map pin for this office. */
   additionalAddress?: string;
+  /** How that second address is designated. */
+  additionalAddressLabel?: string;
   /** Google Maps embed for the mapped address. */
   mapEmbed: string;
   /** Opens the location in Google Maps. */
@@ -395,11 +397,12 @@ export const offices: Office[] = [
     index: "01",
     kind: "Head Office",
     name: "Head Office — Margao",
-    addressLabel: "Registered address",
+    addressLabel: "Office address",
     address:
       "Kurtarkar Classic A2, Shop no. G-7, Opposite Lawande Hospital, Aquem, Margao, Goa – 403601.",
     additionalAddress:
       "42/D/7, God's Gift Residency, Plot no. 15, Dicarpale Davorlim, Navelim, Salcete, Goa.",
+    additionalAddressLabel: "Registered address",
     mapEmbed:
       "https://www.google.com/maps?q=Kurtarkar+Classic+A2,+Shop+no.+G-7,+Opposite+Lawande+Hospital,+Aquem,+Margao,+Goa+403601&output=embed",
     /* BSM's own Google Maps link for the registered address. */
