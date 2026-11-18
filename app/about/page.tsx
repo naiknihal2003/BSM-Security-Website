@@ -30,10 +30,11 @@ export const metadata: Metadata = {
 };
 
 /**
- * Body copy on this page is justified. Hyphenation is enabled with it —
- * justified text in a narrow column pulls words apart without it.
+ * Body copy on this page is justified. Hyphenation is deliberately off:
+ * broken words (pro-fessional, independ-ent) read as cheap in a column this
+ * wide, and the measure is generous enough to justify cleanly without it.
  */
-const prose = "text-justify hyphens-auto";
+const prose = "text-justify";
 
 /** One frame per leader, in profile order. */
 const leaderShots = {
@@ -66,23 +67,25 @@ export default function AboutPage() {
           </>
         }
       >
-        {/* Two columns of the same type: the opening paragraph on the left,
-            the rest of the account on the right, so the text fills the grid
-            without one side reading larger than the other. */}
-        <div className="mt-16 grid gap-10 lg:grid-cols-12 lg:gap-12">
-          <div className="lg:col-span-5">
-            <p data-reveal="up" className={`text-lead leading-relaxed text-mist ${prose}`}>
-              <Marked text={legacy.paragraphs[0]} marks={legacyMarks} />
-            </p>
-          </div>
+        {/* Two columns of equal width and equal type, tops aligned: the
+            opening paragraph on the left, the rest of the account on the
+            right. The measure stays around 60 characters, which justifies
+            without opening gaps. */}
+        <div className="mt-16 grid gap-x-14 gap-y-8 lg:grid-cols-2">
+          <p
+            data-reveal="up"
+            className={`text-[1.0625rem] leading-[1.75] text-mist ${prose}`}
+          >
+            <Marked text={legacy.paragraphs[0]} marks={legacyMarks} />
+          </p>
 
-          <div className="space-y-7 lg:col-span-6 lg:col-start-7">
+          <div className="space-y-6">
             {legacy.paragraphs.slice(1).map((paragraph, i) => (
               <p
                 key={i}
                 data-reveal="up"
                 data-delay={((i + 1) * 0.06).toFixed(2)}
-                className={`text-lead leading-relaxed text-mist ${prose}`}
+                className={`text-[1.0625rem] leading-[1.75] text-mist ${prose}`}
               >
                 <Marked text={paragraph} marks={legacyMarks} />
               </p>
