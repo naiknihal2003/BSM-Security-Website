@@ -63,8 +63,8 @@ export default function ServicesPage() {
         ]}
         title={
           <>
-            Deployments planned for the site,{" "}
-            <span className="accent-serif text-brass">not</span> the invoice.
+            Deployments planned for the{" "}
+            <span className="accent-serif text-brass">site</span>.
           </>
         }
         lead="Ten service categories. Scope specifics marked in brackets are confirmed directly with BSM rather than assumed here."
