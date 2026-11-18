@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { site } from "@/lib/site";
 import {
   legacy,
+  legacyMarks,
   leadershipIntro,
   leaders,
   commitment,
@@ -13,6 +14,7 @@ import { JsonLd, breadcrumbSchema } from "@/lib/schema";
 import { PageHero } from "@/components/ui/PageHero";
 import { Section, SectionLabel } from "@/components/ui/Section";
 import { MediaFrame } from "@/components/ui/MediaFrame";
+import { Marked } from "@/components/ui/Marked";
 import RevealEngine from "@/components/layout/RevealEngine";
 
 export const metadata: Metadata = {
@@ -70,7 +72,7 @@ export default function AboutPage() {
         <div className="mt-16 grid gap-10 lg:grid-cols-12 lg:gap-12">
           <div className="lg:col-span-5">
             <p data-reveal="up" className={`text-lead leading-relaxed text-mist ${prose}`}>
-              {legacy.paragraphs[0]}
+              <Marked text={legacy.paragraphs[0]} marks={legacyMarks} />
             </p>
           </div>
 
@@ -82,7 +84,7 @@ export default function AboutPage() {
                 data-delay={((i + 1) * 0.06).toFixed(2)}
                 className={`text-lead leading-relaxed text-mist ${prose}`}
               >
-                {paragraph}
+                <Marked text={paragraph} marks={legacyMarks} />
               </p>
             ))}
           </div>
@@ -211,13 +213,12 @@ function LeaderBlock({ leader }: { leader: LeaderProfile }) {
         >
           {leader.name}
         </h3>
-        <p
-          data-reveal="up"
-          data-delay="0.04"
-          className="mt-4 font-mono text-[13px] font-semibold uppercase tracking-[0.16em] text-bone/90"
-        >
-          {leader.designation}
-        </p>
+        <div data-reveal="up" data-delay="0.04" className="mt-5 flex items-center gap-4">
+          <span className="h-px w-8 shrink-0 bg-brass" aria-hidden="true" />
+          <p className="font-mono text-[13px] font-semibold uppercase tracking-[0.16em] text-bone/90">
+            {leader.designation}
+          </p>
+        </div>
 
         {leader.paragraphs.length > 0 && (
           <div className="mt-9 space-y-6">
@@ -227,7 +228,7 @@ function LeaderBlock({ leader }: { leader: LeaderProfile }) {
                 data-reveal="up"
                 className={`text-[1.0625rem] leading-relaxed text-mist ${prose}`}
               >
-                {paragraph}
+                <Marked text={paragraph} marks={leader.marks} />
               </p>
             ))}
           </div>

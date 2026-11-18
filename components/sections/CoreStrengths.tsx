@@ -1,5 +1,6 @@
 import { coreStrengths } from "@/lib/site";
 import { Section, SectionLabel } from "@/components/ui/Section";
+import { Marked } from "@/components/ui/Marked";
 
 /**
  * Our Core Strengths — seven points supplied by BSM, reproduced verbatim.
@@ -46,7 +47,7 @@ export default function CoreStrengths() {
                       featured ? "text-bone/90" : "text-mist"
                     }`}
                   >
-                    {item.body}
+                    <Marked text={item.body} marks={["DGR-sponsored security agency"]} />
                   </p>
                 </li>
               );

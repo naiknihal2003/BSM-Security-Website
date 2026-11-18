@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Clock, Mail, MapPin, Phone } from "lucide-react";
 import { WhatsAppIcon } from "@/components/ui/WhatsAppIcon";
-import { site } from "@/lib/site";
+import { site, offices } from "@/lib/site";
 import { JsonLd, breadcrumbSchema, localBusinessSchema } from "@/lib/schema";
 import { PageHero } from "@/components/ui/PageHero";
 import { Section, SectionLabel } from "@/components/ui/Section";
@@ -138,28 +138,40 @@ export default function ContactPage() {
 
           <aside className="lg:col-span-4 lg:col-start-9">
             <div className="lg:sticky lg:top-32">
+              {/* Both offices, each labelled. Full details are on the
+                  Branch page; these are the postal addresses. */}
               <div className="border border-line bg-ink p-8" data-reveal="up">
                 <MapPin className="h-5 w-5 text-brass" strokeWidth={1.25} />
                 <h3 className="mt-6 font-mono text-[10px] uppercase tracking-[0.2em] text-dim">
-                  Office
+                  Offices
                 </h3>
-                <address className="mt-4 not-italic leading-relaxed text-mist">
-                  <Copy text={site.contact.address.street} />
-                  <br />
-                  <Copy text={site.contact.address.locality} />
-                  <br />
-                  Goa <Copy text={site.contact.address.postalCode} />
-                  <br />
-                  India
-                </address>
-                <a
-                  href={site.contact.mapsLink}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="link-wipe mt-6 inline-block font-mono text-[10px] uppercase tracking-[0.18em] text-brass"
-                >
-                  Open in Google Maps
-                </a>
+
+                {offices.map((office, i) => (
+                  <div key={office.id} className={i === 0 ? "mt-5" : "mt-7 border-t border-line-soft pt-6"}>
+                    <div className="flex items-center gap-3">
+                      <span className="h-px w-6 shrink-0 bg-brass" aria-hidden="true" />
+                      <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-brass">
+                        {office.kind}
+                      </p>
+                    </div>
+                    <address className="mt-3 not-italic leading-relaxed text-mist">
+                      {office.address}
+                    </address>
+                    {office.additionalAddress && (
+                      <address className="mt-3 not-italic leading-relaxed text-dim">
+                        {office.additionalAddress}
+                      </address>
+                    )}
+                    <a
+                      href={office.mapLink}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="link-wipe mt-4 inline-block font-mono text-[10px] uppercase tracking-[0.18em] text-brass"
+                    >
+                      Open in Google Maps
+                    </a>
+                  </div>
+                ))}
               </div>
 
               <div className="mt-px border border-t-0 border-line bg-ink p-8" data-reveal="up">

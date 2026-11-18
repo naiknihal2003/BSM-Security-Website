@@ -6,6 +6,13 @@
  * Presentation lives in app/about/page.tsx.
  */
 
+/** Phrases given the brass treatment wherever the legacy copy is rendered. */
+export const legacyMarks = [
+  "DGR-sponsored security agency",
+  "DGR-sponsored agency",
+  "DGR sponsorship tenure",
+] as const;
+
 export const legacy = {
   heading: "Our Legacy & Experience",
   paragraphs: [
@@ -31,6 +38,8 @@ export type LeaderProfile = {
   list?: string[];
   /** Closing paragraph that follows the list. */
   closing?: string;
+  /** Phrases within this profile that carry the brass treatment. */
+  marks?: readonly string[];
 };
 
 export const leaders: LeaderProfile[] = [
@@ -43,6 +52,10 @@ export const leaders: LeaderProfile[] = [
       "With over three decades of experience in the security industry, Mr. Dattatray B. Naik has been associated with security operations and agency management since 1996. His extensive professional experience encompasses the establishment, administration and management of security agencies, industrial security operations and large-scale deployment of security personnel.",
       "Throughout his career, he has been actively involved in the establishment, management and operations of various security agencies, including D.B Security Agency, Hansa Security Agency, BSM Security Agency, TA Security Agency, AG Security Agency and AC Security Agency. His professional journey has provided him with substantial exposure to managing security operations for major corporate establishments, industrial facilities and Public Sector Undertakings (PSUs).",
       "As the Principal Partner of BSM Security Agency, he oversees security operations, organisational management and service delivery. His practical industry knowledge, operational expertise and leadership capabilities play a vital role in strengthening the agency’s operational standards and ensuring dependable security services.",
+    ],
+    marks: [
+      "Mr. Dattatray B. Naik has been associated with security operations and agency management since 1996.",
+      "D.B Security Agency, Hansa Security Agency, BSM Security Agency, TA Security Agency, AG Security Agency and AC Security Agency",
     ],
   },
   {
@@ -67,6 +80,9 @@ export const leaders: LeaderProfile[] = [
     ],
     closing:
       "Through his guidance and military-inspired training approach, BSM aims to develop security personnel who demonstrate discipline, alertness, confidence, responsibility and professionalism in carrying out their duties.",
+    marks: [
+      "Lt. Col. Bhupinder Singh Malhi (Retd.) served the Indian Army for 28 years and retired with the distinguished rank of Lieutenant Colonel",
+    ],
   },
   {
     id: "bhagyashree-dattatray-naik",
@@ -78,6 +94,7 @@ export const leaders: LeaderProfile[] = [
       "Her responsibilities include maintaining financial documentation, managing accounts and payment records, coordinating administrative activities, monitoring routine financial transactions and supporting the organisation’s internal management processes.",
       "Her systematic approach, attention to detail and commitment to organisational efficiency contribute to effective administration, financial discipline and the smooth functioning of BSM Security Agency.",
     ],
+    marks: ["administrative and financial management of BSM Security Agency"],
   },
 ];
 
