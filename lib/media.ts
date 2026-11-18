@@ -100,6 +100,12 @@ export const media = {
     label: "Hotel lobby presence",
     brief: "Guest-facing security in a hospitality setting.",
   },
+  publicSectorSecurity: {
+    src: "/media/public-sector-security.jpg",
+    alt: "Two uniformed security officers on post at the gated entrance of a government building, with the national flag flying above the dome behind them",
+    label: "Public sector and government premises",
+    brief: "Supplied by BSM for the public sector, government and defence service category.",
+  },
   leaderPrincipalPartner: {
     src: "",
     alt: "",

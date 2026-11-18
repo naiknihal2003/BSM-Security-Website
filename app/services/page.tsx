@@ -30,7 +30,7 @@ export const metadata: Metadata = {
  * `src` in lib/media.ts to drop BSM's own photography in behind these frames.
  */
 const serviceShots: Record<ServiceSlug, Shot> = {
-  "public-sector-government-defence-security": media.guarding,
+  "public-sector-government-defence-security": media.publicSectorSecurity,
   "industrial-corporate-security": media.industrial,
   "security-guard-services": media.heroDeployment,
   "bouncer-personal-security-services": media.event,
