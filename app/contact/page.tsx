@@ -87,15 +87,20 @@ export default function ContactPage() {
             <p className="mt-6 font-mono text-[10px] uppercase tracking-[0.2em] text-dim">
               WhatsApp
             </p>
-            <ul className="mt-3 space-y-2">
-              {site.contact.whatsapps.map((line) => (
+            {/* One line per office, each labelled. */}
+            <ul className="mt-4 space-y-4">
+              {site.contact.whatsappByOffice.map((line) => (
                 <li key={line.href}>
+                  <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-brass">
+                    {line.label}
+                  </p>
                   <a
                     href={line.href}
                     target="_blank"
                     rel="noreferrer"
-                    className="link-wipe font-display text-lg font-semibold tracking-[-0.01em] text-bone transition-colors duration-300 hover:text-brass"
+                    className="link-wipe mt-1.5 inline-flex items-center gap-2.5 font-display text-lg font-semibold tracking-[-0.01em] text-bone transition-colors duration-300 hover:text-brass"
                   >
+                    <WhatsAppIcon className="h-4 w-4 shrink-0" />
                     {line.display}
                   </a>
                 </li>

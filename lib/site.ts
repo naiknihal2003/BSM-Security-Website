@@ -30,6 +30,11 @@ export const site = {
     emailHref: "mailto:contact@bsmsecurityagency.com",
     /* WhatsApp lines, same formatting as the phone list. */
     whatsapps: [{ display: "+91 94212 49677", href: "https://wa.me/919421249677" }],
+    /* The WhatsApp line for each office, shown separately on the contact page. */
+    whatsappByOffice: [
+      { label: "Head Office", display: "+91 94212 49677", href: "https://wa.me/919421249677" },
+      { label: "Branch Office", display: "+91 87623 26038", href: "https://wa.me/918762326038" },
+    ],
     whatsapp: "+91 94212 49677",
     whatsappHref: "https://wa.me/919421249677",
     address: {
