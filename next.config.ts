@@ -5,6 +5,8 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   images: {
     formats: ["image/avif", "image/webp"],
+    // Allowed quality values; MediaFrame requests 90 so photographs stay crisp.
+    qualities: [75, 90],
     // Drop real photography into /public/media, or point these at a CDN.
     remotePatterns: [{ protocol: "https", hostname: "images.unsplash.com" }],
   },

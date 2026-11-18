@@ -58,6 +58,9 @@ export function MediaFrame({
               fill
               priority={priority}
               sizes={sizes}
+              /* The optimiser defaults to 75, which visibly softens
+                 photographs behind the brass frames. */
+              quality={90}
               className="object-cover"
             />
           </div>
