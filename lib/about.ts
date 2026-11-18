@@ -11,6 +11,7 @@ export const legacyMarks = [
   "DGR-sponsored security agency",
   "DGR-sponsored agency",
   "DGR sponsorship tenure",
+  "Public Sector Undertakings (PSUs), government establishments and major industries",
 ] as const;
 
 export const legacy = {
