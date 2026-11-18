@@ -447,8 +447,11 @@ export const offices: Office[] = [
         role: "Branch In-Charge – Panjim Operations",
         responsibilities:
           "Responsible for branch administration, security operations, manpower coordination, client relations and operational supervision.",
-        phone: { display: "+91 87623 26038", href: "tel:+918762326038" },
-        email: { display: "bsmgoa.dgr@gmail.com", href: "mailto:bsmgoa.dgr@gmail.com" },
+      },
+      {
+        name: "Mrs. Pranali V Shet",
+        role: "She heads Administration & Billing department - Panjim",
+        phone: { display: "+91 91086 63502", href: "tel:+919108663502" },
       },
     ],
   },
