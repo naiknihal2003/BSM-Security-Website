@@ -69,7 +69,7 @@ export function MediaFrame({
               /* The optimiser defaults to 75, which visibly softens
                  photographs behind the brass frames. */
               quality={90}
-              className="object-cover"
+              className={shot?.ratio ? "object-contain" : "object-cover"}
             />
           </div>
         ) : (
