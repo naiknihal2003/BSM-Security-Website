@@ -467,7 +467,7 @@ export const offices: Office[] = [
   {
     id: "branch-office-goa",
     index: "02",
-    kind: "Branch Office – Goa",
+    kind: "Branch Office",
     name: "Branch Office — Panjim, Old Goa",
     addressLabel: "Address",
     address:
