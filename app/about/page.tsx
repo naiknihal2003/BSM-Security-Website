@@ -238,27 +238,36 @@ function LeaderBlock({ leader }: { leader: LeaderProfile }) {
           </p>
         )}
 
-        {leader.list && (
-          <ul className="mt-8 grid gap-px border border-line bg-line" data-stagger>
-            {leader.list.map((item) => (
-              <li
-                key={item}
-                data-stagger-item
-                className="flex items-baseline gap-4 bg-ink px-6 py-5"
-              >
-                <span className="mt-2 h-1 w-1 shrink-0 bg-brass" aria-hidden="true" />
-                <span className="text-[1.0625rem] leading-relaxed text-mist">{item}</span>
-              </li>
-            ))}
-          </ul>
-        )}
-
-        {leader.closing && (
-          <p data-reveal="up" className={`mt-8 text-[1.0625rem] leading-relaxed text-mist ${prose}`}>
-            {leader.closing}
-          </p>
-        )}
       </div>
+
+      {/* The focus areas run the full width of the block — under the
+          photograph and across the text column — as two rows of four. */}
+      {leader.list && (
+        <ul
+          className="grid gap-px border border-line bg-line sm:grid-cols-2 lg:col-span-12 lg:grid-cols-4"
+          data-stagger
+        >
+          {leader.list.map((item) => (
+            <li
+              key={item}
+              data-stagger-item
+              className="flex items-baseline gap-3 bg-ink px-6 py-6"
+            >
+              <span className="mt-2 h-1 w-1 shrink-0 bg-brass" aria-hidden="true" />
+              <span className="text-[0.95rem] leading-relaxed text-mist">{item}</span>
+            </li>
+          ))}
+        </ul>
+      )}
+
+      {leader.closing && (
+        <p
+          data-reveal="up"
+          className={`text-[1.0625rem] leading-relaxed text-mist lg:col-span-12 ${prose}`}
+        >
+          {leader.closing}
+        </p>
+      )}
     </article>
   );
 }
