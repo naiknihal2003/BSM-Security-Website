@@ -100,6 +100,24 @@ export const media = {
     label: "Hotel lobby presence",
     brief: "Guest-facing security in a hospitality setting.",
   },
+  leaderPrincipalPartner: {
+    src: "",
+    alt: "",
+    label: "Mr. Dattatray B. Naik",
+    brief: "Awaiting BSM's photograph. Drop the file into /public/media and set `src`.",
+  },
+  leaderTrainingPartner: {
+    src: "",
+    alt: "",
+    label: "Lt. Col. Bhupinder Singh Malhi (Retd.)",
+    brief: "Awaiting BSM's photograph. Drop the file into /public/media and set `src`.",
+  },
+  leaderAdminPartner: {
+    src: "",
+    alt: "",
+    label: "Bhagyashree Dattatray Naik",
+    brief: "Awaiting BSM's photograph. Drop the file into /public/media and set `src`.",
+  },
   headOffice: {
     src: "",
     alt: "",
