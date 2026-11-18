@@ -77,6 +77,7 @@ export const leaders: LeaderProfile[] = [
       "Vigilance, patrolling and surveillance techniques.",
       "Fire safety awareness and evacuation procedures.",
       "Supervisory skills and effective personnel management.",
+      "Behavioural training, situational awareness and threat response.",
     ],
     closing:
       "Through his guidance and military-inspired training approach, BSM aims to develop security personnel who demonstrate discipline, alertness, confidence, responsibility and professionalism in carrying out their duties.",

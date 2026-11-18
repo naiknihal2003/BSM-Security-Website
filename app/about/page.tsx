@@ -71,22 +71,15 @@ export default function AboutPage() {
             opening paragraph on the left, the rest of the account on the
             right. The measure stays around 60 characters, which justifies
             without opening gaps. */}
-        {/* Editorial opening: the first paragraph runs the full content width
-            under the heading, the remaining two sit side by side beneath it.
-            No scroll-reveal here — this block is above the fold, and a reveal
-            whose ScrollTrigger has not fired would leave it invisible. */}
-        <div className="mt-16">
-          <p className={`text-[1.0625rem] leading-[1.75] text-mist ${prose}`}>
-            <Marked text={legacy.paragraphs[0]} marks={legacyMarks} />
-          </p>
-
-          <div className="mt-8 grid gap-x-14 gap-y-8 lg:grid-cols-2">
-            {legacy.paragraphs.slice(1).map((paragraph, i) => (
-              <p key={i} className={`text-[1.0625rem] leading-[1.75] text-mist ${prose}`}>
-                <Marked text={paragraph} marks={legacyMarks} />
-              </p>
-            ))}
-          </div>
+        {/* A single centred editorial column. No scroll-reveal here — this
+            block is above the fold, and a reveal whose ScrollTrigger has not
+            fired would leave it invisible. */}
+        <div className="mx-auto mt-16 w-full max-w-[1150px] space-y-8">
+          {legacy.paragraphs.map((paragraph, i) => (
+            <p key={i} className={`text-[1.0625rem] leading-[1.75] text-mist ${prose}`}>
+              <Marked text={paragraph} marks={legacyMarks} />
+            </p>
+          ))}
         </div>
       </PageHero>
 

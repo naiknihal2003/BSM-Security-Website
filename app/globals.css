@@ -226,9 +226,12 @@
   clip-path: inset(100% 0 0 0);
 }
 
-/* SplitText writes these wrappers; the mask is what the lines rise out of. */
+/* SplitText writes these wrappers; the mask is what the lines rise out of.
+   The mask clips to the line box, and the display face is set on a tight
+   line-height — without this the descenders (g, y, p) are cut off. */
 .split-line {
   will-change: transform;
+  padding-bottom: 0.14em;
 }
 
 @media (prefers-reduced-motion: reduce) {
