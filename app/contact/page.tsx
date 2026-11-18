@@ -34,6 +34,12 @@ const officeIcons = {
   "branch-office-goa": MapPin,
 } as const;
 
+/** The same marks, keyed by the label used on the WhatsApp lines. */
+const whatsappIcons = {
+  "Head Office": Building2,
+  "Branch Office": MapPin,
+} as const;
+
 export default function ContactPage() {
   return (
     <>
@@ -89,22 +95,27 @@ export default function ContactPage() {
             </p>
             {/* One line per office, each labelled. */}
             <ul className="mt-4 space-y-4">
-              {site.contact.whatsappByOffice.map((line) => (
-                <li key={line.href}>
-                  <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-brass">
-                    {line.label}
-                  </p>
-                  <a
-                    href={line.href}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="link-wipe mt-1.5 inline-flex items-center gap-2.5 font-display text-lg font-semibold tracking-[-0.01em] text-bone transition-colors duration-300 hover:text-brass"
-                  >
-                    <WhatsAppIcon className="h-4 w-4 shrink-0" />
-                    {line.display}
-                  </a>
-                </li>
-              ))}
+              {site.contact.whatsappByOffice.map((line) => {
+                const Icon = whatsappIcons[line.label as keyof typeof whatsappIcons];
+                return (
+                  <li key={line.href}>
+                    <div className="flex items-center gap-3">
+                      {Icon && <Icon className="h-5 w-5 shrink-0 text-brass" strokeWidth={1.5} />}
+                      <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-brass">
+                        {line.label}
+                      </p>
+                    </div>
+                    <a
+                      href={line.href}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="link-wipe mt-2 inline-block font-display text-lg font-semibold tracking-[-0.01em] text-bone transition-colors duration-300 hover:text-brass"
+                    >
+                      {line.display}
+                    </a>
+                  </li>
+                );
+              })}
             </ul>
             <p className="mt-4 text-sm text-mist">
               Contact us on WhatsApp for further enquiries and assistance.
