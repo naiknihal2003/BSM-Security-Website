@@ -54,10 +54,10 @@ export const site = {
   nav: [
     { label: "Home", href: "/" },
     { label: "About Us", href: "/about" },
+    { label: "Branch", href: "/branch" },
     { label: "Clients", href: "/clients" },
     { label: "Services", href: "/services" },
     { label: "Gallery", href: "/gallery" },
-    { label: "Branch", href: "/branch" },
     { label: "Contact", href: "/contact" },
   ],
 

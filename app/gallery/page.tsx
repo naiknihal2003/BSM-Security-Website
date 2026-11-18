@@ -41,7 +41,7 @@ export default function GalleryPage() {
 
       <PageHero
         eyebrow="Gallery"
-        index="04"
+        index="05"
         breadcrumb={[
           { label: "Home", href: "/" },
           { label: "Gallery", href: "/gallery" },
