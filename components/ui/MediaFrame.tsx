@@ -41,6 +41,11 @@ export function MediaFrame({
   const alt = altProp ?? shot?.alt;
   const label = labelProp ?? shot?.label ?? "Image";
   const note = noteProp ?? shot?.brief;
+  /* A shot that declares its own ratio is shown whole, never cropped. */
+  const frameRatio = shot?.ratio ?? ratio;
+  /* The parallax drift needs the image oversized; without it the frame
+     would crop ~10% off every edge for no reason. */
+  const drifts = parallax > 0;
 
   return (
     <figure className={`group relative ${className}`} data-parallax-scope>
@@ -48,10 +53,13 @@ export function MediaFrame({
         data-clip
         /* Subtle brass keyline on every photograph — one hairline, no glow. */
         className="relative w-full overflow-hidden border-2 border-brass/55 bg-surface transition-colors duration-500 group-hover:border-brass/80"
-        style={{ aspectRatio: ratio }}
+        style={{ aspectRatio: frameRatio }}
       >
         {src ? (
-          <div className="absolute inset-[-10%]" data-parallax={parallax}>
+          <div
+            className={drifts ? "absolute inset-[-10%]" : "absolute inset-0"}
+            data-parallax={drifts ? parallax : undefined}
+          >
             <Image
               src={src}
               alt={alt ?? label}

@@ -146,7 +146,7 @@ export default function ServicesPage() {
                 <MediaFrame
                   shot={shot}
                   figure={`Fig. ${service.index} / ${service.title}`}
-                  ratio="4 / 5"
+                  parallax={0}
                   sizes="(max-width: 1024px) 100vw, 35vw"
                 />
               </div>
