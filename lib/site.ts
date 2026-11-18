@@ -39,10 +39,9 @@ export const site = {
       postalCode: "403601",
       country: "India",
     },
-    hours: [
-      { days: "Monday – Saturday", time: "[OPENING HOURS]" },
-      { days: "Sunday", time: "[OPENING HOURS]" },
-    ],
+    hours: [{ days: "Monday – Saturday", time: "9:00 AM – 5:30 PM" }],
+    /* Service availability is separate from when the office is open. */
+    servicesAvailable: "24 × 7",
     mapsLink:
       "https://www.google.com/maps/search/?api=1&query=Kurtarkar+Classic+A2,+Shop+no.+G-7,+Opposite+Lawande+Hospital,+Aquem,+Margao,+Goa+403601",
   },
@@ -430,12 +429,14 @@ export const offices: Office[] = [
     id: "branch-office-goa",
     index: "02",
     kind: "Branch Office – Goa",
-    name: "Branch Office — Chimbel, Old Goa",
-    address: "Kadamba Society, Chimbel, Old Goa – 403006.",
+    name: "Branch Office — Chimbel, Goa",
+    address:
+      "House 3, Kadamba Govt Housing Society, National Hwy 4A Bypass Rd, Chimbel, Goa – 403006.",
     mapEmbed:
-      "https://www.google.com/maps?q=Kadamba+Society,+Chimbel,+Old+Goa+403006&output=embed",
-    mapLink: "https://maps.app.goo.gl/63YNGea5Lz9BS3yAA?g_st=iw",
-    mapTitle: "Map showing the BSM Branch Office at Kadamba Society, Chimbel, Old Goa",
+      "https://www.google.com/maps?q=House+3,+Kadamba+Govt+Housing+Society,+National+Hwy+4A+Bypass+Rd,+Chimbel,+Goa+403006&output=embed",
+    mapLink:
+      "https://www.google.com/maps/search/?api=1&query=House+3,+Kadamba+Govt+Housing+Society,+National+Hwy+4A+Bypass+Rd,+Chimbel,+Goa+403006",
+    mapTitle: "Map showing the BSM Branch Office at Kadamba Govt Housing Society, Chimbel, Goa",
     phones: [{ display: "+91 87623 26038", href: "tel:+918762326038" }],
     whatsapps: [{ display: "+91 87623 26038", href: "https://wa.me/918762326038" }],
     email: { display: "bsmgoa.dgr@gmail.com", href: "mailto:bsmgoa.dgr@gmail.com" },

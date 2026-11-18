@@ -1,11 +1,10 @@
 import type { Metadata } from "next";
-import { Clock, Mail, MapPin, Phone } from "lucide-react";
+import { Building2, Clock, Mail, MapPin, Phone, ShieldCheck } from "lucide-react";
 import { WhatsAppIcon } from "@/components/ui/WhatsAppIcon";
 import { site, offices } from "@/lib/site";
 import { JsonLd, breadcrumbSchema, localBusinessSchema } from "@/lib/schema";
 import { PageHero } from "@/components/ui/PageHero";
 import { Section, SectionLabel } from "@/components/ui/Section";
-import { Copy } from "@/components/ui/Placeholder";
 import EnquiryForm from "@/components/sections/EnquiryForm";
 import RevealEngine from "@/components/layout/RevealEngine";
 
@@ -28,6 +27,12 @@ const emailChannel = {
   href: site.contact.emailHref,
   note: "For written scopes, tenders and documentation.",
 };
+
+/** A fitting mark for each office. */
+const officeIcons = {
+  "head-office": Building2,
+  "branch-office-goa": MapPin,
+} as const;
 
 export default function ContactPage() {
   return (
@@ -138,57 +143,72 @@ export default function ContactPage() {
 
           <aside className="lg:col-span-4 lg:col-start-9">
             <div className="lg:sticky lg:top-32">
-              {/* Both offices, each labelled. Full details are on the
-                  Branch page; these are the postal addresses. */}
+              {/* Both offices, each with its own icon. Full details — and
+                  the Head Office's secondary address — are on the Branch
+                  page; these are the primary postal addresses. */}
               <div className="border border-line bg-ink p-8" data-reveal="up">
-                <MapPin className="h-5 w-5 text-brass" strokeWidth={1.25} />
-                <h3 className="mt-6 font-mono text-[10px] uppercase tracking-[0.2em] text-dim">
+                <h3 className="font-mono text-[10px] uppercase tracking-[0.2em] text-dim">
                   Offices
                 </h3>
 
-                {offices.map((office, i) => (
-                  <div key={office.id} className={i === 0 ? "mt-5" : "mt-7 border-t border-line-soft pt-6"}>
-                    <div className="flex items-center gap-3">
-                      <span className="h-px w-6 shrink-0 bg-brass" aria-hidden="true" />
-                      <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-brass">
-                        {office.kind}
-                      </p>
-                    </div>
-                    <address className="mt-3 not-italic leading-relaxed text-mist">
-                      {office.address}
-                    </address>
-                    {office.additionalAddress && (
-                      <address className="mt-3 not-italic leading-relaxed text-dim">
-                        {office.additionalAddress}
-                      </address>
-                    )}
-                    <a
-                      href={office.mapLink}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="link-wipe mt-4 inline-block font-mono text-[10px] uppercase tracking-[0.18em] text-brass"
+                {offices.map((office, i) => {
+                  const Icon = officeIcons[office.id as keyof typeof officeIcons] ?? MapPin;
+                  return (
+                    <div
+                      key={office.id}
+                      className={i === 0 ? "mt-6" : "mt-7 border-t border-line-soft pt-6"}
                     >
-                      Open in Google Maps
-                    </a>
-                  </div>
-                ))}
+                      <div className="flex items-center gap-3">
+                        <Icon className="h-5 w-5 shrink-0 text-brass" strokeWidth={1.5} />
+                        <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-brass">
+                          {office.kind}
+                        </p>
+                      </div>
+                      <address className="mt-3 not-italic leading-relaxed text-mist">
+                        {office.address}
+                      </address>
+                      <a
+                        href={office.mapLink}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="link-wipe mt-4 inline-block font-mono text-[10px] uppercase tracking-[0.18em] text-brass"
+                      >
+                        Open in Google Maps
+                      </a>
+                    </div>
+                  );
+                })}
               </div>
 
               <div className="mt-px border border-t-0 border-line bg-ink p-8" data-reveal="up">
-                <Clock className="h-5 w-5 text-brass" strokeWidth={1.25} />
-                <h3 className="mt-6 font-mono text-[10px] uppercase tracking-[0.2em] text-dim">
-                  Business hours
-                </h3>
-                <dl className="mt-4 space-y-3">
+                <div className="flex items-center gap-3">
+                  <Clock className="h-5 w-5 shrink-0 text-brass" strokeWidth={1.5} />
+                  <h3 className="font-mono text-[10px] uppercase tracking-[0.2em] text-dim">
+                    Office hours
+                  </h3>
+                </div>
+                <dl className="mt-5 space-y-3">
                   {site.contact.hours.map((row) => (
-                    <div key={row.days} className="flex items-baseline justify-between gap-4 border-b border-line-soft pb-3 text-sm">
+                    <div key={row.days} className="text-sm">
                       <dt className="text-mist">{row.days}</dt>
-                      <dd className="text-right">
-                        <Copy text={row.time} />
+                      <dd className="mt-1 font-display text-lg font-semibold tracking-[-0.01em] text-bone">
+                        {row.time}
                       </dd>
                     </div>
                   ))}
                 </dl>
+
+                <div className="mt-7 border-t border-line-soft pt-6">
+                  <div className="flex items-center gap-3">
+                    <ShieldCheck className="h-5 w-5 shrink-0 text-brass" strokeWidth={1.5} />
+                    <h3 className="font-mono text-[10px] uppercase tracking-[0.2em] text-dim">
+                      Services available
+                    </h3>
+                  </div>
+                  <p className="mt-4 font-display text-lg font-semibold tracking-[-0.01em] text-bone">
+                    {site.contact.servicesAvailable}
+                  </p>
+                </div>
               </div>
             </div>
           </aside>

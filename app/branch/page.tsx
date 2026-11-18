@@ -11,12 +11,12 @@ import RevealEngine from "@/components/layout/RevealEngine";
 export const metadata: Metadata = {
   title: "Our Offices — Head Office, Margao & Branch Office, Goa",
   description:
-    "BSM Security Agency offices in Goa: the Head Office at Aquem, Margao and the Branch Office at Kadamba Society, Chimbel, Old Goa — addresses, contact numbers, email and leadership.",
+    "BSM Security Agency offices in Goa: the Head Office at Aquem, Margao and the Branch Office at Kadamba Govt Housing Society, Chimbel — addresses, contact numbers, email and leadership.",
   alternates: { canonical: "/branch" },
   openGraph: {
     title: "Our Offices | BSM Security, Goa",
     description:
-      "Head Office at Aquem, Margao and Branch Office at Chimbel, Old Goa — addresses, contacts and leadership.",
+      "Head Office at Aquem, Margao and Branch Office at Chimbel, Goa — addresses, contacts and leadership.",
     url: `${site.url}/branch`,
   },
 };

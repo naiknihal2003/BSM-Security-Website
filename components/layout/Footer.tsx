@@ -1,6 +1,6 @@
 import { Mail, MapPin, Phone } from "lucide-react";
 import { WhatsAppIcon } from "@/components/ui/WhatsAppIcon";
-import { site, services } from "@/lib/site";
+import { site, services, offices } from "@/lib/site";
 import { TransitionLink } from "./PageTransition";
 import { Copy } from "@/components/ui/Placeholder";
 import { Logo } from "@/components/ui/Logo";
@@ -103,8 +103,8 @@ export default function Footer() {
               </li>
               <li className="flex gap-3">
                 <Mail className="mt-0.5 h-4 w-4 shrink-0 text-brass" strokeWidth={1.5} />
-                <a href={site.contact.emailHref} className="text-mist hover:text-bone">
-                  {site.contact.email}
+                <a href={offices[0].email.href} className="text-mist hover:text-bone">
+                  {offices[0].email.display}
                 </a>
               </li>
               <li className="flex gap-3">
@@ -142,7 +142,7 @@ export default function Footer() {
           <p>
             © 2013 {site.legalName}. All rights reserved.
           </p>
-          <p>Goa · India</p>
+          <p>India</p>
         </div>
 
         <p className="mt-6 max-w-3xl border-l border-brass/40 pl-4 font-mono text-[10px] leading-relaxed tracking-[0.08em] text-dim">

@@ -128,7 +128,7 @@ export const media = {
   branchOfficeGoa: {
     src: "",
     alt: "",
-    label: "Branch Office — Chimbel, Old Goa",
+    label: "Branch Office — Chimbel, Goa",
     brief:
       "Awaiting BSM's photograph of the Goa branch office. Drop the file into /public/media and set `src`.",
   },
