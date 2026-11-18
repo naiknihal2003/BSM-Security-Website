@@ -6,16 +6,34 @@ import { gsap, ScrollTrigger, prefersReducedMotion } from "@/lib/gsap";
 
 let lenisInstance: Lenis | null = null;
 
-/** Shared accessor so other components (Back to Top, anchors) can drive scroll. */
-export function scrollToTarget(target: number | string) {
+/** Clearance for the fixed header, so an anchored heading is not hidden by it. */
+export function headerOffset() {
+  if (typeof window === "undefined") return 0;
+  return window.innerWidth >= 768 ? 152 : 136;
+}
+
+/**
+ * Shared accessor so other components (Back to Top, anchors) can drive scroll.
+ * Anything that moves the page must go through here: Lenis keeps its own
+ * scroll target and will pull the page back to it, so a native scrollIntoView
+ * gets undone and the visitor lands somewhere else entirely.
+ */
+export function scrollToTarget(
+  target: number | string,
+  { offset = 0, immediate = false }: { offset?: number; immediate?: boolean } = {},
+) {
   if (lenisInstance) {
-    lenisInstance.scrollTo(target, { duration: 1.2 });
+    lenisInstance.scrollTo(target, { duration: 1.2, offset, immediate });
     return;
   }
   if (typeof window === "undefined") return;
   const el = typeof target === "string" ? document.querySelector(target) : null;
-  const top = typeof target === "number" ? target : el ? el.getBoundingClientRect().top + window.scrollY : 0;
-  window.scrollTo({ top, behavior: prefersReducedMotion() ? "auto" : "smooth" });
+  const base =
+    typeof target === "number" ? target : el ? el.getBoundingClientRect().top + window.scrollY : 0;
+  window.scrollTo({
+    top: base + offset,
+    behavior: immediate || prefersReducedMotion() ? "auto" : "smooth",
+  });
 }
 
 /** Freezes scrolling while an overlay (the mobile menu) owns the screen. */

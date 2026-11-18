@@ -13,7 +13,7 @@ import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import { gsap, prefersReducedMotion } from "@/lib/gsap";
 import { Logo } from "@/components/ui/Logo";
-import { jumpToTop, scrollToTarget } from "./SmoothScroll";
+import { headerOffset, jumpToTop, scrollToTarget } from "./SmoothScroll";
 
 type TransitionContextValue = { navigate: (href: string) => void };
 
@@ -54,7 +54,7 @@ export function TransitionProvider({ children }: { children: ReactNode }) {
       const targetPath = rawPath || pathname;
       if (targetPath === pathname) {
         if (hash) {
-          scrollToTarget(`#${hash}`);
+          scrollToTarget(`#${hash}`, { offset: -headerOffset() });
           window.history.replaceState(null, "", `#${hash}`);
         } else {
           jumpToTop();
@@ -95,10 +95,18 @@ export function TransitionProvider({ children }: { children: ReactNode }) {
     const el = overlay.current;
 
     // Honour a hash in the destination rather than always landing at the top.
+    // This has to go through Lenis: a native scrollIntoView leaves Lenis
+    // holding its old target and it drags the page straight back, which is
+    // how every anchored link used to end up at the first section.
     const hash = window.location.hash;
     const anchor = hash ? document.querySelector(hash) : null;
+    let settle = 0;
     if (anchor) {
-      anchor.scrollIntoView({ block: "start", behavior: "auto" });
+      const land = () => scrollToTarget(hash, { offset: -headerOffset(), immediate: true });
+      land();
+      // Images and webfonts change section heights after the first paint, so
+      // correct the landing once the page has settled.
+      settle = window.setTimeout(land, 320);
     } else {
       jumpToTop();
     }
@@ -130,6 +138,7 @@ export function TransitionProvider({ children }: { children: ReactNode }) {
       );
     return () => {
       tl.kill();
+      if (settle) window.clearTimeout(settle);
     };
   }, [pathname, panels]);
 
