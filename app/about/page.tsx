@@ -71,22 +71,17 @@ export default function AboutPage() {
             opening paragraph on the left, the rest of the account on the
             right. The measure stays around 60 characters, which justifies
             without opening gaps. */}
+        {/* No scroll-reveal on this block. It sits in the masthead, above the
+            fold: a reveal whose ScrollTrigger has not fired leaves the opening
+            paragraph at opacity 0, which reads as a missing column. */}
         <div className="mt-16 grid gap-x-14 gap-y-8 lg:grid-cols-2">
-          <p
-            data-reveal="up"
-            className={`text-[1.0625rem] leading-[1.75] text-mist ${prose}`}
-          >
+          <p className={`text-[1.0625rem] leading-[1.75] text-mist ${prose}`}>
             <Marked text={legacy.paragraphs[0]} marks={legacyMarks} />
           </p>
 
           <div className="space-y-6">
             {legacy.paragraphs.slice(1).map((paragraph, i) => (
-              <p
-                key={i}
-                data-reveal="up"
-                data-delay={((i + 1) * 0.06).toFixed(2)}
-                className={`text-[1.0625rem] leading-[1.75] text-mist ${prose}`}
-              >
+              <p key={i} className={`text-[1.0625rem] leading-[1.75] text-mist ${prose}`}>
                 <Marked text={paragraph} marks={legacyMarks} />
               </p>
             ))}
