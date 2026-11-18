@@ -180,7 +180,10 @@ export default function ContactPage() {
                           {office.kind}
                         </p>
                       </div>
-                      <address className="mt-3 not-italic leading-relaxed text-mist">
+                      <p className="mt-4 font-mono text-[10px] uppercase tracking-[0.18em] text-dim">
+                        {office.addressLabel}
+                      </p>
+                      <address className="mt-2 not-italic leading-relaxed text-mist">
                         {office.address}
                       </address>
                       <a

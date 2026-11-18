@@ -371,6 +371,8 @@ export type Office = {
   index: string;
   kind: string;
   name: string;
+  /** How the primary address is designated on the page. */
+  addressLabel: string;
   /** The mapped address. */
   address: string;
   /** Shown as text only — never a second map pin for this office. */
@@ -393,14 +395,15 @@ export const offices: Office[] = [
     index: "01",
     kind: "Head Office",
     name: "Head Office — Margao",
+    addressLabel: "Registered address",
     address:
       "Kurtarkar Classic A2, Shop no. G-7, Opposite Lawande Hospital, Aquem, Margao, Goa – 403601.",
     additionalAddress:
       "42/D/7, God's Gift Residency, Plot no. 15, Dicarpale Davorlim, Navelim, Salcete, Goa.",
     mapEmbed:
       "https://www.google.com/maps?q=Kurtarkar+Classic+A2,+Shop+no.+G-7,+Opposite+Lawande+Hospital,+Aquem,+Margao,+Goa+403601&output=embed",
-    mapLink:
-      "https://www.google.com/maps/search/?api=1&query=Kurtarkar+Classic+A2,+Shop+no.+G-7,+Opposite+Lawande+Hospital,+Aquem,+Margao,+Goa+403601",
+    /* BSM's own Google Maps link for the registered address. */
+    mapLink: "https://share.google/qjQSkfbcxMmjiws4j",
     mapTitle: "Map showing the BSM Head Office at Aquem, Margao, Goa",
     phones: [
       { display: "+91 94212 49677", href: "tel:+919421249677" },
@@ -435,6 +438,7 @@ export const offices: Office[] = [
     index: "02",
     kind: "Branch Office – Goa",
     name: "Branch Office — Panjim, Old Goa",
+    addressLabel: "Address",
     address:
       "House 3, Kadamba Govt Housing Society, National Hwy 4A Bypass Rd, Chimbel, Goa – 403006.",
     mapEmbed:

@@ -91,7 +91,7 @@ function OfficeBlock({
               <div className="flex items-center gap-3">
                 <MapPin className="h-4 w-4 shrink-0 text-brass" strokeWidth={1.5} />
                 <h3 className="font-mono text-[10px] uppercase tracking-[0.2em] text-dim">
-                  Address
+                  {office.addressLabel}
                 </h3>
               </div>
               <address className="mt-4 not-italic leading-relaxed text-mist">
