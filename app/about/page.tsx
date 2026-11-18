@@ -27,6 +27,12 @@ export const metadata: Metadata = {
   },
 };
 
+/**
+ * Body copy on this page is justified. Hyphenation is enabled with it —
+ * justified text in a narrow column pulls words apart without it.
+ */
+const prose = "text-justify hyphens-auto";
+
 /** One frame per leader, in profile order. */
 const leaderShots = {
   "dattatray-b-naik": media.leaderPrincipalPartner,
@@ -63,7 +69,7 @@ export default function AboutPage() {
             without one side reading larger than the other. */}
         <div className="mt-16 grid gap-10 lg:grid-cols-12 lg:gap-12">
           <div className="lg:col-span-5">
-            <p data-reveal="up" className="text-lead leading-relaxed text-mist">
+            <p data-reveal="up" className={`text-lead leading-relaxed text-mist ${prose}`}>
               {legacy.paragraphs[0]}
             </p>
           </div>
@@ -74,7 +80,7 @@ export default function AboutPage() {
                 key={i}
                 data-reveal="up"
                 data-delay={((i + 1) * 0.06).toFixed(2)}
-                className="text-lead leading-relaxed text-mist"
+                className={`text-lead leading-relaxed text-mist ${prose}`}
               >
                 {paragraph}
               </p>
@@ -93,7 +99,7 @@ export default function AboutPage() {
             </h2>
           </div>
           <div className="lg:col-span-6 lg:col-start-7">
-            <p data-reveal="up" className="text-lead leading-relaxed text-mist">
+            <p data-reveal="up" className={`text-lead leading-relaxed text-mist ${prose}`}>
               {leadershipIntro.body}
             </p>
           </div>
@@ -122,7 +128,7 @@ export default function AboutPage() {
                   key={i}
                   data-reveal="up"
                   data-delay={(i * 0.06).toFixed(2)}
-                  className="text-lead leading-relaxed text-mist"
+                  className={`text-lead leading-relaxed text-mist ${prose}`}
                 >
                   {paragraph}
                 </p>
@@ -219,7 +225,7 @@ function LeaderBlock({ leader }: { leader: LeaderProfile }) {
               <p
                 key={i}
                 data-reveal="up"
-                className="text-[1.0625rem] leading-relaxed text-mist"
+                className={`text-[1.0625rem] leading-relaxed text-mist ${prose}`}
               >
                 {paragraph}
               </p>
@@ -228,7 +234,7 @@ function LeaderBlock({ leader }: { leader: LeaderProfile }) {
         )}
 
         {leader.listIntro && (
-          <p data-reveal="up" className="mt-8 text-[1.0625rem] leading-relaxed text-mist">
+          <p data-reveal="up" className={`mt-8 text-[1.0625rem] leading-relaxed text-mist ${prose}`}>
             {leader.listIntro}
           </p>
         )}
@@ -249,7 +255,7 @@ function LeaderBlock({ leader }: { leader: LeaderProfile }) {
         )}
 
         {leader.closing && (
-          <p data-reveal="up" className="mt-8 text-[1.0625rem] leading-relaxed text-mist">
+          <p data-reveal="up" className={`mt-8 text-[1.0625rem] leading-relaxed text-mist ${prose}`}>
             {leader.closing}
           </p>
         )}
