@@ -225,8 +225,14 @@ function ClientsMenu({ onNavigate }: MenuProps) {
       cta="View all clients"
       onNavigate={onNavigate}
     >
-      {/* Four blocks that fill the band edge to edge and top to bottom. */}
-      <div className="grid h-full grid-cols-4 gap-2">
+      {/* The blocks fill the band edge to edge and top to bottom, however
+          many there are — the column count follows the list rather than
+          assuming four, which left half a row empty once two of the page's
+          sections were removed. */}
+      <div
+        className="grid h-full gap-2"
+        style={{ gridTemplateColumns: `repeat(${sections.length}, minmax(0, 1fr))` }}
+      >
         {sections.map((s, i) => {
           const feature = i === sections.length - 1;
           return (

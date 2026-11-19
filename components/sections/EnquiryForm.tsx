@@ -1,8 +1,9 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AlertTriangle, Mail } from "lucide-react";
-import { site } from "@/lib/site";
+import { services, site, type ServiceSlug } from "@/lib/site";
+import { serviceShortLabels } from "@/lib/navigation";
 
 type Status = "idle" | "composed";
 
@@ -13,6 +14,15 @@ export function isIndianMobile(digits: string) {
   return /^[6-9]\d{9}$/.test(digits);
 }
 
+/**
+ * What the enquiry is about. "General Enquiry" is the default and the first
+ * option, so the form never pre-selects a service the visitor did not ask
+ * for. The rest are the service categories, under the same short names the
+ * menus and the footer use, so BSM reads a familiar label in the message.
+ */
+const GENERAL = "General Enquiry";
+const serviceOptions = [GENERAL, ...services.map((s) => serviceShortLabels[s.slug])];
+
 const fieldCls =
   "w-full rounded-2xl border border-line bg-void px-4 py-3.5 text-sm pointer-coarse:text-base text-bone placeholder:text-dim focus:border-brass focus:shadow-[0_0_0_4px_rgba(200,164,92,0.12)] focus:outline-none focus:ring-0 transition-[border-color,box-shadow] duration-300";
 const labelCls = "block font-mono text-[10px] uppercase tracking-[0.2em] text-dim";
@@ -22,13 +32,16 @@ const labelCls = "block font-mono text-[10px] uppercase tracking-[0.2em] text-di
  * filled in; anything they left blank stays as an empty line for them to
  * complete in their mail window before sending.
  */
-function enquiryEmail(phone: string, message: string) {
-  const subject = `Security enquiry — ${phone}`;
+function enquiryEmail(phone: string, message: string, service: string) {
+  const subject = `${service} — ${phone}`;
   const body = [
     "Dear BSM Security Agency,",
     "",
-    "I would like to enquire about your security services.",
+    service === GENERAL
+      ? "I would like to make a general enquiry about your services."
+      : `I would like to enquire about your ${service} services.`,
     "",
+    `Service: ${service}`,
     `Contact number: ${phone}`,
     "",
     "Enquiry:",
@@ -67,9 +80,24 @@ export default function EnquiryForm({
   children?: React.ReactNode;
 }) {
   const phoneRef = useRef<HTMLInputElement>(null);
+  const serviceRef = useRef<HTMLSelectElement>(null);
   const [status, setStatus] = useState<Status>("idle");
   const [phoneError, setPhoneError] = useState("");
   const [blocked, setBlocked] = useState("");
+
+  /**
+   * Arriving from "Enquire about this service" carries the category in the
+   * query — /contact?service=<slug>#enquiry — so the form opens on it. Read
+   * from the URL directly rather than through useSearchParams, which would
+   * put this static page behind a Suspense boundary for a value that only
+   * matters once the page is interactive. An unknown slug is ignored and the
+   * form stays on General Enquiry.
+   */
+  useEffect(() => {
+    const slug = new URLSearchParams(window.location.search).get("service");
+    const label = slug ? serviceShortLabels[slug as ServiceSlug] : undefined;
+    if (label && serviceRef.current) serviceRef.current.value = label;
+  }, []);
 
   /** Reads and validates the two fields; null when the number is not usable. */
   function read(form: HTMLFormElement) {
@@ -89,7 +117,7 @@ export default function EnquiryForm({
 
     setPhoneError("");
     setBlocked("");
-    return enquiryEmail(`+91${digits}`, data.message ?? "");
+    return enquiryEmail(`+91${digits}`, data.message ?? "", data.service || GENERAL);
   }
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -205,6 +233,29 @@ export default function EnquiryForm({
             10-digit Indian mobile number
           </p>
         )}
+      </div>
+
+      <div className={rowClass}>
+        <label htmlFor={`${idPrefix}-service`} className={labelCls}>
+          What is this about
+        </label>
+        <select
+          ref={serviceRef}
+          id={`${idPrefix}-service`}
+          name="service"
+          defaultValue={GENERAL}
+          className={`mt-3 appearance-none bg-[length:0.7rem] bg-[right_1.1rem_center] bg-no-repeat pr-11 ${fieldCls}`}
+          style={{
+            backgroundImage:
+              "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8' fill='none' stroke='%23c8a45c' stroke-width='1.6'%3E%3Cpath d='M1 1l5 5 5-5'/%3E%3C/svg%3E\")",
+          }}
+        >
+          {serviceOptions.map((option) => (
+            <option key={option} value={option} className="bg-void text-bone">
+              {option}
+            </option>
+          ))}
+        </select>
       </div>
 
       <div className={rowClass}>

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { pageMetadata } from "@/lib/seo";
-import { MapPin } from "lucide-react";
+import { Info, MapPin } from "lucide-react";
 import { clients } from "@/lib/site";
 import { clientLogos } from "@/lib/media";
 import { shortcuts } from "@/lib/navigation";
@@ -151,6 +151,21 @@ export default function ClientsPage() {
               </article>
             );
           })}
+        </div>
+
+        {/* The roster is a selection, and says so. */}
+        <div
+          className="mt-10 flex items-start gap-4 rounded-2xl border border-brass/25 bg-brass/[0.04] p-5 md:p-6"
+          data-reveal="up"
+        >
+          <span className="icon-tile !h-10 !w-10 !rounded-xl">
+            <Info className="h-4 w-4" strokeWidth={1.5} />
+          </span>
+          <p className="text-sm leading-relaxed text-mist">
+            The organisations named above are BSM&apos;s esteemed clients in the public sector. The
+            list is a selection rather than a complete record: BSM serves further Public Sector
+            Undertakings, and a number of private sector clients, which are not named on this page.
+          </p>
         </div>
       </Section>
 

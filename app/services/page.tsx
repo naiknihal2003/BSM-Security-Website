@@ -162,7 +162,7 @@ export default function ServicesPage() {
                 )}
 
                 <div className="mt-10 flex flex-wrap items-center gap-3" data-reveal="up">
-                  <Button href="/contact#enquiry" variant="outline">
+                  <Button href={`/contact?service=${service.slug}#enquiry`} variant="outline">
                     Enquire about this service
                   </Button>
                   {next && (
