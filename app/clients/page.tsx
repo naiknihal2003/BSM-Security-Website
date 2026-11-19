@@ -1,20 +1,12 @@
 import type { Metadata } from "next";
 import { pageMetadata } from "@/lib/seo";
-import {
-  ClipboardList,
-  FileSignature,
-  MapPin,
-  Quote,
-  RefreshCcw,
-  UserCheck,
-} from "lucide-react";
-import { clients, testimonials } from "@/lib/site";
+import { MapPin } from "lucide-react";
+import { clients } from "@/lib/site";
 import { clientLogos } from "@/lib/media";
 import { shortcuts } from "@/lib/navigation";
 import { JsonLd, breadcrumbSchema } from "@/lib/schema";
 import { PageHero } from "@/components/ui/PageHero";
 import { Section, SectionLabel } from "@/components/ui/Section";
-import { Placeholder } from "@/components/ui/Placeholder";
 import SubNav from "@/components/layout/SubNav";
 import CallToAction from "@/components/sections/CallToAction";
 import RevealEngine from "@/components/layout/RevealEngine";
@@ -31,30 +23,6 @@ export const metadata: Metadata = pageMetadata({
     "government security contractor Goa",
   ],
 });
-
-/** What a client relationship involves. Process, not claims. */
-const commitments = [
-  {
-    title: "A named point of contact",
-    body: "One supervisor accountable for the deployment, reachable without going through a switchboard.",
-    icon: UserCheck,
-  },
-  {
-    title: "A written deployment plan",
-    body: "Post locations, shift pattern, patrol routes, reporting formats and the escalation chain — agreed before anyone is deployed.",
-    icon: FileSignature,
-  },
-  {
-    title: "Records you can inspect",
-    body: "Gate registers, patrol checkpoints, occurrence books and handover notes, maintained on site and available to you.",
-    icon: ClipboardList,
-  },
-  {
-    title: "Review points",
-    body: "Scheduled reviews so the deployment moves with the site, the season and the risk — not with the invoice cycle.",
-    icon: RefreshCcw,
-  },
-];
 
 export default function ClientsPage() {
   return (
@@ -85,9 +53,8 @@ export default function ClientsPage() {
           data-reveal="up"
           className="mt-8 max-w-4xl text-lead text-mist lg:mt-[clamp(1.5rem,4.5svh,3.25rem)]"
         >
-          The organisations below are BSM&apos;s clients, listed exactly as BSM supplied them.
-          Logos remain each organisation&apos;s own artwork and are shown only once official files
-          are provided.
+          Our client portfolio includes reputed organisations across aviation, energy, maritime,
+          industrial, research, public-sector and logistics sectors.
         </p>
       </PageHero>
 
@@ -187,93 +154,6 @@ export default function ClientsPage() {
               </article>
             );
           })}
-        </div>
-      </Section>
-
-      {/* What clients get */}
-      <Section
-        id="working-with-bsm"
-        label="What a client relationship involves"
-        className="bg-ink"
-        fill
-      >
-        <div className="grid gap-6 lg:grid-cols-12 lg:items-end lg:gap-10">
-          <div className="lg:col-span-7">
-            <SectionLabel index="02">Working with BSM</SectionLabel>
-            <h2 data-split className="mt-6 max-w-3xl text-display font-semibold text-bone">
-              What every client gets, named or not.
-            </h2>
-          </div>
-          <p data-reveal="up" className="max-w-xl text-lead text-mist lg:col-span-5 lg:pb-[0.4em]">
-            Four things come with every deployment, from a single guard post to a multi-shift site.
-          </p>
-        </div>
-
-        <div className="mt-10 lg:mt-[clamp(1.5rem,5svh,3.5rem)] grid gap-4 sm:grid-cols-2 xl:grid-cols-4" data-stagger>
-          {commitments.map((item, i) => (
-            <div
-              key={item.title}
-              data-stagger-item
-              className="card group flex flex-col p-7 lg:p-[clamp(1.25rem,3svh,2rem)]"
-            >
-              <div className="flex items-center justify-between">
-                <span className="icon-tile !h-12 !w-12 !rounded-2xl">
-                  <item.icon className="h-5 w-5" strokeWidth={1.25} />
-                </span>
-                <span className="font-mono text-[11px] tracking-[0.2em] text-dim">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-              </div>
-              <h3 className="mt-[clamp(1.25rem,3.5svh,2rem)] font-display text-[clamp(1.2rem,min(1.6vw,3svh),1.6rem)] font-semibold leading-snug tracking-[-0.015em] text-bone">
-                {item.title}
-              </h3>
-              <p className="mt-3 text-[0.95rem] leading-relaxed text-mist">{item.body}</p>
-            </div>
-          ))}
-        </div>
-      </Section>
-
-      {/* Testimonials */}
-      <Section id="testimonials" label="Client testimonials" fill>
-        <div className="grid gap-6 lg:grid-cols-12 lg:items-end lg:gap-10">
-          <div className="lg:col-span-7">
-            <SectionLabel index="03">In their words</SectionLabel>
-            <h2 data-split className="mt-6 max-w-2xl text-display font-semibold text-bone">
-              Testimonials, once they are given.
-            </h2>
-          </div>
-          <p data-reveal="up" className="max-w-xl text-lead text-mist lg:col-span-5 lg:pb-[0.4em]">
-            No quotation is published until a client has written it and approved its use. The three
-            frames below are where they go.
-          </p>
-        </div>
-
-        <div className="mt-10 lg:mt-[clamp(1.5rem,5svh,3.5rem)] grid gap-4 lg:grid-cols-3" data-stagger>
-          {testimonials.map((item, i) => (
-            <figure
-              key={i}
-              data-stagger-item
-              className="card card-void group flex flex-col p-7 lg:p-[clamp(1.25rem,3svh,2.25rem)]"
-            >
-              <span className="icon-tile">
-                <Quote className="h-5 w-5" strokeWidth={1.25} />
-              </span>
-              <blockquote className="mt-[clamp(1.25rem,3.5svh,2rem)] text-lead text-mist">
-                <Placeholder>{item.quote}</Placeholder>
-              </blockquote>
-              <figcaption className="mt-auto flex items-center gap-4 border-t border-white/[0.06] pt-5 font-mono text-[10px] uppercase tracking-[0.18em] text-dim [margin-top:clamp(1.25rem,3.5svh,2rem)]">
-                <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-dashed border-brass/40 text-brass/70">
-                  ?
-                </span>
-                <span>
-                  <Placeholder>{item.attribution}</Placeholder>
-                  <span className="mt-2 block text-dim/70">
-                    <Placeholder>{item.role}</Placeholder>
-                  </span>
-                </span>
-              </figcaption>
-            </figure>
-          ))}
         </div>
       </Section>
 

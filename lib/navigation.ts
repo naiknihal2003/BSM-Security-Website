@@ -84,8 +84,6 @@ export const shortcuts = {
   clients: [
     { id: "overview", label: "Overview" },
     { id: "roster", label: "Our Clients" },
-    { id: "working-with-bsm", label: "Working with BSM" },
-    { id: "testimonials", label: "Testimonials" },
     { id: "get-in-touch", label: "Become a Client" },
   ],
   services: [

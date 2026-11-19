@@ -6,14 +6,12 @@ import {
   Building2,
   Clock,
   FileText,
-  Handshake,
   Images,
   Landmark,
   LayoutGrid,
   ListChecks,
   Mail,
   MapPin,
-  MessageSquareQuote,
   Phone,
   ShieldCheck,
   UserRound,
@@ -216,8 +214,6 @@ function ServicesMenu({ onNavigate }: MenuProps) {
 function ClientsMenu({ onNavigate }: MenuProps) {
   const sections = [
     { id: "roster", label: "Our Esteemed Clients", note: `${clients.length} organisations, with their locations as supplied.`, icon: Landmark },
-    { id: "working-with-bsm", label: "Working with BSM", note: "A named contact, a written plan, records and reviews.", icon: Handshake },
-    { id: "testimonials", label: "Testimonials", note: "In our clients' own words, once approved.", icon: MessageSquareQuote },
     { id: "get-in-touch", label: "Become a client", note: "Start with a site survey and a written plan.", icon: ShieldCheck },
   ];
   return (

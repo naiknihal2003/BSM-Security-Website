@@ -437,24 +437,6 @@ export type Testimonial = {
   role: string;
 };
 
-export const testimonials: Testimonial[] = [
-  {
-    quote: "[CLIENT TESTIMONIAL]",
-    attribution: "[NAME]",
-    role: "[ROLE, ORGANISATION]",
-  },
-  {
-    quote: "[CLIENT TESTIMONIAL]",
-    attribution: "[NAME]",
-    role: "[ROLE, ORGANISATION]",
-  },
-  {
-    quote: "[CLIENT TESTIMONIAL]",
-    attribution: "[NAME]",
-    role: "[ROLE, ORGANISATION]",
-  },
-];
-
 /** Figures BSM will confirm; shown as fields, never as claims. */
 /* --------------------------------------------------------------------------
    Offices
@@ -515,8 +497,8 @@ export const offices: Office[] = [
     additionalAddressLabel: "Registered address",
     mapEmbed:
       "https://www.google.com/maps?q=Kurtarkar+Classic+A2,+Shop+no.+G-7,+Opposite+Lawande+Hospital,+Aquem,+Margao,+Goa+403601&output=embed",
-    /* BSM's own Google Maps link for the registered address. */
-    mapLink: "https://share.google/qjQSkfbcxMmjiws4j",
+    /* BSM's own Google Maps link for the Head Office. */
+    mapLink: "https://maps.app.goo.gl/Qb579bF8vCCBCAAb6",
     mapTitle: "Map showing the BSM Head Office at Aquem, Margao, Goa",
     phones: [
       { display: "+91 94212 49677", href: "tel:+919421249677" },
