@@ -168,10 +168,10 @@ export const media = {
     brief: "Photograph awaited from BSM for the housekeeping services category.",
   },
   leaderPrincipalPartner: {
-    src: "",
-    alt: "",
+    src: "/media/leader-principal-partner.jpg",
+    alt: "Mr. Dattatray B. Naik, Principal Partner of BSM Security Agency",
     label: "Mr. Dattatray B. Naik",
-    brief: "Awaiting BSM's photograph. Drop the file into /public/media and set `src`.",
+    brief: "Supplied by BSM. Master in assets-src/media.",
   },
   leaderTrainingPartner: {
     src: "",
