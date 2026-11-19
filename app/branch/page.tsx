@@ -33,6 +33,9 @@ import RevealEngine from "@/components/layout/RevealEngine";
  * at the Head Office.
  */
 const portraits: Record<string, Shot> = {
+  "dattatray-b-naik": media.leaderPrincipalPartner,
+  "bhupinder-singh-malhi": media.leaderTrainingPartner,
+  "bhagyashree-dattatray-naik": media.leaderAdminPartner,
   "vighnesh-shet": media.branchInCharge,
   "pranali-v-shet": media.branchAdmin,
 };

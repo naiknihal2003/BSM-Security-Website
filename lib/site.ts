@@ -456,13 +456,6 @@ export const testimonials: Testimonial[] = [
 ];
 
 /** Figures BSM will confirm; shown as fields, never as claims. */
-export const clientFacts = [
-  { k: "Active deployments", v: "[NUMBER]" },
-  { k: "Sites covered", v: "[NUMBER]" },
-  { k: "Years in operation", v: "[NUMBER]" },
-  { k: "Personnel on roll", v: "[NUMBER]" },
-];
-
 /* --------------------------------------------------------------------------
    Offices
    Supplied by BSM. Addresses, numbers, emails, names and designations are
@@ -541,12 +534,13 @@ export const offices: Office[] = [
     leadershipLabel: "Leadership and management",
     leadership: [
       {
+        id: "dattatray-b-naik",
         name: "Mr. Dattatray B Naik",
         role: "Principal Partner",
         phone: { display: "+91 94212 49677", href: "tel:+919421249677" },
       },
-      { name: "Lt. Col. Bhupinder S Malhi (retd.)", role: "Partner" },
-      { name: "Mrs. Bhagyashree Dattatray Naik", role: "Partner" },
+      { id: "bhupinder-singh-malhi", name: "Lt. Col. Bhupinder S Malhi (retd.)", role: "Partner" },
+      { id: "bhagyashree-dattatray-naik", name: "Mrs. Bhagyashree Dattatray Naik", role: "Partner" },
       {
         name: "Adv Nihal D Naik",
         role: "Legal Advisor",

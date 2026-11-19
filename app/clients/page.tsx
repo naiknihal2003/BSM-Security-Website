@@ -6,16 +6,15 @@ import {
   MapPin,
   Quote,
   RefreshCcw,
-  ShieldCheck,
   UserCheck,
 } from "lucide-react";
-import { clients, testimonials, clientFacts } from "@/lib/site";
+import { clients, testimonials } from "@/lib/site";
 import { clientLogos } from "@/lib/media";
 import { shortcuts } from "@/lib/navigation";
 import { JsonLd, breadcrumbSchema } from "@/lib/schema";
 import { PageHero } from "@/components/ui/PageHero";
 import { Section, SectionLabel } from "@/components/ui/Section";
-import { Placeholder, Copy } from "@/components/ui/Placeholder";
+import { Placeholder } from "@/components/ui/Placeholder";
 import SubNav from "@/components/layout/SubNav";
 import CallToAction from "@/components/sections/CallToAction";
 import RevealEngine from "@/components/layout/RevealEngine";
@@ -81,18 +80,15 @@ export default function ClientsPage() {
             <span className="accent-serif text-brass">rely</span> on it.
           </>
         }
-        lead="The organisations below are BSM's clients, listed exactly as BSM supplied them. Logos remain each organisation's own artwork and are shown only once official files are provided."
       >
-        <div className="mt-10 lg:mt-[clamp(1.5rem,4.5svh,3.25rem)] grid gap-4 sm:grid-cols-2 lg:grid-cols-4" data-stagger>
-          {clientFacts.map((fact) => (
-            <div key={fact.k} data-stagger-item className="card card-void group p-6 lg:p-[clamp(1.1rem,2.6svh,1.75rem)]">
-              <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-dim">{fact.k}</p>
-              <p className="mt-4 font-display text-2xl font-semibold text-bone">
-                <Copy text={fact.v} />
-              </p>
-            </div>
-          ))}
-        </div>
+        <p
+          data-reveal="up"
+          className="mt-8 max-w-4xl text-lead text-mist lg:mt-[clamp(1.5rem,4.5svh,3.25rem)]"
+        >
+          The organisations below are BSM&apos;s clients, listed exactly as BSM supplied them.
+          Logos remain each organisation&apos;s own artwork and are shown only once official files
+          are provided.
+        </p>
       </PageHero>
 
       <SubNav items={shortcuts.clients} label="Client page shortcuts" />
@@ -107,26 +103,11 @@ export default function ClientsPage() {
           Our Esteemed <span className="text-brass">Clients</span>
         </h2>
 
-        <div className="mt-10 grid gap-8 lg:grid-cols-12">
-          <p data-reveal="up" className="max-w-2xl text-lead text-mist lg:col-span-6">
-            Organisations BSM is engaged with, with the locations and operational details as
-            supplied. Public sector undertakings, government establishments, defence facilities and
-            airports among them.
-          </p>
-          <div
-            className="flex items-start gap-4 rounded-2xl border border-brass/25 bg-brass/[0.04] p-5 lg:col-span-5 lg:col-start-8"
-            data-reveal="up"
-          >
-            <span className="icon-tile !h-10 !w-10 !rounded-xl">
-              <ShieldCheck className="h-4 w-4" strokeWidth={1.5} />
-            </span>
-            <p className="text-sm text-mist">
-              Each card carries a frame for the organisation&apos;s official logo. Logos are their
-              proprietors&apos; artwork, so none is reproduced here until the file is supplied — the
-              frames are never filled with substitutes.
-            </p>
-          </div>
-        </div>
+        <p data-reveal="up" className="mt-10 max-w-4xl text-lead text-mist">
+          Explore the organisations associated with BSM Security Agency, along with their
+          respective locations and operational details across the public, government, defence,
+          aviation and industrial sectors.
+        </p>
 
         {/* Ten cards: five across on a desktop, three on a tablet, one on a
             phone. Each card is an anchor target for the navbar's Clients menu. */}
