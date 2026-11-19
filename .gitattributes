@@ -1,0 +1,20 @@
+# Keep line endings stable across machines.
+#
+# The repository stores text as LF and checks it out as LF everywhere,
+# including Windows. Without this, core.autocrlf rewrites files on checkout
+# and Git prints a "LF will be replaced by CRLF" warning on every `git add`.
+* text=auto eol=lf
+
+# Media and fonts are byte-for-byte; never transform them.
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.webp binary
+*.avif binary
+*.ico  binary
+*.woff  binary
+*.woff2 binary
+*.pdf  binary
+
+# Treat the lockfile as generated so it stays out of diff review noise.
+package-lock.json -diff linguist-generated
