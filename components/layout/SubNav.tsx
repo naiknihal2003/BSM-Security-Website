@@ -13,6 +13,11 @@ import { headerOffset, scrollToTarget } from "./SmoothScroll";
  * strip scrolls itself to keep that pill visible on narrow screens, and a
  * hairline along the bottom shows how far through the page you are.
  *
+ * The bar is only as wide as its shortcuts: the nav sizes to its content
+ * and caps at the page gutter, so a page with four sections does not draw a
+ * rule across an empty half-screen. Past that width the strip scrolls
+ * instead of stretching.
+ *
  * Every target is an element with the matching id and `data-anchor`.
  */
 export default function SubNav({ items, label }: { items: Shortcut[]; label: string }) {
@@ -115,7 +120,7 @@ export default function SubNav({ items, label }: { items: Shortcut[]; label: str
         <div className="shell">
           <nav
             aria-label={label}
-            className={`relative flex h-[var(--subnav-h)] items-center gap-3 overflow-hidden rounded-full pl-2 pr-2 transition-[background-color,border-color,box-shadow] duration-500 ${
+            className={`relative flex h-[var(--subnav-h)] w-fit max-w-full items-center gap-3 overflow-hidden rounded-full pl-2 pr-2 transition-[background-color,border-color,box-shadow] duration-500 ${
               stuck
                 ? "glass shadow-[0_18px_50px_-24px_rgba(0,0,0,0.9)]"
                 : "border border-white/[0.06] bg-white/[0.02]"
@@ -125,7 +130,7 @@ export default function SubNav({ items, label }: { items: Shortcut[]; label: str
               <span className="h-1.5 w-1.5 rounded-full bg-brass" aria-hidden="true" />
               Jump to
             </span>
-            <ul ref={stripRef} className="no-scrollbar relative flex flex-1 items-center gap-1 overflow-x-auto">
+            <ul ref={stripRef} className="no-scrollbar relative flex min-w-0 items-center gap-1 overflow-x-auto">
               <span
                 ref={pillRef}
                 aria-hidden="true"
