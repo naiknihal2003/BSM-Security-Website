@@ -22,6 +22,16 @@ export function titleCase(value: string) {
     .replace(/(^|[\s(])(\p{L})/gu, (_, lead: string, ch: string) => lead + ch.toUpperCase());
 }
 
+/**
+ * Longer labels for the homepage service list, which gives each service a
+ * row of its own. The short labels below are sized for the menus, the
+ * footer, the Hero chips and the shortcut bar, where a longer line wraps or
+ * is clipped. A service with no entry here uses its short label.
+ */
+export const serviceHomeLabels: Partial<Record<ServiceSlug, string>> = {
+  "public-sector-government-defence-security": "Public Sector & Defence Ex-Security",
+};
+
 /** Short labels for menus and the shortcut bar. Headings stay verbatim. */
 export const serviceShortLabels: Record<ServiceSlug, string> = {
   "public-sector-government-defence-security": "Public Sector & Defence",
