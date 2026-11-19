@@ -127,7 +127,7 @@ export default function ServicesPage() {
 
                 <h2
                   data-split
-                  className={`mt-8 text-title font-semibold uppercase tracking-[-0.01em] ${
+                  className={`mt-8 text-title font-semibold tracking-[-0.01em] ${
                     service.highlight ? "text-brass" : "text-bone"
                   }`}
                 >
