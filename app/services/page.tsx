@@ -38,8 +38,8 @@ const serviceShots: Record<ServiceSlug, Shot> = {
   "banking-commercial-security": media.bankingCommercialSecurity,
   "residential-institutional-security": media.residentialInstitutionalSecurity,
   "wedding-event-specialised-security": media.weddingEventSecurity,
-  "security-supervision-management": media.securitySupervisionManagement,
   "security-training-personnel-development": media.securityTrainingDevelopment,
+  "housekeeping-services": media.housekeepingServices,
 };
 
 export default function ServicesPage() {
@@ -68,17 +68,32 @@ export default function ServicesPage() {
         lead="Our services are designed to address a wide range of security requirements across different sectors and establishments."
       >
         {/* Contents */}
-        <ul className="mt-16 grid gap-px border border-line bg-line sm:grid-cols-2" data-stagger>
+        {/* Ten categories, centred in the measure. Five rows filled column by
+            column on tablet and up, so the numbering runs 01–05 down the left
+            and 06–10 down the right; on a phone the single column keeps them
+            in plain numerical order. */}
+        <ul
+          className="mx-auto mt-16 grid w-full max-w-[1150px] gap-px border border-line bg-line sm:grid-flow-col sm:grid-cols-2 sm:grid-rows-5"
+          data-stagger
+        >
           {services.map((service) => (
             <li key={service.slug} data-stagger-item>
               <a
                 href={`#${service.slug}`}
-                className="group flex h-full items-baseline gap-3 bg-void p-6 transition-colors duration-500 hover:bg-raise"
+                className={`group flex h-full items-baseline gap-3 p-6 transition-colors duration-500 ${
+                  service.highlight
+                    ? "border border-brass/45 bg-brass/[0.08] hover:bg-brass/[0.14]"
+                    : "bg-void hover:bg-raise"
+                }`}
               >
                 <span className="font-mono text-[11px] tracking-[0.2em] text-brass">
                   {service.index}
                 </span>
-                <span className="font-display text-sm font-semibold uppercase leading-snug tracking-[0.01em] text-white transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-x-1">
+                <span
+                  className={`font-display text-sm font-semibold uppercase leading-snug tracking-[0.01em] transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-x-1 ${
+                    service.highlight ? "text-brass" : "text-white"
+                  }`}
+                >
                   {service.title}
                 </span>
               </a>
@@ -105,12 +120,16 @@ export default function ServicesPage() {
                     {service.index}
                   </span>
                   <span className="h-px w-8 bg-brass" />
-                  <span className="eyebrow">Service</span>
+                  <span className="eyebrow">
+                    {service.highlight ? "Additional service" : "Service"}
+                  </span>
                 </div>
 
                 <h2
                   data-split
-                  className="mt-8 text-title font-semibold uppercase tracking-[-0.01em] text-bone"
+                  className={`mt-8 text-title font-semibold uppercase tracking-[-0.01em] ${
+                    service.highlight ? "text-brass" : "text-bone"
+                  }`}
                 >
                   {service.title}
                 </h2>
@@ -120,26 +139,32 @@ export default function ServicesPage() {
                   aria-hidden="true"
                 />
 
-                <ul className="mt-10 space-y-px border-t border-line" data-stagger>
-                  {service.points.map((point) => (
-                    <li
-                      key={point}
-                      data-stagger-item
-                      className="flex items-start gap-4 border-b border-line py-4"
-                    >
-                      <Check className="mt-0.5 h-4 w-4 shrink-0 text-brass" strokeWidth={1.5} />
-                      <span className="text-sm leading-relaxed text-white">
-                        <Copy text={point} />
-                      </span>
-                    </li>
-                  ))}
-                </ul>
+                {/* A category whose points BSM has not supplied yet carries the
+                    heading and its frame only — nothing is written in for it. */}
+                {service.points.length > 0 && (
+                  <>
+                    <ul className="mt-10 space-y-px border-t border-line" data-stagger>
+                      {service.points.map((point) => (
+                        <li
+                          key={point}
+                          data-stagger-item
+                          className="flex items-start gap-4 border-b border-line py-4"
+                        >
+                          <Check className="mt-0.5 h-4 w-4 shrink-0 text-brass" strokeWidth={1.5} />
+                          <span className="text-sm leading-relaxed text-white">
+                            <Copy text={point} />
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
 
-                <div className="mt-10" data-reveal="up">
-                  <Button href="/contact" variant="outline">
-                    Enquire about this service
-                  </Button>
-                </div>
+                    <div className="mt-10" data-reveal="up">
+                      <Button href="/contact" variant="outline">
+                        Enquire about this service
+                      </Button>
+                    </div>
+                  </>
+                )}
               </div>
 
               <div className={`lg:col-span-5 ${flipped ? "lg:order-1 lg:col-start-1" : "lg:col-start-8"}`}>

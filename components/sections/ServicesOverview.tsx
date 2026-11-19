@@ -90,7 +90,7 @@ export default function ServicesOverview() {
               </span>
             </span>
             <span className="relative col-span-10 col-start-3 text-sm leading-relaxed text-mist md:col-span-6 md:col-start-6">
-              {service.points[0]}
+              {service.points[0] ?? ""}
             </span>
             <span className="relative col-span-1 hidden justify-end md:flex">
               <ArrowUpRight
@@ -132,7 +132,9 @@ export default function ServicesOverview() {
                 {active !== null ? services[active].title : ""}
               </p>
               <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.16em] text-dim">
-                {active !== null ? `${services[active].points.length} services` : ""}
+                {active !== null && services[active].points.length > 0
+                  ? `${services[active].points.length} services`
+                  : ""}
               </p>
             </div>
           </div>

@@ -34,7 +34,7 @@ export const localBusinessSchema = {
     itemOffered: {
       "@type": "Service",
       name: s.title,
-      description: s.points[0],
+      description: s.points[0] ?? s.title,
       serviceType: s.title,
       areaServed: { "@type": "State", name: "Goa" },
     },

@@ -74,14 +74,19 @@ export type ServiceSlug =
   | "banking-commercial-security"
   | "residential-institutional-security"
   | "wedding-event-specialised-security"
-  | "security-supervision-management"
-  | "security-training-personnel-development";
+  | "security-training-personnel-development"
+  | "housekeeping-services";
 
 export type Service = {
   slug: ServiceSlug;
   index: string;
   title: string;
   points: string[];
+  /**
+   * An additional service offered alongside the core security categories,
+   * carried through the page with the brass treatment.
+   */
+  highlight?: boolean;
 };
 
 /**
@@ -193,21 +198,8 @@ export const services: Service[] = [
     ],
   },
   {
-    slug: "security-supervision-management",
-    index: "09",
-    title: "SECURITY SUPERVISION & MANAGEMENT",
-    points: [
-      "Deployment of experienced security supervisors.",
-      "Regular security inspections and monitoring.",
-      "Duty roster and personnel management.",
-      "Incident reporting and documentation.",
-      "Security procedure implementation.",
-      "Client coordination and operational reviews.",
-    ],
-  },
-  {
     slug: "security-training-personnel-development",
-    index: "10",
+    index: "09",
     title: "SECURITY TRAINING & PERSONNEL DEVELOPMENT",
     points: [
       "Military-guided discipline and professional conduct.",
@@ -217,6 +209,18 @@ export const services: Service[] = [
       "Patrolling, vigilance and surveillance techniques.",
       "Communication, teamwork and supervisory training.",
     ],
+  },
+  {
+    slug: "housekeeping-services",
+    index: "10",
+    title: "HOUSEKEEPING SERVICES",
+    /**
+     * An additional service, separate from BSM's core security categories.
+     * Its sub-services are awaited from BSM — nothing is invented here, so
+     * the section carries the heading and its frame only until they arrive.
+     */
+    points: [],
+    highlight: true,
   },
 ];
 

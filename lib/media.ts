@@ -158,19 +158,18 @@ export const media = {
     brief: "Supplied by BSM for the wedding, event and specialised category.",
     ratio: "1536 / 1024",
   },
-  securitySupervisionManagement: {
-    src: "/media/security-supervision-management-v2.jpg",
-    alt: "Supervisor overseeing operators at a control room wall of camera feeds",
-    label: "Supervision and management",
-    brief: "Supplied by BSM for the supervision and management category.",
-    ratio: "1536 / 1024",
-  },
   securityTrainingDevelopment: {
     src: "/media/security-training-development-v2.jpg",
     alt: "Instructor addressing ranks of security personnel standing to attention on a training ground",
     label: "Training and personnel development",
     brief: "Supplied by BSM for the training and personnel development category.",
     ratio: "1671 / 941",
+  },
+  housekeepingServices: {
+    src: "",
+    alt: "",
+    label: "Housekeeping services",
+    brief: "Photograph awaited from BSM for the housekeeping services category.",
   },
   leaderPrincipalPartner: {
     src: "",
