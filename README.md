@@ -6,16 +6,37 @@ Next.js (App Router) · TypeScript · Tailwind CSS v4 · GSAP (ScrollTrigger + S
 
 ```bash
 npm install
-npm run dev        # http://localhost:3000
+npm run dev        # http://localhost:3002
 npm run build      # writes the finished site to ./out
-npm run start      # serve the built site locally
+npm run start      # serve the built site locally, also on 3002
 npm run lint       # eslint
 npm run typecheck  # tsc --noEmit
 npm run media      # assets-src/media -> public/media
 npm run check:content   # what is still waiting on BSM
+npm run dev:free   # stop whatever is holding port 3002
 ```
 
 > `npm run lint` needs its dev dependencies installed once: `npm install`.
+
+### The dev port is 3002, always
+
+The port is pinned so the address never moves. Left to pick its own, Next
+takes the first free port and the site turns up on 3000, 3003 or 3005 on
+different days, which breaks bookmarks and anything pointed at a fixed
+address.
+
+If `npm run dev` reports `EADDRINUSE` or *Another next dev server is already
+running*, a previous server outlived its terminal — closing the window stops
+the npm wrapper but leaves the server itself listening. Clear it and start
+again:
+
+```bash
+npm run dev:free
+npm run dev
+```
+
+`dev:free` only ever touches port 3002, so dev servers belonging to other
+projects are left alone.
 
 ## A static site — no server
 
