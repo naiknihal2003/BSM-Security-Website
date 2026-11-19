@@ -49,13 +49,21 @@ export default function ClientsPage() {
           </>
         }
       >
-        <p
+        <div
           data-reveal="up"
-          className="mt-8 max-w-4xl text-lead text-mist lg:mt-[clamp(1.5rem,4.5svh,3.25rem)]"
+          className="mt-8 max-w-4xl space-y-5 text-lead text-mist lg:mt-[clamp(1.5rem,4.5svh,3.25rem)]"
         >
-          Our client portfolio includes reputed organisations across aviation, energy, maritime,
-          industrial, research, public-sector and logistics sectors.
-        </p>
+          <p>
+            BSM Security Agency&apos;s client portfolio brings together organisations from the
+            aviation, energy, maritime, industrial, research, public-sector and logistics sectors.
+          </p>
+          <p>
+            Our engagements span airport facilities, government and defence establishments,
+            petroleum operations, shipbuilding, research institutions and logistics
+            infrastructure. These associations reflect the diverse operational environments in
+            which BSM has provided security services.
+          </p>
+        </div>
       </PageHero>
 
       <SubNav items={shortcuts.clients} label="Client page shortcuts" />
