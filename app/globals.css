@@ -346,3 +346,25 @@
 .group:focus-within .ticks::after {
   opacity: 1;
 }
+
+/* --------------------------------------------------------------------------
+   Image protection
+   Deterrents only — see components/layout/ContentGuard.tsx. Images cannot be
+   dragged out of the page, selected, or long-pressed into the save sheet on a
+   phone. Anything a browser has drawn has already been downloaded, so this
+   raises the effort rather than preventing a copy.
+   -------------------------------------------------------------------------- */
+
+img,
+picture,
+figure img,
+svg {
+  -webkit-user-drag: none;
+  -webkit-touch-callout: none;
+  user-select: none;
+}
+
+/* The frame, not the photograph, is what a pointer can reach. */
+figure img {
+  pointer-events: none;
+}

@@ -4,6 +4,9 @@ export const alt = "BSM — Security agency in Goa, India";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
+/** Rendered once at build time — this is a static export. */
+export const dynamic = "force-static";
+
 /** Generated share card, so the site never ships a missing OG image. */
 export default function OpengraphImage() {
   return new ImageResponse(

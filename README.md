@@ -7,9 +7,42 @@ Next.js (App Router) · TypeScript · Tailwind CSS v4 · GSAP (ScrollTrigger + S
 ```bash
 npm install
 npm run dev        # http://localhost:3000
-npm run build      # production build
+npm run build      # writes the finished site to ./out
 npm run typecheck  # tsc --noEmit
 ```
+
+## A static site — no server
+
+`npm run build` produces **`out/`**: plain HTML, CSS, JS and images. There is no
+Node server, no API route and no API key anywhere in the project.
+
+**To put it online:** upload the *contents* of `out/` to any web host — Netlify,
+GitHub Pages, Hostinger, cPanel, a plain folder on a web server. Nothing else to
+install or configure.
+
+**To look at it on this machine:**
+
+```bash
+npx serve out      # then open the address it prints
+```
+
+Opening `out/index.html` by double-clicking it will not work: browsers block a
+page from loading its own scripts over `file://`, so the page would appear
+unstyled. The one command above is the way to view it locally.
+
+### Images and media
+
+Every image on the site is one line in **`lib/media.ts`** — photographs at the
+top (`src`, `alt`, `label`, optional `ratio`), client logos in `clientLogos` at
+the bottom. Drop a file into `public/media/` and point the entry at it, or set
+the entry to `""` to go back to the neutral frame. No component needs touching.
+
+### Enquiries
+
+With no server the form cannot send mail itself. It fills a message addressed to
+`contact@bsmsecurityagency.com` with the visitor's number and enquiry, and opens
+it in their Gmail (or their own mail app); they press Send. Nothing is ever
+reported as delivered when it has not been.
 
 ---
 

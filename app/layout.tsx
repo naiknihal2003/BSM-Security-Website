@@ -9,6 +9,7 @@ import SmoothScroll from "@/components/layout/SmoothScroll";
 import ScrollProgress from "@/components/layout/ScrollProgress";
 import BackToTop from "@/components/layout/BackToTop";
 import Intro from "@/components/layout/Intro";
+import ContentGuard from "@/components/layout/ContentGuard";
 import { TransitionProvider } from "@/components/layout/PageTransition";
 import { EnquiryProvider } from "@/components/layout/EnquiryModal";
 
@@ -108,6 +109,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <TransitionProvider>
           <EnquiryProvider>
             <SmoothScroll />
+            <ContentGuard />
             <ScrollProgress />
             <Intro />
             <Navbar />

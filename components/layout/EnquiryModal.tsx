@@ -30,7 +30,7 @@ export function useEnquiry() {
  * Request Security enquiry drawer. The form itself lives in
  * components/sections/EnquiryForm.tsx and is shared with the contact page, so
  * both routes stay identical: contact number (required) and enquiry
- * (optional), delivered by email server-side.
+ * (optional), handed to the visitor's own Gmail or mail app to send.
  */
 export function EnquiryProvider({ children }: { children: ReactNode }) {
   const [isOpen, setIsOpen] = useState(false);

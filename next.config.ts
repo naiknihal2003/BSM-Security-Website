@@ -3,24 +3,24 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
+
+  /**
+   * Static build. `next build` writes a plain folder of HTML, CSS, JS and
+   * images to /out — no Node server, no API routes, nothing to keep running.
+   * Upload that folder to any web host, or serve it locally with
+   * `npx serve out`.
+   */
+  output: "export",
+
+  /** Every page becomes its own folder with an index.html inside. */
+  trailingSlash: true,
+
   images: {
-    formats: ["image/avif", "image/webp"],
-    // Allowed quality values; MediaFrame requests 90 so photographs stay crisp.
-    qualities: [75, 90],
-    // Drop real photography into /public/media, or point these at a CDN.
-    remotePatterns: [{ protocol: "https", hostname: "images.unsplash.com" }],
-  },
-  async headers() {
-    return [
-      {
-        source: "/:path*",
-        headers: [
-          { key: "X-Content-Type-Options", value: "nosniff" },
-          { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
-          { key: "X-Frame-Options", value: "SAMEORIGIN" },
-        ],
-      },
-    ];
+    /**
+     * Image optimisation is a server feature, so a static build serves the
+     * files in /public as they are. Keep source images sensibly sized.
+     */
+    unoptimized: true,
   },
 };
 

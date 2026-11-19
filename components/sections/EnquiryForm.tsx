@@ -1,14 +1,13 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { AlertTriangle, Check, Loader2 } from "lucide-react";
+import { AlertTriangle, Mail } from "lucide-react";
 import { site } from "@/lib/site";
 
-type Status = "idle" | "sending" | "sent" | "unconfigured" | "error";
+type Status = "idle" | "composed";
 
 /**
  * Indian mobile number: ten digits beginning 6–9, dialled with +91.
- * Mirrored on the server in app/api/enquiry/route.ts.
  */
 export function isIndianMobile(digits: string) {
   return /^[6-9]\d{9}$/.test(digits);
@@ -19,13 +18,39 @@ const fieldCls =
 const labelCls = "block font-mono text-[10px] uppercase tracking-[0.2em] text-dim";
 
 /**
+ * The enquiry template BSM receives. The visitor's number and enquiry are
+ * filled in; anything they left blank stays as an empty line for them to
+ * complete in their mail window before sending.
+ */
+function enquiryEmail(phone: string, message: string) {
+  const subject = `Security enquiry — ${phone}`;
+  const body = [
+    "Dear BSM Security Agency,",
+    "",
+    "I would like to enquire about your security services.",
+    "",
+    `Contact number: ${phone}`,
+    "",
+    "Enquiry:",
+    message.trim() || "",
+    "",
+    "Thank you.",
+  ].join("\n");
+
+  return { subject, body };
+}
+
+/**
  * The enquiry form, used both on the contact page and inside the Request
  * Security drawer. Two fields only: a mandatory contact number and an
- * optional free-text enquiry.
+ * optional enquiry.
  *
- * Delivery is server-side (see /api/enquiry). The success state appears only
- * once the email provider has accepted the message — never on a failure, and
- * never when email delivery is not configured.
+ * This site is a static build with no server behind it, so the form cannot
+ * send mail itself. Instead it writes the enquiry into a message addressed to
+ * BSM and hands it to the visitor's own mail — Gmail in the browser, or
+ * whatever mail app their device uses. The visitor presses Send there, so the
+ * message leaves their own account and nothing is ever reported as delivered
+ * when it has not been.
  */
 export default function EnquiryForm({
   idPrefix = "enquiry",
@@ -38,86 +63,81 @@ export default function EnquiryForm({
   /** Applied to each block, so a parent can stagger them. */
   rowClass?: string;
   onSent?: () => void;
-  /** Rendered in the success state, e.g. a Close button. */
+  /** Rendered in the composed state, e.g. a Close button. */
   children?: React.ReactNode;
 }) {
-  const openedAt = useRef(Date.now());
   const phoneRef = useRef<HTMLInputElement>(null);
   const [status, setStatus] = useState<Status>("idle");
   const [phoneError, setPhoneError] = useState("");
-  const [error, setError] = useState("");
+  const [blocked, setBlocked] = useState("");
 
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    const form = e.currentTarget;
+  /** Reads and validates the two fields; null when the number is not usable. */
+  function read(form: HTMLFormElement) {
     const data = Object.fromEntries(new FormData(form)) as Record<string, string>;
-
     const digits = (data.phone ?? "").replace(/\D/g, "");
+
     if (!digits) {
       setPhoneError("A contact number is required so we can call you back.");
       phoneRef.current?.focus();
-      return;
+      return null;
     }
     if (!isIndianMobile(digits)) {
       setPhoneError("Enter a 10-digit Indian mobile number, starting 6, 7, 8 or 9.");
       phoneRef.current?.focus();
-      return;
+      return null;
     }
 
     setPhoneError("");
-    setError("");
-    setStatus("sending");
-
-    try {
-      const res = await fetch("/api/enquiry", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          phone: `+91${digits}`,
-          message: data.message ?? "",
-          company_website: data.company_website ?? "",
-          elapsedMs: Date.now() - openedAt.current,
-        }),
-      });
-
-      if (res.status === 501) {
-        setStatus("unconfigured");
-        return;
-      }
-      if (!res.ok) {
-        const payload = (await res.json().catch(() => null)) as { error?: string } | null;
-        if (res.status === 422) {
-          setPhoneError(payload?.error ?? "Please check the contact number and try again.");
-          setStatus("idle");
-          phoneRef.current?.focus();
-          return;
-        }
-        setError(
-          res.status === 429
-            ? "Too many enquiries from this connection. Please try again shortly."
-            : "",
-        );
-        setStatus("error");
-        return;
-      }
-
-      setStatus("sent");
-      form.reset();
-      onSent?.();
-    } catch {
-      setError("");
-      setStatus("error");
-    }
+    setBlocked("");
+    return enquiryEmail(`+91${digits}`, data.message ?? "");
   }
 
-  if (status === "sent") {
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const mail = read(e.currentTarget);
+    if (!mail) return;
+
+    const url =
+      "https://mail.google.com/mail/?view=cm&fs=1" +
+      `&to=${encodeURIComponent(site.enquiryInbox)}` +
+      `&su=${encodeURIComponent(mail.subject)}` +
+      `&body=${encodeURIComponent(mail.body)}`;
+
+    const win = window.open(url, "_blank", "noopener,noreferrer");
+    if (!win) {
+      setBlocked("Your browser blocked the new window. Allow pop-ups, or use your email app below.");
+      return;
+    }
+
+    setStatus("composed");
+    onSent?.();
+  }
+
+  /** Same enquiry, handed to whatever mail app the device uses. */
+  function handleMailApp(e: React.MouseEvent<HTMLButtonElement>) {
+    const form = e.currentTarget.closest("form");
+    if (!form) return;
+    const mail = read(form);
+    if (!mail) return;
+
+    window.location.href =
+      `mailto:${site.enquiryInbox}` +
+      `?subject=${encodeURIComponent(mail.subject)}` +
+      `&body=${encodeURIComponent(mail.body)}`;
+    setStatus("composed");
+    onSent?.();
+  }
+
+  if (status === "composed") {
     return (
       <div className={`border-2 border-brass/55 bg-ink p-8 md:p-10 ${rowClass}`} role="status">
-        <Check className="h-6 w-6 text-brass" strokeWidth={1.5} />
-        <h3 className="mt-6 font-display text-title font-semibold text-bone">Enquiry received.</h3>
+        <Mail className="h-6 w-6 text-brass" strokeWidth={1.5} />
+        <h3 className="mt-6 font-display text-title font-semibold text-bone">
+          Your enquiry is ready to send.
+        </h3>
         <p className="mt-4 max-w-md text-mist">
-          Your enquiry has been delivered. Someone from BSM will call the number you left. If it is
-          urgent, call us directly rather than waiting on a call back.
+          A message to {site.enquiryInbox} has opened with your number and enquiry filled in. Press
+          Send there and it reaches BSM. If nothing opened, call {site.contact.phone} instead.
         </p>
         <div className="mt-8 flex flex-wrap items-center gap-5">
           {children}
@@ -126,7 +146,7 @@ export default function EnquiryForm({
             onClick={() => setStatus("idle")}
             className="font-mono text-[11px] uppercase tracking-[0.2em] text-brass underline underline-offset-4"
           >
-            Send another
+            Write another
           </button>
         </div>
       </div>
@@ -135,17 +155,6 @@ export default function EnquiryForm({
 
   return (
     <form onSubmit={handleSubmit} noValidate className="space-y-6">
-      {/* Honeypot: bots fill this, people never see it. */}
-      <div className="hidden" aria-hidden="true">
-        <label htmlFor={`${idPrefix}-company-website`}>Do not fill this in</label>
-        <input
-          id={`${idPrefix}-company-website`}
-          name="company_website"
-          tabIndex={-1}
-          autoComplete="off"
-        />
-      </div>
-
       <div className={rowClass}>
         <label htmlFor={`${idPrefix}-phone`} className={labelCls}>
           Contact number <span className="text-brass">* required</span>
@@ -210,47 +219,30 @@ export default function EnquiryForm({
         />
       </div>
 
-      {status === "error" && (
+      {blocked && (
         <div
           role="alert"
           className={`flex items-start gap-3 border border-alert/50 bg-alert/5 p-4 ${rowClass}`}
         >
           <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-alert" strokeWidth={1.5} />
-          <p className="text-sm text-mist">
-            {error ? (
-              error
-            ) : (
-              <>
-                The enquiry could not be delivered, so it has not reached BSM. Please call{" "}
-                {site.contact.phone} or email {site.contact.email} instead.
-              </>
-            )}
-          </p>
-        </div>
-      )}
-
-      {status === "unconfigured" && (
-        <div
-          role="alert"
-          className={`flex items-start gap-3 border border-brass/50 bg-brass/5 p-4 ${rowClass}`}
-        >
-          <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-brass" strokeWidth={1.5} />
-          <p className="text-sm text-mist">
-            Email delivery is not configured on this deployment, so this enquiry has{" "}
-            <strong className="text-bone">not</strong> been sent. Please call {site.contact.phone}{" "}
-            or email {site.contact.email}.
-          </p>
+          <p className="text-sm text-mist">{blocked}</p>
         </div>
       )}
 
       <div className={`flex flex-wrap items-center gap-5 pt-2 ${rowClass}`}>
         <button
           type="submit"
-          disabled={status === "sending"}
-          className="inline-flex items-center gap-3 bg-brass px-7 py-4 font-mono text-[11px] uppercase tracking-[0.2em] text-void transition-colors duration-300 hover:bg-brass-lit disabled:opacity-60"
+          className="inline-flex items-center gap-3 bg-brass px-7 py-4 font-mono text-[11px] uppercase tracking-[0.2em] text-void transition-colors duration-300 hover:bg-brass-lit"
         >
-          {status === "sending" && <Loader2 className="h-3.5 w-3.5 animate-spin" />}
-          {status === "sending" ? "Sending" : "Send"}
+          <Mail className="h-3.5 w-3.5" strokeWidth={1.75} />
+          Send via Gmail
+        </button>
+        <button
+          type="button"
+          onClick={handleMailApp}
+          className="font-mono text-[11px] uppercase tracking-[0.2em] text-brass underline underline-offset-4"
+        >
+          Use my email app
         </button>
       </div>
     </form>
