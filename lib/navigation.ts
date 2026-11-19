@@ -9,7 +9,7 @@
  * wording and are never shortened in place.
  */
 
-import { services, clients, offices, site, type ServiceSlug } from "./site";
+import { clients, offices, site, type ServiceSlug } from "./site";
 import { leaders } from "./about";
 import { galleryGroups } from "./media";
 
@@ -85,10 +85,6 @@ export const shortcuts = {
     { id: "overview", label: "Overview" },
     { id: "roster", label: "Our Clients" },
     { id: "get-in-touch", label: "Become a Client" },
-  ],
-  services: [
-    { id: "overview", label: "All Services" },
-    ...services.map((s) => ({ id: s.slug, label: serviceShortLabels[s.slug] })),
   ],
   gallery: galleryGroups.map((g) => ({ id: g.toLowerCase(), label: g })),
   contact: [

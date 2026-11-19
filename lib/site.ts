@@ -341,7 +341,6 @@ export type ClientSlug =
 export type ClientEntry = {
   /** Stable key; the logo for this client is clientLogos[slug]. */
   slug: ClientSlug;
-  index: string;
   /** Organisation name, exactly as supplied. */
   name: string;
   /** Abbreviation, where BSM supplied one. */
@@ -353,7 +352,6 @@ export type ClientEntry = {
 export const clients: ClientEntry[] = [
   {
     slug: "hpcl",
-    index: "01",
     name: "Hindustan Petroleum Corporation Limited",
     abbr: "HPCL",
     details: [
@@ -364,7 +362,6 @@ export const clients: ClientEntry[] = [
   },
   {
     slug: "gsl",
-    index: "02",
     name: "Goa Shipyard Limited",
     abbr: "GSL",
     details: [
@@ -373,14 +370,12 @@ export const clients: ClientEntry[] = [
   },
   {
     slug: "csir-nio",
-    index: "03",
     name: "CSIR – National Institute of Oceanography",
     abbr: "CSIR-NIO",
     details: ["Dona Paula, Goa."],
   },
   {
     slug: "aai",
-    index: "04",
     name: "Airports Authority of India",
     abbr: "AAI",
     details: [
@@ -390,41 +385,35 @@ export const clients: ClientEntry[] = [
   },
   {
     slug: "iocl",
-    index: "05",
     name: "Indian Oil Corporation Limited",
     abbr: "IOCL",
     details: ["Sada, Vasco, Goa."],
   },
   {
     slug: "bpcl",
-    index: "06",
     name: "Bharat Petroleum Corporation Limited",
     abbr: "BPCL",
     details: ["Aviation, Chicalim, Goa", "Mopa International Airport, Aviation"],
   },
   {
     slug: "gia",
-    index: "07",
     name: "Goa International Airport",
     abbr: "GIA",
     details: ["JCO for Airport Operational Control Centre."],
   },
   {
     slug: "ins-hansa",
-    index: "08",
     name: "INS Hansa – SBTF Naval Air Station",
     details: ["Dabolim, Goa."],
   },
   {
     slug: "esic",
-    index: "09",
     name: "Employees’ State Insurance Corporation",
     abbr: "ESIC",
     details: ["Regional Office, Patto, Panjim, Goa."],
   },
   {
     slug: "concor",
-    index: "10",
     name: "Container Corporation of India Limited",
     abbr: "CONCOR",
     details: ["A Government of India Enterprise."],

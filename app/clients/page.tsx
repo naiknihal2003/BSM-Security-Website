@@ -124,9 +124,6 @@ export default function ClientsPage() {
                       </span>
                     </span>
                   )}
-                  <span className="absolute left-2.5 top-2.5">
-                    <span className="index-chip !h-7 !min-w-7 !text-[10px]">{client.index}</span>
-                  </span>
                 </div>
 
                 <div className="flex flex-1 flex-col px-3 pb-3 pt-5">
@@ -139,13 +136,13 @@ export default function ClientsPage() {
                     </p>
                   )}
 
-                  <ul className="mt-4 space-y-2.5 border-t border-white/[0.06] pt-4">
+                  <ul className="mt-4 space-y-2 rounded-[0.9rem] border border-brass/20 bg-brass/[0.05] p-3.5">
                     {client.details.map((detail) => (
                       <li
                         key={detail}
-                        className="flex items-start gap-2.5 text-[13px] leading-relaxed text-mist"
+                        className="flex items-start gap-2.5 text-[13px] leading-relaxed text-bone"
                       >
-                        <MapPin className="mt-1 h-3 w-3 shrink-0 text-brass/70" strokeWidth={1.75} />
+                        <MapPin className="mt-0.5 h-3.5 w-3.5 shrink-0 text-brass" strokeWidth={2} />
                         <span>{detail}</span>
                       </li>
                     ))}
