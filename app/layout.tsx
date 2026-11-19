@@ -92,15 +92,8 @@ export const viewport: Viewport = {
 
 export default function RootLayout({
   children,
-  maintenance,
 }: {
   children: React.ReactNode;
-  /**
-   * Optional slot: the maintenance notice in app/@maintenance. It renders
-   * here when that folder exists and is simply `undefined` when it does not,
-   * so deleting the folder removes the notice with no other change.
-   */
-  maintenance?: React.ReactNode;
 }) {
   return (
     <html
@@ -135,7 +128,6 @@ export default function RootLayout({
             <main id="main">{children}</main>
             <Footer />
             <BackToTop />
-            {maintenance}
           </EnquiryProvider>
         </TransitionProvider>
         <script
