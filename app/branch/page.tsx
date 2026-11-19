@@ -15,8 +15,8 @@ import {
   UserRound,
 } from "lucide-react";
 import { WhatsAppIcon } from "@/components/ui/WhatsAppIcon";
-import { media, type Shot } from "@/lib/media";
 import { offices, site, type Office } from "@/lib/site";
+import { media, type Shot } from "@/lib/media";
 import { JsonLd, breadcrumbSchema } from "@/lib/schema";
 import { Section, SectionLabel } from "@/components/ui/Section";
 import { PageHero } from "@/components/ui/PageHero";
@@ -28,9 +28,9 @@ import { MapEmbed } from "@/components/ui/MapEmbed";
 import RevealEngine from "@/components/layout/RevealEngine";
 
 /**
- * Portraits for the people who have one, keyed by the id in lib/site.ts.
- * An office person with no entry here keeps the icon, which is still the
- * case for the whole Head Office.
+ * Portraits for the people who have one, keyed by the id in lib/site.ts. An
+ * office person with no entry here keeps the icon — which is still everyone
+ * at the Head Office.
  */
 const portraits: Record<string, Shot> = {
   "vighnesh-shet": media.branchInCharge,
@@ -86,10 +86,7 @@ export default function BranchPage() {
         lead="The Head Office at Aquem, Margao and the Branch Office at Chimbel — addresses, contact numbers, email and the people who lead each one."
       >
         {/* One full contact panel per office. */}
-        <div
-          className="mt-10 grid gap-4 lg:mt-[clamp(1.5rem,4.5svh,3.25rem)] md:grid-cols-2"
-          data-stagger
-        >
+        <div className="mt-10 grid gap-4 lg:mt-[clamp(1.5rem,4.5svh,3.25rem)] md:grid-cols-2" data-stagger>
           {offices.map((office) => (
             <article
               key={office.id}
@@ -125,10 +122,7 @@ export default function BranchPage() {
                     href={p.href}
                     className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.02] px-3.5 py-2 text-[13px] font-medium text-bone transition-colors hover:border-brass hover:text-brass"
                   >
-                    <Phone
-                      className="h-3.5 w-3.5 text-brass"
-                      strokeWidth={1.75}
-                    />
+                    <Phone className="h-3.5 w-3.5 text-brass" strokeWidth={1.75} />
                     {p.display}
                   </a>
                 ))}
@@ -147,10 +141,7 @@ export default function BranchPage() {
                   href={office.email.href}
                   className="inline-flex min-w-0 items-center gap-2 rounded-full border border-white/10 bg-white/[0.02] px-3.5 py-2 text-[13px] font-medium text-bone transition-colors hover:border-brass hover:text-brass"
                 >
-                  <Mail
-                    className="h-3.5 w-3.5 shrink-0 text-brass"
-                    strokeWidth={1.75}
-                  />
+                  <Mail className="h-3.5 w-3.5 shrink-0 text-brass" strokeWidth={1.75} />
                   <span className="truncate">{office.email.display}</span>
                 </a>
               </div>
@@ -161,10 +152,7 @@ export default function BranchPage() {
                   className="group inline-flex items-center gap-2 rounded-full bg-brass px-4 py-2.5 font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-void transition-colors hover:bg-brass-lit"
                 >
                   Office details
-                  <ArrowDown
-                    className="h-3.5 w-3.5 transition-transform group-hover:translate-y-0.5"
-                    strokeWidth={2}
-                  />
+                  <ArrowDown className="h-3.5 w-3.5 transition-transform group-hover:translate-y-0.5" strokeWidth={2} />
                 </TransitionLink>
                 <a
                   href={directions(office.address)}
@@ -188,42 +176,27 @@ export default function BranchPage() {
           <div className="flex items-center gap-3 bg-void px-5 py-[clamp(0.85rem,2.2svh,1.25rem)]">
             <Clock className="h-4 w-4 shrink-0 text-brass" strokeWidth={1.5} />
             <div>
-              <dt className="font-mono text-[10px] uppercase tracking-[0.18em] text-dim">
-                Office hours
-              </dt>
+              <dt className="font-mono text-[10px] uppercase tracking-[0.18em] text-dim">Office hours</dt>
               <dd className="mt-0.5 text-sm font-medium text-bone">
                 {site.contact.hours[0].days}, {site.contact.hours[0].time}
               </dd>
             </div>
           </div>
           <div className="flex items-center gap-3 bg-void px-5 py-[clamp(0.85rem,2.2svh,1.25rem)]">
-            <ShieldCheck
-              className="h-4 w-4 shrink-0 text-brass"
-              strokeWidth={1.5}
-            />
+            <ShieldCheck className="h-4 w-4 shrink-0 text-brass" strokeWidth={1.5} />
             <div>
-              <dt className="font-mono text-[10px] uppercase tracking-[0.18em] text-dim">
-                Services available
-              </dt>
-              <dd className="mt-0.5 text-sm font-medium text-bone">
-                {site.contact.servicesAvailable}
-              </dd>
+              <dt className="font-mono text-[10px] uppercase tracking-[0.18em] text-dim">Services available</dt>
+              <dd className="mt-0.5 text-sm font-medium text-bone">{site.contact.servicesAvailable}</dd>
             </div>
           </div>
           <div className="flex items-center gap-3 bg-void px-5 py-[clamp(0.85rem,2.2svh,1.25rem)]">
             <Phone className="h-4 w-4 shrink-0 text-brass" strokeWidth={1.5} />
             <div className="min-w-0">
-              <dt className="font-mono text-[10px] uppercase tracking-[0.18em] text-dim">
-                General enquiries
-              </dt>
+              <dt className="font-mono text-[10px] uppercase tracking-[0.18em] text-dim">General enquiries</dt>
               <dd className="mt-0.5 truncate text-sm font-medium text-bone">
-                <a href={site.contact.phoneHref} className="hover:text-brass">
-                  {site.contact.phone}
-                </a>
+                <a href={site.contact.phoneHref} className="hover:text-brass">{site.contact.phone}</a>
                 <span className="text-dim"> · </span>
-                <a href={site.contact.emailHref} className="hover:text-brass">
-                  {site.contact.email}
-                </a>
+                <a href={site.contact.emailHref} className="hover:text-brass">{site.contact.email}</a>
               </dd>
             </div>
           </div>
@@ -298,27 +271,16 @@ function OfficeBlock({ office, tinted }: { office: Office; tinted: boolean }) {
   const primaryWhatsApp = office.whatsapps[0];
 
   return (
-    <Section
-      id={office.id}
-      label={office.kind}
-      className={tinted ? "bg-ink" : ""}
-    >
+    <Section id={office.id} label={office.kind} className={tinted ? "bg-ink" : ""}>
       {/* ---- Header: who, and the four things people come here to do ----- */}
       <div className="flex flex-col gap-6">
         <div>
           <SectionLabel index={office.index}>{office.kind}</SectionLabel>
-          <h2
-            data-reveal="up"
-            className="mt-6 text-display font-semibold text-bone"
-          >
+          <h2 data-reveal="up" className="mt-6 text-display font-semibold text-bone">
             {office.name}
           </h2>
         </div>
-        <div
-          className="flex flex-wrap gap-2.5"
-          data-reveal="up"
-          data-delay="0.05"
-        >
+        <div className="flex flex-wrap gap-2.5" data-reveal="up" data-delay="0.05">
           {primaryPhone && (
             <a
               href={primaryPhone.href}
@@ -370,9 +332,7 @@ function OfficeBlock({ office, tinted }: { office: Office; tinted: boolean }) {
             />
           )}
 
-          <div
-            className={`card card-still ${surface} divide-y divide-white/[0.06] p-2.5`}
-          >
+          <div className={`card card-still ${surface} divide-y divide-white/[0.06] p-2.5`}>
             <ContactRow
               href={directions(office.address)}
               external
@@ -387,9 +347,7 @@ function OfficeBlock({ office, tinted }: { office: Office; tinted: boolean }) {
                 icon={<Building2 className="h-4 w-4" strokeWidth={1.5} />}
                 label={office.additionalAddressLabel ?? "Address"}
               >
-                <address className="not-italic text-mist">
-                  {office.additionalAddress}
-                </address>
+                <address className="not-italic text-mist">{office.additionalAddress}</address>
               </ContactRow>
             )}
 
@@ -410,9 +368,7 @@ function OfficeBlock({ office, tinted }: { office: Office; tinted: boolean }) {
                 href={line.href}
                 external
                 icon={<WhatsAppIcon className="h-4 w-4" />}
-                label={
-                  office.whatsapps.length > 1 ? `WhatsApp ${i + 1}` : "WhatsApp"
-                }
+                label={office.whatsapps.length > 1 ? `WhatsApp ${i + 1}` : "WhatsApp"}
               >
                 {line.display}
               </ContactRow>
@@ -443,10 +399,7 @@ function OfficeBlock({ office, tinted }: { office: Office; tinted: boolean }) {
       {/* ---- Leadership -------------------------------------------------- */}
       <div id={`${office.id}-leadership`} data-anchor="" className="mt-16">
         <div className="flex items-center gap-3" data-reveal="up">
-          <span
-            className="h-1.5 w-1.5 rounded-full bg-brass"
-            aria-hidden="true"
-          />
+          <span className="h-1.5 w-1.5 rounded-full bg-brass" aria-hidden="true" />
           <h3 className="eyebrow">{office.leadershipLabel}</h3>
         </div>
 
@@ -459,71 +412,67 @@ function OfficeBlock({ office, tinted }: { office: Office; tinted: boolean }) {
           {office.leadership.map((person) => {
             const portrait = person.id ? portraits[person.id] : undefined;
             return (
-              <article
-                key={person.name}
-                data-stagger-item
-                className={`card card-still ${surface} flex flex-col p-6 ${person.advisory ? "card-feature" : ""}`}
-              >
-                <div className="flex items-start gap-4">
-                  {portrait?.src ? (
-                    <img
-                      src={portrait.src}
-                      alt={portrait.alt}
-                      loading="lazy"
-                      decoding="async"
-                      className="h-14 w-14 shrink-0 rounded-2xl border border-brass/25 object-cover"
-                      style={{ objectPosition: portrait.focus ?? "50% 25%" }}
-                    />
-                  ) : (
-                    <span className="icon-tile">
-                      {person.advisory ? (
-                        <Scale className="h-5 w-5" strokeWidth={1.25} />
-                      ) : (
-                        <UserRound className="h-5 w-5" strokeWidth={1.25} />
-                      )}
-                    </span>
-                  )}
-                  <div className="min-w-0">
-                    <h4 className="font-display text-lg font-semibold leading-snug tracking-[-0.01em] text-bone">
-                      {person.name}
-                    </h4>
-                    <p
-                      className={`mt-1.5 text-[13px] leading-snug ${
-                        person.advisory ? "text-brass" : "text-mist"
-                      }`}
-                    >
-                      {person.role}
-                      {person.advisory && (
-                        <span className="block text-dim">
-                          To the Head Office
-                        </span>
-                      )}
-                    </p>
-                  </div>
-                </div>
-
-                {person.responsibilities && (
-                  <p className="mt-5 border-t border-white/[0.06] pt-4 text-sm leading-relaxed text-mist">
-                    {person.responsibilities}
-                  </p>
+            <article
+              key={person.name}
+              data-stagger-item
+              className={`card card-still ${surface} flex flex-col p-6 ${person.advisory ? "card-feature" : ""}`}
+            >
+              <div className="flex items-start gap-4">
+                {portrait?.src ? (
+                  <img
+                    src={portrait.src}
+                    alt={portrait.alt}
+                    loading="lazy"
+                    decoding="async"
+                    className="h-14 w-14 shrink-0 rounded-2xl border border-brass/25 object-cover"
+                    style={{ objectPosition: portrait.focus ?? "50% 25%" }}
+                  />
+                ) : (
+                  <span className="icon-tile">
+                    {person.advisory ? (
+                      <Scale className="h-5 w-5" strokeWidth={1.25} />
+                    ) : (
+                      <UserRound className="h-5 w-5" strokeWidth={1.25} />
+                    )}
+                  </span>
                 )}
-
-                {person.phone && (
-                  <a
-                    href={person.phone.href}
-                    className="group/row mt-5 flex items-center justify-between gap-3 border-t border-white/[0.06] pt-4"
+                <div className="min-w-0">
+                  <h4 className="font-display text-lg font-semibold leading-snug tracking-[-0.01em] text-bone">
+                    {person.name}
+                  </h4>
+                  <p
+                    className={`mt-1.5 text-[13px] leading-snug ${
+                      person.advisory ? "text-brass" : "text-mist"
+                    }`}
                   >
-                    <span className="inline-flex items-center gap-2.5 text-[15px] font-medium text-bone transition-colors group-hover/row:text-brass-lit">
-                      <Phone className="h-4 w-4 text-brass" strokeWidth={1.5} />
-                      {person.phone.display}
-                    </span>
-                    <ArrowUpRight
-                      className="h-4 w-4 text-dim transition-colors group-hover/row:text-brass"
-                      strokeWidth={1.75}
-                    />
-                  </a>
-                )}
-              </article>
+                    {person.role}
+                    {person.advisory && <span className="block text-dim">To the Head Office</span>}
+                  </p>
+                </div>
+              </div>
+
+              {person.responsibilities && (
+                <p className="mt-5 border-t border-white/[0.06] pt-4 text-sm leading-relaxed text-mist">
+                  {person.responsibilities}
+                </p>
+              )}
+
+              {person.phone && (
+                <a
+                  href={person.phone.href}
+                  className="group/row mt-5 flex items-center justify-between gap-3 border-t border-white/[0.06] pt-4"
+                >
+                  <span className="inline-flex items-center gap-2.5 text-[15px] font-medium text-bone transition-colors group-hover/row:text-brass-lit">
+                    <Phone className="h-4 w-4 text-brass" strokeWidth={1.5} />
+                    {person.phone.display}
+                  </span>
+                  <ArrowUpRight
+                    className="h-4 w-4 text-dim transition-colors group-hover/row:text-brass"
+                    strokeWidth={1.75}
+                  />
+                </a>
+              )}
+            </article>
             );
           })}
         </div>
