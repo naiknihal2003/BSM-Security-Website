@@ -27,6 +27,8 @@ export default function Navbar() {
 
   /* Close the menu on route change. */
   useEffect(() => {
+    /* Deliberate: a completed navigation is the event being reacted to. */
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setOpen(false);
   }, [pathname]);
 

@@ -146,7 +146,6 @@ export default function ClientsPage() {
                   style={{ aspectRatio: "3 / 2" }}
                 >
                   {logo ? (
-                    /* eslint-disable-next-line @next/next/no-img-element */
                     <img
                       src={logo}
                       alt={`${client.name} logo`}

@@ -36,6 +36,9 @@ export function TransitionProvider({ children }: { children: ReactNode }) {
   const busy = useRef(false);
   const [mounted, setMounted] = useState(false);
 
+  /* Mount gate: the curtain is portalled into document.body, which does not
+     exist during the static render. */
+  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => setMounted(true), []);
 
   const panels = useCallback(

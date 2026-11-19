@@ -17,6 +17,9 @@ export default function Intro() {
     if (prefersReducedMotion()) return;
     if (sessionStorage.getItem("bsm-intro") === "seen") return;
     sessionStorage.setItem("bsm-intro", "seen");
+    /* Deliberate: the decision depends on sessionStorage, which exists only in
+       the browser, so it cannot be made while rendering. */
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setActive(true);
   }, []);
 
