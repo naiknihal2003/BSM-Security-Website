@@ -64,7 +64,7 @@ export default function ClientsPage() {
             <span className="accent-serif text-brass">rely</span> on it.
           </>
         }
-        lead="Client names, logos and testimonials are published here only once BSM has supplied them and the client has agreed to be named. Nothing below is assumed."
+        lead="The organisations below are BSM's clients, listed exactly as BSM supplied them. Logos remain each organisation's own artwork and are shown only once official files are provided."
       >
         <div className="mt-16 grid gap-px border border-line bg-line sm:grid-cols-2 lg:grid-cols-4" data-stagger>
           {clientFacts.map((fact) => (
@@ -79,63 +79,100 @@ export default function ClientsPage() {
       </PageHero>
 
       {/* Client roster */}
-      <Section id="roster" label="Client roster">
-        <div className="grid gap-12 lg:grid-cols-12 lg:gap-10">
-          <div className="lg:col-span-4">
-            <SectionLabel index="01">Who we protect</SectionLabel>
-            <h2 data-split className="mt-8 text-display font-semibold text-bone">
-              Deployments by environment.
-            </h2>
-            <p data-reveal="up" className="mt-8 max-w-sm text-mist">
-              Each card below is a slot waiting for a real client. The sector is the environment the
-              deployment covers; the name, logo and summary come from BSM.
-            </p>
-            <div
-              className="mt-8 flex items-start gap-3 border-l border-brass/50 pl-4"
-              data-reveal="up"
-            >
-              <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-brass" strokeWidth={1.5} />
-              <p className="text-sm text-dim">
-                Client names are published only with the client&apos;s written permission. Where a
-                client prefers not to be named, the sector is listed on its own.
-              </p>
-            </div>
-          </div>
+      <Section id="roster" label="Our esteemed clients">
+        <SectionLabel index="01">Our clients</SectionLabel>
+        <h2
+          data-split
+          className="mt-8 text-display font-semibold uppercase tracking-[-0.01em] text-bone"
+        >
+          Our Esteemed <span className="text-brass">Clients</span>
+        </h2>
 
-          <div className="lg:col-span-7 lg:col-start-6">
-            <div className="grid gap-px border border-line bg-line sm:grid-cols-2" data-stagger>
-              {clients.map((client, i) => (
-                <article key={i} data-stagger-item className="group relative bg-void p-7">
-                  <span className="ticks pointer-events-none absolute inset-0" aria-hidden="true" />
-                  <div className="flex h-20 w-full items-center justify-center border-2 border-brass/55 bg-surface">
-                    {client.logo ? (
-                      /* eslint-disable-next-line @next/next/no-img-element */
-                      <img
-                        src={client.logo}
-                        alt={`${client.name} logo`}
-                        className="max-h-12 w-auto object-contain"
-                      />
-                    ) : (
-                      <span className="font-mono text-[9px] uppercase tracking-[0.2em] text-brass">
-                        [Logo]
-                      </span>
-                    )}
-                  </div>
-                  <p className="mt-6 font-mono text-[10px] uppercase tracking-[0.18em] text-dim">
-                    {client.sector}
-                  </p>
-                  <p className="mt-3 font-display text-lg font-semibold text-bone">
-                    <Placeholder>{client.name}</Placeholder>
-                  </p>
-                  {client.note && (
-                    <p className="mt-3 text-sm text-mist">
-                      <Copy text={client.note} />
-                    </p>
-                  )}
-                </article>
-              ))}
-            </div>
+        <div className="mt-10 grid gap-8 lg:grid-cols-12">
+          <p data-reveal="up" className="max-w-2xl text-lead text-mist lg:col-span-6">
+            Organisations BSM is engaged with, with the locations and operational details as
+            supplied. Public sector undertakings, government establishments, defence facilities and
+            airports among them.
+          </p>
+          <div
+            className="flex items-start gap-3 border-l border-brass/50 pl-4 lg:col-span-5 lg:col-start-8"
+            data-reveal="up"
+          >
+            <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-brass" strokeWidth={1.5} />
+            <p className="text-sm text-dim">
+              Each card carries a frame for the organisation&apos;s official logo. Logos are their
+              proprietors&apos; artwork, so none is reproduced here until the file is supplied —
+              the frames are never filled with substitutes.
+            </p>
           </div>
+        </div>
+
+        {/* Ten cards: five across and two deep on a desktop, three across on a
+            tablet, one on a phone. Bordered cards rather than a hairline grid,
+            so a short final row leaves no empty cells behind. */}
+        <div
+          className="mt-16 grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5"
+          data-stagger
+        >
+          {clients.map((client) => (
+            <article
+              key={client.slug}
+              data-stagger-item
+              className="group relative flex h-full flex-col border border-line bg-void p-6 transition-colors duration-500 hover:border-brass/45"
+            >
+              <span className="ticks pointer-events-none absolute inset-0" aria-hidden="true" />
+
+              <span className="font-mono text-[11px] tracking-[0.2em] text-brass">
+                {client.index}
+              </span>
+
+              {/* One frame per client, identical in every card, so official
+                  artwork drops in without the layout moving. */}
+              <div
+                className="relative mt-5 flex w-full items-center justify-center overflow-hidden border-2 border-brass/55 bg-surface"
+                style={{ aspectRatio: "3 / 2" }}
+              >
+                {client.logo ? (
+                  /* eslint-disable-next-line @next/next/no-img-element */
+                  <img
+                    src={client.logo}
+                    alt={`${client.name} logo`}
+                    className="max-h-[72%] max-w-[82%] object-contain"
+                  />
+                ) : (
+                  <span className="font-mono text-[9px] uppercase tracking-[0.2em] text-brass/80">
+                    [Logo]
+                  </span>
+                )}
+              </div>
+
+              <h3 className="mt-6 font-display text-base font-semibold leading-snug text-white">
+                {client.name}
+              </h3>
+              {client.abbr && (
+                <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.18em] text-brass">
+                  {client.abbr}
+                </p>
+              )}
+
+              <ul className="mt-4 space-y-2.5 border-t border-line-soft pt-4">
+                {client.details.map((detail) => (
+                  <li
+                    key={detail}
+                    className="flex items-start gap-2.5 text-[13px] leading-relaxed text-mist"
+                  >
+                    {client.details.length > 1 && (
+                      <span
+                        className="mt-[0.55rem] h-px w-2.5 shrink-0 bg-brass/70"
+                        aria-hidden="true"
+                      />
+                    )}
+                    <span>{detail}</span>
+                  </li>
+                ))}
+              </ul>
+            </article>
+          ))}
         </div>
       </Section>
 

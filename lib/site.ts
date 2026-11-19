@@ -333,31 +333,106 @@ export const faqs = [
 
 /* --------------------------------------------------------------------------
    Clients
-   Structure only. No client name, logo, sector claim or testimonial has been
-   invented: every entry below is a bracketed placeholder that renders in the
-   unverified treatment until BSM supplies the real information. To populate,
-   replace the bracketed strings (and drop a logo file into /public/media,
-   pointing `logo` at it).
+   Supplied by BSM and reproduced verbatim: organisation names, abbreviations,
+   locations and operational details are not reworded, reordered or added to.
+   Logos are the organisations' own artwork and are therefore not reproduced
+   until BSM supplies them — drop a file in /public/media/clients and point
+   `logo` at it; the card layout does not change.
    -------------------------------------------------------------------------- */
 
 export type ClientEntry = {
-  /** Client name, or a bracketed placeholder until BSM confirms it. */
+  /** Stable key, and the suggested logo filename. */
+  slug: string;
+  index: string;
+  /** Organisation name, exactly as supplied. */
   name: string;
-  /** Environment the deployment covers. */
-  sector: string;
-  /** Optional one line about the deployment. */
-  note?: string;
-  /** Path to a logo in /public/media. Omitted until BSM supplies artwork. */
+  /** Abbreviation, where BSM supplied one. */
+  abbr?: string;
+  /** Locations and operational details, one per line, exactly as supplied. */
+  details: string[];
+  /** Path to official artwork in /public/media/clients. */
   logo?: string;
 };
 
 export const clients: ClientEntry[] = [
-  { name: "[CLIENT NAME]", sector: "Corporate", note: "[DEPLOYMENT SUMMARY]" },
-  { name: "[CLIENT NAME]", sector: "Hospitality", note: "[DEPLOYMENT SUMMARY]" },
-  { name: "[CLIENT NAME]", sector: "Residential", note: "[DEPLOYMENT SUMMARY]" },
-  { name: "[CLIENT NAME]", sector: "Industrial", note: "[DEPLOYMENT SUMMARY]" },
-  { name: "[CLIENT NAME]", sector: "Events", note: "[DEPLOYMENT SUMMARY]" },
-  { name: "[CLIENT NAME]", sector: "Retail & commercial", note: "[DEPLOYMENT SUMMARY]" },
+  {
+    slug: "hpcl",
+    index: "01",
+    name: "Hindustan Petroleum Corporation Limited",
+    abbr: "HPCL",
+    details: [
+      "LPG Bottling Plant, Kundaim Industrial Estate, Goa",
+      "Goa ASF, Chicalim",
+      "Goa ASF, Aviation Service Facility, Vasco, Goa",
+    ],
+  },
+  {
+    slug: "gsl",
+    index: "02",
+    name: "Goa Shipyard Limited",
+    abbr: "GSL",
+    details: [
+      "Vasco-da-Gama, Goa — A Government of India undertaking under the Ministry of Defence.",
+    ],
+  },
+  {
+    slug: "csir-nio",
+    index: "03",
+    name: "CSIR – National Institute of Oceanography",
+    abbr: "CSIR-NIO",
+    details: ["Dona Paula, Goa."],
+  },
+  {
+    slug: "aai",
+    index: "04",
+    name: "Airports Authority of India",
+    abbr: "AAI",
+    details: [
+      "International Airport, Goa, Vasco",
+      "AAI Cargo Logistics and Allied Services Company Limited, Goa International Airport, Goa",
+    ],
+  },
+  {
+    slug: "iocl",
+    index: "05",
+    name: "Indian Oil Corporation Limited",
+    abbr: "IOCL",
+    details: ["Sada, Vasco, Goa."],
+  },
+  {
+    slug: "bpcl",
+    index: "06",
+    name: "Bharat Petroleum Corporation Limited",
+    abbr: "BPCL",
+    details: ["Aviation, Chicalim, Goa", "Mopa International Airport, Aviation"],
+  },
+  {
+    slug: "gia",
+    index: "07",
+    name: "Goa International Airport",
+    abbr: "GIA",
+    details: ["JCO for Airport Operational Control Centre."],
+  },
+  {
+    slug: "ins-hansa",
+    index: "08",
+    name: "INS Hansa – SBTF Naval Air Station",
+    details: ["Dabolim, Goa."],
+  },
+  {
+    slug: "esic",
+    index: "09",
+    name: "Employees’ State Insurance Corporation",
+    abbr: "ESIC",
+    details: ["Regional Office, Patto, Panjim, Goa."],
+  },
+  {
+    slug: "concor",
+    index: "10",
+    name: "Container Corporation of India Limited",
+    abbr: "CONCOR",
+    details: ["A Government of India Enterprise."],
+  },
 ];
 
 export type Testimonial = {
