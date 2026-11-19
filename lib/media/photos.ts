@@ -34,16 +34,16 @@ export const media = {
    */
   heroBackdrop: {
     src: "/media/photos/hero-security-officer.webp",
-    alt: "Security officer in a dark suit wearing a security identification lanyard, lit from one side",
+    alt: "BSM security officer in a black suit and tie wearing sunglasses and an earpiece, with a BSM Security lanyard and identification card",
     label: "Personnel on post",
-    brief: "BSM guard in uniform at a site entrance, at night — portrait or a transparent cut-out.",
+    brief: "Supplied by BSM — officer in uniform, shot in portrait for the hero.",
     focus: "50% 13%",
   },
   heroDeployment: {
     src: "/media/photos/hero-security-officer.webp",
-    alt: "Security officer in a dark suit wearing a security identification lanyard, lit from one side",
+    alt: "BSM security officer in a black suit and tie wearing sunglasses and an earpiece, with a BSM Security lanyard and identification card",
     label: "Personnel on post",
-    brief: "Replace with BSM's own photography — a guard at a gate or lobby, shot in low light.",
+    brief: "Supplied by BSM — officer in uniform, shot against a dark panelled wall.",
   },
   briefing: {
     src: "/media/photos/briefing-team.webp",
