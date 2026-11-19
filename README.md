@@ -30,8 +30,8 @@ grep -rn "\[[A-Z][A-Z /&-]*\]" lib/ app/ components/
 
 | Field | Placeholder |
 | --- | --- |
-| Business hours | `[OPENING HOURS]` |
-| Legal entity | `[BSM LEGAL ENTITY NAME]` |
+| Business hours | `9am-5:30pm` |
+| Legal entity | `BSM SECURITY AGENCY` |
 | `site.url` | currently `https://www.bsmsecurity.in` — set the real domain; it drives canonical URLs, sitemap, OG tags and schema |
 
 Phone, WhatsApp, email and the Head Office address are set. `contact.phones`
