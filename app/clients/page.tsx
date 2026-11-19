@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Building2, Quote, ShieldCheck } from "lucide-react";
 import { site, clients, testimonials, clientFacts } from "@/lib/site";
+import { clientLogos } from "@/lib/media";
 import { JsonLd, breadcrumbSchema } from "@/lib/schema";
 import { PageHero } from "@/components/ui/PageHero";
 import { Section, SectionLabel } from "@/components/ui/Section";
@@ -66,7 +67,10 @@ export default function ClientsPage() {
         }
         lead="The organisations below are BSM's clients, listed exactly as BSM supplied them. Logos remain each organisation's own artwork and are shown only once official files are provided."
       >
-        <div className="mt-16 grid gap-px border border-line bg-line sm:grid-cols-2 lg:grid-cols-4" data-stagger>
+        <div
+          className="mt-16 grid gap-px border border-line bg-line sm:grid-cols-2 lg:grid-cols-4"
+          data-stagger
+        >
           {clientFacts.map((fact) => (
             <div key={fact.k} data-stagger-item className="bg-void p-8">
               <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-dim">{fact.k}</p>
@@ -101,8 +105,8 @@ export default function ClientsPage() {
             <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-brass" strokeWidth={1.5} />
             <p className="text-sm text-dim">
               Each card carries a frame for the organisation&apos;s official logo. Logos are their
-              proprietors&apos; artwork, so none is reproduced here until the file is supplied —
-              the frames are never filled with substitutes.
+              proprietors&apos; artwork, so none is reproduced here until the file is supplied — the
+              frames are never filled with substitutes.
             </p>
           </div>
         </div>
@@ -114,65 +118,72 @@ export default function ClientsPage() {
           className="mt-16 grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5"
           data-stagger
         >
-          {clients.map((client) => (
-            <article
-              key={client.slug}
-              data-stagger-item
-              className="group relative flex h-full flex-col border border-line bg-void p-6 transition-colors duration-500 hover:border-brass/45"
-            >
-              <span className="ticks pointer-events-none absolute inset-0" aria-hidden="true" />
-
-              <span className="font-mono text-[11px] tracking-[0.2em] text-brass">
-                {client.index}
-              </span>
-
-              {/* One frame per client, identical in every card, so official
-                  artwork drops in without the layout moving. */}
-              <div
-                className="relative mt-5 flex w-full items-center justify-center overflow-hidden border-2 border-brass/55 bg-surface"
-                style={{ aspectRatio: "3 / 2" }}
+          {clients.map((client) => {
+            /* Artwork comes from the clientLogos dictionary in lib/media.ts —
+               a local file or a URL on the organisation's own site. */
+            const logo = clientLogos[client.slug];
+            return (
+              <article
+                key={client.slug}
+                data-stagger-item
+                className="group relative flex h-full flex-col border border-line bg-void p-6 transition-colors duration-500 hover:border-brass/45"
               >
-                {client.logo ? (
-                  /* eslint-disable-next-line @next/next/no-img-element */
-                  <img
-                    src={client.logo}
-                    alt={`${client.name} logo`}
-                    className="max-h-[72%] max-w-[82%] object-contain"
-                  />
-                ) : (
-                  <span className="font-mono text-[9px] uppercase tracking-[0.2em] text-brass/80">
-                    [Logo]
-                  </span>
+                <span className="ticks pointer-events-none absolute inset-0" aria-hidden="true" />
+
+                <span className="font-mono text-[11px] tracking-[0.2em] text-brass">
+                  {client.index}
+                </span>
+
+                {/* One frame per client, identical in every card, so official
+                  artwork drops in without the layout moving. */}
+                <div
+                  className="relative mt-5 flex w-full items-center justify-center overflow-hidden border-2 border-brass/55 bg-surface"
+                  style={{ aspectRatio: "3 / 2" }}
+                >
+                  {logo ? (
+                    /* eslint-disable-next-line @next/next/no-img-element */
+                    <img
+                      src={logo}
+                      alt={`${client.name} logo`}
+                      loading="lazy"
+                      decoding="async"
+                      className="max-h-[72%] max-w-[82%] object-contain"
+                    />
+                  ) : (
+                    <span className="font-mono text-[9px] uppercase tracking-[0.2em] text-brass/80">
+                      [Logo]
+                    </span>
+                  )}
+                </div>
+
+                <h3 className="mt-6 font-display text-base font-semibold leading-snug text-white">
+                  {client.name}
+                </h3>
+                {client.abbr && (
+                  <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.18em] text-brass">
+                    {client.abbr}
+                  </p>
                 )}
-              </div>
 
-              <h3 className="mt-6 font-display text-base font-semibold leading-snug text-white">
-                {client.name}
-              </h3>
-              {client.abbr && (
-                <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.18em] text-brass">
-                  {client.abbr}
-                </p>
-              )}
-
-              <ul className="mt-4 space-y-2.5 border-t border-line-soft pt-4">
-                {client.details.map((detail) => (
-                  <li
-                    key={detail}
-                    className="flex items-start gap-2.5 text-[13px] leading-relaxed text-mist"
-                  >
-                    {client.details.length > 1 && (
-                      <span
-                        className="mt-[0.55rem] h-px w-2.5 shrink-0 bg-brass/70"
-                        aria-hidden="true"
-                      />
-                    )}
-                    <span>{detail}</span>
-                  </li>
-                ))}
-              </ul>
-            </article>
-          ))}
+                <ul className="mt-4 space-y-2.5 border-t border-line-soft pt-4">
+                  {client.details.map((detail) => (
+                    <li
+                      key={detail}
+                      className="flex items-start gap-2.5 text-[13px] leading-relaxed text-mist"
+                    >
+                      {client.details.length > 1 && (
+                        <span
+                          className="mt-[0.55rem] h-px w-2.5 shrink-0 bg-brass/70"
+                          aria-hidden="true"
+                        />
+                      )}
+                      <span>{detail}</span>
+                    </li>
+                  ))}
+                </ul>
+              </article>
+            );
+          })}
         </div>
       </Section>
 

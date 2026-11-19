@@ -32,8 +32,16 @@ export const site = {
     whatsapps: [{ display: "+91 94212 49677", href: "https://wa.me/919421249677" }],
     /* The WhatsApp line for each office, shown separately on the contact page. */
     whatsappByOffice: [
-      { label: "Head Office", display: "+91 94212 49677", href: "https://wa.me/919421249677" },
-      { label: "Branch Office", display: "+91 87623 26038", href: "https://wa.me/918762326038" },
+      {
+        label: "Head Office",
+        display: "+91 94212 49677",
+        href: "https://wa.me/919421249677",
+      },
+      {
+        label: "Branch Office",
+        display: "+91 87623 26038",
+        href: "https://wa.me/918762326038",
+      },
     ],
     whatsapp: "+91 94212 49677",
     whatsappHref: "https://wa.me/919421249677",
@@ -225,14 +233,35 @@ export const services: Service[] = [
 ];
 
 export const industries = [
-  { name: "Hospitality & Resorts", note: "Hotels, resorts, beach clubs and restaurants." },
+  {
+    name: "Hospitality & Resorts",
+    note: "Hotels, resorts, beach clubs and restaurants.",
+  },
   { name: "Corporate & IT", note: "Offices, IT parks and shared workspaces." },
-  { name: "Residential Communities", note: "Villas, apartments and gated societies." },
-  { name: "Industrial & Logistics", note: "Factories, warehouses and estates." },
-  { name: "Retail & Commercial", note: "Showrooms, malls and commercial complexes." },
-  { name: "Events & Entertainment", note: "Weddings, festivals and private events." },
-  { name: "Healthcare & Education", note: "Hospitals, clinics, schools and campuses." },
-  { name: "Construction & Projects", note: "Project sites and material yards." },
+  {
+    name: "Residential Communities",
+    note: "Villas, apartments and gated societies.",
+  },
+  {
+    name: "Industrial & Logistics",
+    note: "Factories, warehouses and estates.",
+  },
+  {
+    name: "Retail & Commercial",
+    note: "Showrooms, malls and commercial complexes.",
+  },
+  {
+    name: "Events & Entertainment",
+    note: "Weddings, festivals and private events.",
+  },
+  {
+    name: "Healthcare & Education",
+    note: "Hospitals, clinics, schools and campuses.",
+  },
+  {
+    name: "Construction & Projects",
+    note: "Project sites and material yards.",
+  },
 ];
 
 export const processSteps = [
@@ -335,14 +364,22 @@ export const faqs = [
    Clients
    Supplied by BSM and reproduced verbatim: organisation names, abbreviations,
    locations and operational details are not reworded, reordered or added to.
-   Logos are the organisations' own artwork and are therefore not reproduced
-   until BSM supplies them — drop a file in /public/media/clients and point
-   `logo` at it; the card layout does not change.
+   Logos live in their own dictionary — clientLogos in lib/media.ts — keyed by
+   the slugs below, so artwork can be added or removed there without touching
+   this roster or the page itself.
    -------------------------------------------------------------------------- */
 
+/**
+ * One key per client. The logo dictionary in lib/media.ts is keyed by these
+ * same slugs, so adding a client here and forgetting its logo line (or
+ * mistyping one) is a type error rather than a silently missing image.
+ */
+export type ClientSlug =
+  "hpcl" | "gsl" | "csir-nio" | "aai" | "iocl" | "bpcl" | "gia" | "ins-hansa" | "esic" | "concor";
+
 export type ClientEntry = {
-  /** Stable key, and the suggested logo filename. */
-  slug: string;
+  /** Stable key; the logo for this client is clientLogos[slug]. */
+  slug: ClientSlug;
   index: string;
   /** Organisation name, exactly as supplied. */
   name: string;
@@ -350,8 +387,6 @@ export type ClientEntry = {
   abbr?: string;
   /** Locations and operational details, one per line, exactly as supplied. */
   details: string[];
-  /** Path to official artwork in /public/media/clients. */
-  logo?: string;
 };
 
 export const clients: ClientEntry[] = [
@@ -442,9 +477,21 @@ export type Testimonial = {
 };
 
 export const testimonials: Testimonial[] = [
-  { quote: "[CLIENT TESTIMONIAL]", attribution: "[NAME]", role: "[ROLE, ORGANISATION]" },
-  { quote: "[CLIENT TESTIMONIAL]", attribution: "[NAME]", role: "[ROLE, ORGANISATION]" },
-  { quote: "[CLIENT TESTIMONIAL]", attribution: "[NAME]", role: "[ROLE, ORGANISATION]" },
+  {
+    quote: "[CLIENT TESTIMONIAL]",
+    attribution: "[NAME]",
+    role: "[ROLE, ORGANISATION]",
+  },
+  {
+    quote: "[CLIENT TESTIMONIAL]",
+    attribution: "[NAME]",
+    role: "[ROLE, ORGANISATION]",
+  },
+  {
+    quote: "[CLIENT TESTIMONIAL]",
+    attribution: "[NAME]",
+    role: "[ROLE, ORGANISATION]",
+  },
 ];
 
 /** Figures BSM will confirm; shown as fields, never as claims. */
@@ -558,7 +605,10 @@ export const offices: Office[] = [
     mapTitle: "Map showing the BSM Branch Office at Kadamba Govt Housing Society, Chimbel, Goa",
     phones: [{ display: "+91 87623 26038", href: "tel:+918762326038" }],
     whatsapps: [{ display: "+91 87623 26038", href: "https://wa.me/918762326038" }],
-    email: { display: "bsmgoa.dgr@gmail.com", href: "mailto:bsmgoa.dgr@gmail.com" },
+    email: {
+      display: "bsmgoa.dgr@gmail.com",
+      href: "mailto:bsmgoa.dgr@gmail.com",
+    },
     leadershipLabel: "Branch leadership",
     leadership: [
       {

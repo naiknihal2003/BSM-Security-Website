@@ -1,3 +1,5 @@
+import type { ClientSlug } from "@/lib/site";
+
 /**
  * Demo photography.
  *
@@ -265,3 +267,33 @@ export const gallery: GalleryItem[] = [
 
 /** The groups, in display order. Used for the gallery filter rail. */
 export const galleryGroups = ["Personnel", "Operations", "Sites", "Goa"] as const;
+
+/* --------------------------------------------------------------------------
+   Client logos
+   --------------------------------------------------------------------------
+   One line per client, keyed by the client's slug in lib/site.ts.
+
+   To add a logo, set its value to either
+     • a file you dropped in /public/media/clients  →  "/media/clients/gsl.png"
+     • or a full URL on the organisation's own site →  "https://…/logo.png"
+
+   To remove one, set it back to "". An empty value renders the neutral
+   [Logo] frame — the card layout is identical either way, so adding and
+   removing artwork never moves anything on the page.
+
+   A logo is the organisation's property: only put one here that BSM is
+   permitted to display. Nothing is filled in with a substitute or lookalike.
+   -------------------------------------------------------------------------- */
+
+export const clientLogos: Record<ClientSlug, string> = {
+  hpcl: "https://www.hindustanpetroleum.com/images/logo.png",
+  gsl: "",
+  "csir-nio": "",
+  aai: "",
+  iocl: "",
+  bpcl: "",
+  gia: "",
+  "ins-hansa": "",
+  esic: "",
+  concor: "",
+};
