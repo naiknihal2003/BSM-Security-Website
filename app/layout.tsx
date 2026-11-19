@@ -123,6 +123,26 @@ export default function RootLayout({
               "try{if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches){document.documentElement.classList.add('anim-ready')}}catch(e){}",
           }}
         />
+        {/*
+          Stale build guard.
+
+          Every build names its CSS and JS chunks after a fresh hash, and a
+          deployment keeps only its own. A page already open when a new build
+          goes live — an open tab, a back/forward restore, or a client-side
+          navigation using the old build's manifest — therefore asks for files
+          that now return 404, and arrives unstyled or with nothing updated.
+
+          There is no server here to detect the mismatch (the site is a static
+          export), so the page watches for it: a stylesheet or script under
+          /_next/static that fails to load, or a chunk import that rejects,
+          means the build it belongs to is gone. Reloading fetches the current
+          HTML, which names the current files.
+
+          The reload happens at most once per tab — the flag is cleared only
+          when a page finishes loading without the failure — so a genuinely
+          broken asset cannot put the tab in a loop.
+        */}
+        <script dangerouslySetInnerHTML={{ __html: "(function(){var K='bsm-stale-build';function ok(){try{sessionStorage.removeItem(K)}catch(e){}}function stale(){try{if(sessionStorage.getItem(K))return;sessionStorage.setItem(K,'1')}catch(e){}location.reload()}addEventListener('load',ok);addEventListener('error',function(e){var t=e.target;if(!t||!t.tagName)return;if(t.tagName!=='LINK'&&t.tagName!=='SCRIPT')return;if(((t.href||t.src||'')+'').indexOf('/_next/static/')<0)return;stale()},true);addEventListener('unhandledrejection',function(e){var r=e&&e.reason;var m=((r&&r.message)||r||'')+'';if(/Loading chunk|dynamically imported module|Importing a module script failed/i.test(m))stale()})})()" }} />
       </head>
       <body className="bg-void antialiased">
         <TransitionProvider>

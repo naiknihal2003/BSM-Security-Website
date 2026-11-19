@@ -127,6 +127,8 @@ async function run() {
     [join(OUT, "brand", "icon-192.png"), 192],
     [join(OUT, "brand", "icon-512.png"), 512],
     [join("app", "apple-icon.png"), 180],
+    /* The browser-tab icon. Next serves app/icon.png as the favicon. */
+    [join("app", "icon.png"), 512],
   ];
   for (const [to, size] of icons) {
     if (!force && !(await newer(logoMaster, to))) continue;
