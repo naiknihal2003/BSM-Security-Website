@@ -1,0 +1,32 @@
+/**
+ * Shapes every media entry is declared with.
+ *
+ * Nothing in here points at a file: the dictionaries do that, so a type change
+ * and a content change never land in the same place.
+ */
+
+export type Shot = {
+  src: string;
+  /** Describes what is actually visible, for screen readers. */
+  alt: string;
+  /** Caption shown under the frame. */
+  label: string;
+  /** What BSM's replacement photograph should show. */
+  brief: string;
+  /** Native aspect ratio, so the whole photograph is shown uncropped. */
+  ratio?: string;
+};
+
+/** One frame on the gallery page. */
+export type GalleryItem = {
+  /** An existing shot, or omitted to render the placeholder frame. */
+  shot?: Shot;
+  /** Group the frame is filed under on the gallery page. */
+  group: string;
+  figure: string;
+  /** Used when there is no shot yet. */
+  label?: string;
+  brief?: string;
+  /** Frames marked wide span two columns on large screens. */
+  wide?: boolean;
+};

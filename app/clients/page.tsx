@@ -136,8 +136,13 @@ export default function ClientsPage() {
 
                 {/* One frame per client, identical in every card, so official
                   artwork drops in without the layout moving. */}
+                {/* Logos are printed on a light plate: these are the
+                    organisations' own marks, in their own colours, and are
+                    drawn for white. An empty frame keeps the dark surface. */}
                 <div
-                  className="relative mt-5 flex w-full items-center justify-center overflow-hidden border-2 border-brass/55 bg-surface"
+                  className={`relative mt-5 flex w-full items-center justify-center overflow-hidden border-2 border-brass/55 ${
+                    logo ? "bg-white p-4" : "bg-surface"
+                  }`}
                   style={{ aspectRatio: "3 / 2" }}
                 >
                   {logo ? (
@@ -147,7 +152,7 @@ export default function ClientsPage() {
                       alt={`${client.name} logo`}
                       loading="lazy"
                       decoding="async"
-                      className="max-h-[72%] max-w-[82%] object-contain"
+                      className="max-h-full max-w-full object-contain"
                     />
                   ) : (
                     <span className="font-mono text-[9px] uppercase tracking-[0.2em] text-brass/80">

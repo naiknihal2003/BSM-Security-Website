@@ -8,8 +8,14 @@ Next.js (App Router) · TypeScript · Tailwind CSS v4 · GSAP (ScrollTrigger + S
 npm install
 npm run dev        # http://localhost:3000
 npm run build      # writes the finished site to ./out
+npm run start      # serve the built site locally
+npm run lint       # eslint
 npm run typecheck  # tsc --noEmit
+npm run media      # assets-src/media -> public/media
+npm run check:content   # what is still waiting on BSM
 ```
+
+> `npm run lint` needs its dev dependencies installed once: `npm install`.
 
 ## A static site — no server
 
@@ -30,12 +36,54 @@ Opening `out/index.html` by double-clicking it will not work: browsers block a
 page from loading its own scripts over `file://`, so the page would appear
 unstyled. The one command above is the way to view it locally.
 
+## Project structure
+
+```
+app/              routes — one folder per page, plus layout, globals.css, metadata
+components/
+  layout/         chrome that persists across routes (navbar, footer, scroll,
+                  transitions, the enquiry drawer, the content guard)
+  sections/       whole page sections, composed of ui pieces
+  ui/             the smallest reusable pieces (Button, Section, MediaFrame…)
+lib/
+  media/          the media dictionaries — see below
+  site.ts         contact details, offices, navigation, services, clients
+  about.ts        About Us copy, verbatim as BSM supplied it
+  schema.tsx      structured data for search engines
+  gsap.ts         the single GSAP registration point
+public/           served as-is: /media photographs, /media/clients logos
+assets-src/       masters that are NOT served — run `npm run media`
+scripts/          one-off tooling (media pipeline, content check)
+```
+
+A page composes sections; a section composes ui pieces; nothing reaches for a
+file path or a phone number directly — it imports from `lib`. That is the whole
+architecture.
+
 ### Images and media
 
-Every image on the site is one line in **`lib/media.ts`** — photographs at the
-top (`src`, `alt`, `label`, optional `ratio`), client logos in `clientLogos` at
-the bottom. Drop a file into `public/media/` and point the entry at it, or set
-the entry to `""` to go back to the neutral frame. No component needs touching.
+Every image on the site is one line in a dictionary under **`lib/media/`**,
+imported as one module:
+
+```ts
+import { media, logo, gallery, clientLogos } from "@/lib/media";
+```
+
+| File | What it holds |
+| --- | --- |
+| `lib/media/types.ts` | the shapes — `Shot`, `GalleryItem` |
+| `lib/media/photos.ts` | every photograph, plus the BSM logo |
+| `lib/media/gallery.ts` | which photographs appear on the gallery page |
+| `lib/media/client-logos.ts` | one line per client, keyed by slug |
+
+**To change an image** point its entry at another file in `public/media`.
+**To remove one** set the value to `""` — the frame falls back to a placeholder
+that states on the page what belongs there. **To add one** drop the file in
+`public/media` (or put the master in `assets-src/media` and run `npm run media`)
+and add an entry. No component is touched either way.
+
+`npm run check:content` lists every placeholder and every empty media slot, so
+nothing unfinished reaches the live site by accident.
 
 ### Enquiries
 

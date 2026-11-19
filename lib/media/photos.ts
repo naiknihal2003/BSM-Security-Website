@@ -1,29 +1,23 @@
-import type { ClientSlug } from "@/lib/site";
-
 /**
- * Demo photography.
+ * Photographs — the dictionary.
  *
- * These are stand-in images from Unsplash (Unsplash License — free for
- * commercial use) so the site can be shown complete. They are NOT photographs
- * of BSM, its personnel or its sites. Replace each `src` with BSM's own
- * photography before launch and update the `alt` text to describe the real
- * image; `brief` records what the shot is meant to show.
+ * Every photograph on the site is one entry here, and nowhere else. To change
+ * an image, point its `src` at another file in /public/media. To remove one,
+ * set `src` to "" and the frame falls back to the composed placeholder that
+ * states on the page what photograph belongs there. To add one, drop the file
+ * in /public/media and add an entry; pass it to <MediaFrame shot={...} />.
  *
- * Dropping the `src` from any entry makes that frame fall back to the composed
- * placeholder state, which states on the page what photograph belongs there.
+ * `ratio` is optional: give it when the photograph must be shown whole rather
+ * than cropped to the frame.
+ *
+ * Current state: stand-in images under the Unsplash License, free for
+ * commercial use. They are NOT photographs of BSM, its personnel or its sites.
+ * Replace each `src` with BSM's own photography before launch and rewrite the
+ * `alt` text to describe the real image; `brief` records what the shot is
+ * meant to show.
  */
 
-export type Shot = {
-  src: string;
-  /** Describes what is actually visible, for screen readers. */
-  alt: string;
-  /** Caption shown under the frame. */
-  label: string;
-  /** What BSM's replacement photograph should show. */
-  brief: string;
-  /** Native aspect ratio, so the whole photograph is shown uncropped. */
-  ratio?: string;
-};
+import type { Shot } from "./types";
 
 export const media = {
   heroDeployment: {
@@ -225,75 +219,3 @@ export const logo = {
   width: 1254,
   height: 1254,
 } as const;
-
-/**
- * Gallery.
- *
- * Reuses the shots declared above so there is still one source of truth per
- * image. Entries without a `shot` render the composed placeholder frame and
- * state what photograph belongs there — that is where BSM's own photography
- * goes. To populate: add the file to /public/media, declare it in `media`
- * above, and point the entry at it.
- */
-export type GalleryItem = {
-  /** An existing shot, or omitted to render the placeholder frame. */
-  shot?: Shot;
-  /** Group the frame is filed under on the gallery page. */
-  group: string;
-  figure: string;
-  /** Used when there is no shot yet. */
-  label?: string;
-  brief?: string;
-  /** Frames marked wide span two columns on large screens. */
-  wide?: boolean;
-};
-
-export const gallery: GalleryItem[] = [
-  { shot: media.heroDeployment, group: "Personnel", figure: "Fig. 01" },
-  { shot: media.guarding, group: "Personnel", figure: "Fig. 02" },
-  { shot: media.briefing, group: "Operations", figure: "Fig. 03", wide: true },
-  { shot: media.patrol, group: "Operations", figure: "Fig. 04" },
-  { shot: media.records, group: "Operations", figure: "Fig. 05" },
-  { shot: media.corporate, group: "Sites", figure: "Fig. 06" },
-  { shot: media.residential, group: "Sites", figure: "Fig. 07" },
-  { shot: media.hospitality, group: "Sites", figure: "Fig. 08" },
-  { shot: media.industrial, group: "Sites", figure: "Fig. 09" },
-  { shot: media.event, group: "Sites", figure: "Fig. 10" },
-  { shot: media.coast, group: "Goa", figure: "Fig. 11", wide: true },
-  { shot: media.goaLandscape, group: "Goa", figure: "Fig. 12" },
-  { shot: media.estate, group: "Sites", figure: "Fig. 13" },
-  { shot: media.night, group: "Operations", figure: "Fig. 14" },
-];
-
-/** The groups, in display order. Used for the gallery filter rail. */
-export const galleryGroups = ["Personnel", "Operations", "Sites", "Goa"] as const;
-
-/* --------------------------------------------------------------------------
-   Client logos
-   --------------------------------------------------------------------------
-   One line per client, keyed by the client's slug in lib/site.ts.
-
-   To add a logo, set its value to either
-     • a file you dropped in /public/media/clients  →  "/media/clients/gsl.png"
-     • or a full URL on the organisation's own site →  "https://…/logo.png"
-
-   To remove one, set it back to "". An empty value renders the neutral
-   [Logo] frame — the card layout is identical either way, so adding and
-   removing artwork never moves anything on the page.
-
-   A logo is the organisation's property: only put one here that BSM is
-   permitted to display. Nothing is filled in with a substitute or lookalike.
-   -------------------------------------------------------------------------- */
-
-export const clientLogos: Record<ClientSlug, string> = {
-  hpcl: "https://www.hindustanpetroleum.com/images/logo.png",
-  gsl: "",
-  "csir-nio": "",
-  aai: "",
-  iocl: "",
-  bpcl: "",
-  gia: "",
-  "ins-hansa": "",
-  esic: "",
-  concor: "",
-};
