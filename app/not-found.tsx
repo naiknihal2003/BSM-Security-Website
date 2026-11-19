@@ -16,7 +16,7 @@ export default function NotFound() {
       <div className="shell relative grid gap-12 py-24 lg:grid-cols-12">
         <div className="lg:col-span-7">
           <div className="flex items-center gap-4">
-            <span className="h-1.5 w-1.5 bg-alert" />
+            <span className="h-1.5 w-1.5 rounded-full bg-alert" />
             <span className="font-mono text-[11px] uppercase tracking-[0.22em] text-alert">
               Error 404
             </span>
@@ -42,12 +42,12 @@ export default function NotFound() {
         </div>
 
         <div className="lg:col-span-4 lg:col-start-9">
-          <nav aria-label="Site sections" className="border-t border-line">
+          <nav aria-label="Site sections" className="grid gap-2">
             {site.nav.map((item, i) => (
               <a
                 key={item.href}
                 href={item.href}
-                className="group flex items-baseline gap-4 border-b border-line py-5 transition-colors duration-500 hover:text-brass"
+                className="card card-ink group flex items-baseline gap-4 rounded-2xl px-5 py-4"
               >
                 <span className="font-mono text-[11px] tracking-[0.2em] text-dim">
                   {String(i + 1).padStart(2, "0")}

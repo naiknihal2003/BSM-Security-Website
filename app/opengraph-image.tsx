@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/og";
 
-export const alt = "BSM — Security agency in Goa, India";
+export const alt = "BSM Security Agency, Goa — Protecting industries. Securing Businesses. Building Trust.";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -73,9 +73,14 @@ export default function OpengraphImage() {
             paddingTop: 28,
           }}
         >
-          <div style={{ fontSize: 56, fontWeight: 700, letterSpacing: -2 }}>BSM</div>
-          <div style={{ fontSize: 18, letterSpacing: 4, color: "#656e7d", textTransform: "uppercase" }}>
-            Corporate · Residential · Industrial · Events
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            <div style={{ fontSize: 46, fontWeight: 700, letterSpacing: -1.5 }}>BSM Security Agency</div>
+            <div style={{ fontSize: 18, letterSpacing: 4, color: "#c8a45c", textTransform: "uppercase", marginTop: 8 }}>
+              Est. 2013 · DGR-sponsored · 24 × 7
+            </div>
+          </div>
+          <div style={{ fontSize: 17, letterSpacing: 4, color: "#656e7d", textTransform: "uppercase" }}>
+            PSU · Industrial · Banking · Events
           </div>
         </div>
       </div>

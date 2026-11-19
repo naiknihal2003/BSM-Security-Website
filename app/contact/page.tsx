@@ -1,32 +1,29 @@
 import type { Metadata } from "next";
-import { Building2, Clock, Mail, MapPin, Phone, ShieldCheck } from "lucide-react";
+import { pageMetadata } from "@/lib/seo";
+import { ArrowUpRight, Building2, Clock, Mail, MapPin, Phone, ShieldCheck } from "lucide-react";
 import { WhatsAppIcon } from "@/components/ui/WhatsAppIcon";
 import { site, offices } from "@/lib/site";
-import { JsonLd, breadcrumbSchema, localBusinessSchema } from "@/lib/schema";
+import { shortcuts } from "@/lib/navigation";
+import { JsonLd, breadcrumbSchema } from "@/lib/schema";
 import { PageHero } from "@/components/ui/PageHero";
 import { Section, SectionLabel } from "@/components/ui/Section";
+import { Button } from "@/components/ui/Button";
+import SubNav from "@/components/layout/SubNav";
 import EnquiryForm from "@/components/sections/EnquiryForm";
 import RevealEngine from "@/components/layout/RevealEngine";
 
-export const metadata: Metadata = {
-  title: "Contact BSM — Security Agency in Goa",
+export const metadata: Metadata = pageMetadata({
+  path: "/contact",
+  title: "Contact Us — Call, WhatsApp or Send an Enquiry",
   description:
-    "Contact BSM for security services in Goa, India. Phone, email, WhatsApp, office address and enquiry form for corporate, residential, event, industrial and hospitality security.",
-  alternates: { canonical: "/contact" },
-  openGraph: {
-    title: "Contact BSM — Security Agency in Goa",
-    description: "Phone, email, WhatsApp and office address for BSM security services in Goa, India.",
-    url: `${site.url}/contact`,
-  },
-};
-
-const emailChannel = {
-  icon: Mail,
-  k: "Email",
-  v: site.contact.email,
-  href: site.contact.emailHref,
-  note: "For written scopes, tenders and documentation.",
-};
+    "Contact BSM Security Agency in Goa: call +91 94212 49677, +91 87889 65649 or +91 87623 26038, WhatsApp, or email contact@bsmsecurityagency.com. Office hours Monday – Saturday, 9:00 AM – 5:30 PM; security services available 24 × 7.",
+  keywords: [
+    "contact security agency Goa",
+    "hire security guards Goa",
+    "security agency phone number Goa",
+    "BSM Security WhatsApp",
+  ],
+});
 
 /** A fitting mark for each office. */
 const officeIcons = {
@@ -49,9 +46,9 @@ export default function ContactPage() {
           { name: "Contact", path: "/contact" },
         ])}
       />
-      <JsonLd data={localBusinessSchema} />
 
       <PageHero
+        id="channels"
         eyebrow="Contact"
         index="06"
         breadcrumb={[
@@ -66,12 +63,13 @@ export default function ContactPage() {
         }
         lead="Contact our team by phone, WhatsApp or through the enquiry form below for further information and assistance."
       >
-        <div className="mt-16 grid gap-px border border-line bg-line md:grid-cols-3" data-stagger>
+        <div className="mt-10 lg:mt-[clamp(1.5rem,4.5svh,3.25rem)] grid gap-4 md:grid-cols-3" data-stagger>
           {/* All three lines, in BSM's order. The first is the primary number. */}
-          <div data-stagger-item className="group relative bg-void p-8">
-            <span className="ticks pointer-events-none absolute inset-0" aria-hidden="true" />
-            <Phone className="h-5 w-5 text-brass" strokeWidth={1.25} />
-            <p className="mt-6 font-mono text-[10px] uppercase tracking-[0.2em] text-dim">Call</p>
+          <div data-stagger-item data-tilt="5" className="card card-void group p-7 lg:p-[clamp(1.25rem,2.8svh,2rem)]">
+            <span className="icon-tile">
+              <Phone className="h-5 w-5" strokeWidth={1.4} />
+            </span>
+            <p className="mt-4 font-mono text-[10px] uppercase tracking-[0.2em] text-dim">Call</p>
             <ul className="mt-3 space-y-2">
               {site.contact.phones.map((line) => (
                 <li key={line.href}>
@@ -87,10 +85,11 @@ export default function ContactPage() {
             <p className="mt-4 text-sm text-mist">For enquiries and survey bookings.</p>
           </div>
 
-          <div data-stagger-item className="group relative bg-void p-8">
-            <span className="ticks pointer-events-none absolute inset-0" aria-hidden="true" />
-            <WhatsAppIcon className="h-5 w-5 text-brass" />
-            <p className="mt-6 font-mono text-[10px] uppercase tracking-[0.2em] text-dim">
+          <div data-stagger-item data-tilt="5" className="card card-void group p-7 lg:p-[clamp(1.25rem,2.8svh,2rem)]">
+            <span className="icon-tile">
+              <WhatsAppIcon className="h-5 w-5" />
+            </span>
+            <p className="mt-4 font-mono text-[10px] uppercase tracking-[0.2em] text-dim">
               WhatsApp
             </p>
             {/* One line per office, each labelled. */}
@@ -99,8 +98,8 @@ export default function ContactPage() {
                 const Icon = whatsappIcons[line.label as keyof typeof whatsappIcons];
                 return (
                   <li key={line.href}>
-                    <div className="flex items-center gap-3">
-                      {Icon && <Icon className="h-5 w-5 shrink-0 text-brass" strokeWidth={1.5} />}
+                    <div className="flex items-center gap-2">
+                      {Icon && <Icon className="h-4 w-4 shrink-0 text-brass" strokeWidth={1.5} />}
                       <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-brass">
                         {line.label}
                       </p>
@@ -123,26 +122,32 @@ export default function ContactPage() {
           </div>
 
           <a
-            href={emailChannel.href}
+            href={site.contact.emailHref}
             data-stagger-item
-            className="group relative bg-void p-8 transition-colors duration-500 hover:bg-raise"
+            data-tilt="5"
+            className="card card-void group block p-7 lg:p-[clamp(1.25rem,2.8svh,2rem)]"
           >
-            <span className="ticks pointer-events-none absolute inset-0" aria-hidden="true" />
-            <emailChannel.icon className="h-5 w-5 text-brass" strokeWidth={1.25} />
-            <p className="mt-6 font-mono text-[10px] uppercase tracking-[0.2em] text-dim">
-              {emailChannel.k}
+            <span className="icon-tile">
+              <Mail className="h-5 w-5" strokeWidth={1.4} />
+            </span>
+            <p className="mt-4 font-mono text-[10px] uppercase tracking-[0.2em] text-dim">Email</p>
+            <p className="mt-3 break-all font-display text-lg font-semibold tracking-[-0.01em] text-bone transition-colors duration-300 group-hover:text-brass">
+              {site.contact.email}
             </p>
-            <p className="mt-3 font-display text-lg font-semibold tracking-[-0.01em] text-bone">
-              {emailChannel.v}
-            </p>
-            <p className="mt-4 text-sm text-mist">{emailChannel.note}</p>
+            <p className="mt-4 text-sm text-mist">For written scopes, tenders and documentation.</p>
+            <span className="mt-6 inline-flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.18em] text-brass">
+              Write to us
+              <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-500 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" strokeWidth={1.75} />
+            </span>
           </a>
         </div>
       </PageHero>
 
-      {/* Form + details */}
+      <SubNav items={shortcuts.contact} label="Contact page shortcuts" />
+
+      {/* Form + hours */}
       <Section label="Enquiry form" id="enquiry">
-        <div className="grid gap-16 lg:grid-cols-12 lg:gap-10">
+        <div className="grid gap-12 lg:grid-cols-12 lg:gap-10">
           <div className="lg:col-span-7">
             <SectionLabel index="01">Enquiry</SectionLabel>
             <h2 data-split className="mt-8 text-display font-semibold text-bone">
@@ -152,85 +157,140 @@ export default function ContactPage() {
               Leave a contact number and we will call you back. Add a line about the site and the
               hours if you can — it makes our first reply more useful.
             </p>
-            <div className="mt-12 max-w-xl" data-reveal="up" data-delay="0.08">
+            <div className="card card-still card-ink mt-12 max-w-2xl p-6 md:p-10" data-reveal="up" data-delay="0.08">
               <EnquiryForm idPrefix="contact" />
             </div>
           </div>
 
           <aside className="lg:col-span-4 lg:col-start-9">
-            <div className="lg:sticky lg:top-32">
-              {/* Both offices, each with its own icon. Full details — and
-                  the Head Office's secondary address — are on the Branch
-                  page; these are the primary postal addresses. */}
-              <div className="border border-line bg-ink p-8" data-reveal="up">
-                <h3 className="font-mono text-[10px] uppercase tracking-[0.2em] text-dim">
-                  Offices
-                </h3>
-
-                {offices.map((office, i) => {
-                  const Icon = officeIcons[office.id as keyof typeof officeIcons] ?? MapPin;
-                  return (
-                    <div
-                      key={office.id}
-                      className={i === 0 ? "mt-6" : "mt-7 border-t border-line-soft pt-6"}
-                    >
-                      <div className="flex items-center gap-3">
-                        <Icon className="h-5 w-5 shrink-0 text-brass" strokeWidth={1.5} />
-                        <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-brass">
-                          {office.kind}
-                        </p>
-                      </div>
-                      <p className="mt-4 font-mono text-[10px] uppercase tracking-[0.18em] text-dim">
-                        {office.addressLabel}
-                      </p>
-                      <address className="mt-2 not-italic leading-relaxed text-mist">
-                        {office.address}
-                      </address>
-                      <a
-                        href={office.mapLink}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="link-wipe mt-4 inline-block font-mono text-[10px] uppercase tracking-[0.18em] text-brass"
-                      >
-                        Open in Google Maps
-                      </a>
-                    </div>
-                  );
-                })}
-              </div>
-
-              <div className="mt-px border border-t-0 border-line bg-ink p-8" data-reveal="up">
-                <div className="flex items-center gap-3">
-                  <Clock className="h-5 w-5 shrink-0 text-brass" strokeWidth={1.5} />
+            <div className="space-y-4 lg:sticky lg:top-[calc(var(--nav-h)+var(--subnav-h)+2.5rem)]">
+              <div className="card card-ink group p-8" data-reveal="up">
+                <div className="flex items-center gap-4">
+                  <span className="icon-tile">
+                    <Clock className="h-5 w-5" strokeWidth={1.4} />
+                  </span>
                   <h3 className="font-mono text-[10px] uppercase tracking-[0.2em] text-dim">
                     Office hours
                   </h3>
                 </div>
-                <dl className="mt-5 space-y-3">
+                <dl className="mt-6 space-y-3">
                   {site.contact.hours.map((row) => (
                     <div key={row.days} className="text-sm">
                       <dt className="text-mist">{row.days}</dt>
-                      <dd className="mt-1 font-display text-lg font-semibold tracking-[-0.01em] text-bone">
+                      <dd className="mt-1 font-display text-xl font-semibold tracking-[-0.01em] text-bone">
                         {row.time}
                       </dd>
                     </div>
                   ))}
                 </dl>
+              </div>
 
-                <div className="mt-7 border-t border-line-soft pt-6">
-                  <div className="flex items-center gap-3">
-                    <ShieldCheck className="h-5 w-5 shrink-0 text-brass" strokeWidth={1.5} />
-                    <h3 className="font-mono text-[10px] uppercase tracking-[0.2em] text-dim">
-                      Services available
-                    </h3>
-                  </div>
-                  <p className="mt-4 font-display text-lg font-semibold tracking-[-0.01em] text-bone">
-                    {site.contact.servicesAvailable}
-                  </p>
+              <div className="card card-feature card-ink group p-8" data-reveal="up" data-delay="0.06">
+                <div className="flex items-center gap-4">
+                  <span className="icon-tile">
+                    <ShieldCheck className="h-5 w-5" strokeWidth={1.4} />
+                  </span>
+                  <h3 className="font-mono text-[10px] uppercase tracking-[0.2em] text-dim">
+                    Services available
+                  </h3>
+                </div>
+                <p className="mt-6 font-display text-4xl font-semibold tracking-[-0.02em] text-brass">
+                  {site.contact.servicesAvailable}
+                </p>
+              </div>
+
+              <div className="card card-ink group p-8" data-reveal="up" data-delay="0.12">
+                <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-dim">
+                  Prefer to talk?
+                </p>
+                <a
+                  href={site.contact.phoneHref}
+                  className="link-wipe mt-3 inline-block font-display text-xl font-semibold text-bone hover:text-brass"
+                >
+                  {site.contact.phone}
+                </a>
+                <div className="mt-6">
+                  <Button href={site.contact.whatsappHref} variant="outline" external>
+                    WhatsApp us
+                  </Button>
                 </div>
               </div>
             </div>
           </aside>
+        </div>
+      </Section>
+
+      {/* Offices */}
+      <Section label="Our offices" id="offices" className="bg-ink">
+        <SectionLabel index="02">Offices</SectionLabel>
+        <div className="mt-8 flex flex-wrap items-end justify-between gap-6">
+          <h2 data-split className="text-display font-semibold text-bone">
+            Two offices in Goa.
+          </h2>
+          <span data-reveal="up">
+            <Button href="/branch" variant="outline">
+              Office details
+            </Button>
+          </span>
+        </div>
+
+        <div className="mt-14 grid gap-5 lg:grid-cols-2" data-stagger>
+          {offices.map((office) => {
+            const Icon = officeIcons[office.id as keyof typeof officeIcons] ?? MapPin;
+            return (
+              <article key={office.id} data-stagger-item className="card card-still group flex flex-col p-3">
+                <div className="relative h-[220px] overflow-hidden rounded-[1.25rem] border border-white/[0.06] md:h-[260px]">
+                  <iframe
+                    src={office.mapEmbed}
+                    title={office.mapTitle}
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    className="absolute inset-0 h-full w-full border-0 grayscale-[0.9] contrast-[1.1] invert-[0.92] hue-rotate-180 transition-[filter] duration-700 group-hover:grayscale-[0.4]"
+                  />
+                </div>
+                <div className="flex flex-1 flex-col p-5 md:p-6">
+                  <div className="flex items-start gap-4">
+                    <span className="icon-tile">
+                      <Icon className="h-5 w-5" strokeWidth={1.4} />
+                    </span>
+                    <div>
+                      <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-brass">
+                        {office.kind}
+                      </p>
+                      <h3 className="mt-1 font-display text-xl font-semibold tracking-[-0.01em] text-bone">
+                        {office.name}
+                      </h3>
+                    </div>
+                  </div>
+                  <p className="mt-5 font-mono text-[10px] uppercase tracking-[0.18em] text-dim">
+                    {office.addressLabel}
+                  </p>
+                  <address className="mt-2 not-italic leading-relaxed text-mist">{office.address}</address>
+                  <div className="mt-auto flex flex-wrap gap-2 pt-6">
+                    {office.phones.map((p) => (
+                      <a
+                        key={p.href}
+                        href={p.href}
+                        className="inline-flex items-center gap-2 rounded-full border border-white/10 px-4 py-2.5 font-mono text-[11px] tracking-[0.06em] text-bone transition-colors hover:border-brass hover:text-brass"
+                      >
+                        <Phone className="h-3.5 w-3.5 text-brass" strokeWidth={1.75} />
+                        {p.display}
+                      </a>
+                    ))}
+                    <a
+                      href={office.mapLink}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex items-center gap-2 rounded-full bg-brass px-4 py-2.5 font-mono text-[10px] font-semibold uppercase tracking-[0.16em] text-void transition-colors hover:bg-brass-lit"
+                    >
+                      <MapPin className="h-3.5 w-3.5" strokeWidth={1.75} />
+                      Open in Google Maps
+                    </a>
+                  </div>
+                </div>
+              </article>
+            );
+          })}
         </div>
       </Section>
 

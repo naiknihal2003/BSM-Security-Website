@@ -4,57 +4,86 @@ import { site } from "@/lib/site";
 import { Button } from "@/components/ui/Button";
 import { RequestSecurityButton } from "@/components/ui/RequestSecurityButton";
 
+/**
+ * Closing call to action: one large rounded panel that grows into place as it
+ * scrolls in (data-zoom), with the three direct channels as cards beneath.
+ */
 export default function CallToAction({
   title = "Tell us what you need protected.",
   body = "Send the site, the hours and the concern. We will come back with a survey slot and a written deployment plan — not a quote pulled out of the air.",
   eyebrow = "Get in touch",
+  id,
 }: {
   title?: string;
   body?: string;
   eyebrow?: string;
+  /** Shortcut target (data-anchor). */
+  id?: string;
 }) {
   return (
     <section
+      id={id}
+      data-anchor={id ? "" : undefined}
       aria-label="Contact BSM"
-      className="relative overflow-hidden border-t border-line bg-void py-28 md:py-36 lg:py-44"
+      className="relative border-t border-line bg-void section-pad"
     >
-      {/* Section divider: a brass hairline that fades across the top edge, so
-          one section visibly ends before the next begins. */}
       <span
         className="section-divider pointer-events-none absolute inset-x-0 top-0"
         aria-hidden="true"
       />
-      <span className="grain-layer" aria-hidden="true" />
-      <div
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(60%_60%_at_80%_100%,rgba(200,164,92,0.10)_0%,transparent_70%)]"
-        aria-hidden="true"
-      />
 
-      <div className="shell relative">
-        <div className="flex items-center gap-4" data-reveal="up">
-          <span className="h-1.5 w-1.5 bg-brass" />
-          <span className="eyebrow">{eyebrow}</span>
+      <div className="shell">
+        <div
+          data-zoom
+          className="relative overflow-hidden rounded-[2rem] border border-brass/25 bg-ink px-6 py-16 md:px-14 md:py-24"
+        >
+          <span className="grain-layer" aria-hidden="true" />
+          <span className="dot-field pointer-events-none absolute inset-0" aria-hidden="true" />
+          <div
+            className="pointer-events-none absolute inset-0 bg-[radial-gradient(60%_70%_at_85%_100%,rgba(200,164,92,0.16)_0%,transparent_70%)]"
+            aria-hidden="true"
+          />
+          <img
+            src="/patterns/radar.svg"
+            alt=""
+            aria-hidden="true"
+            data-spin="90"
+            className="pointer-events-none absolute -bottom-48 -right-48 hidden h-[34rem] w-[34rem] opacity-60 md:block"
+          />
+
+          <div className="relative">
+            <div
+              className="inline-flex items-center gap-3 rounded-full border border-white/[0.08] bg-white/[0.03] py-1.5 pl-1.5 pr-4"
+              data-reveal="up"
+            >
+              <span className="grid h-6 w-6 place-items-center rounded-full bg-brass/15">
+                <span className="h-1.5 w-1.5 rounded-full bg-brass" />
+              </span>
+              <span className="eyebrow">{eyebrow}</span>
+            </div>
+
+            <h2 data-split className="mt-10 max-w-4xl text-hero font-semibold text-bone">
+              {title}
+            </h2>
+
+            <p data-reveal="up" className="mt-8 max-w-xl text-lead text-mist">
+              {body}
+            </p>
+
+            <div className="mt-12 flex flex-wrap gap-4" data-reveal="up" data-delay="0.1">
+              <RequestSecurityButton />
+              <Button href={site.contact.whatsappHref} variant="outline" external>
+                WhatsApp
+              </Button>
+            </div>
+          </div>
         </div>
 
-        <h2 data-split className="mt-10 max-w-4xl text-hero font-semibold text-bone">
-          {title}
-        </h2>
-
-        <p data-reveal="up" className="mt-8 max-w-xl text-lead text-mist">
-          {body}
-        </p>
-
-        <div className="mt-12 flex flex-wrap gap-4" data-reveal="up" data-delay="0.1">
-          <RequestSecurityButton />
-          <Button href={site.contact.whatsappHref} variant="outline">
-            WhatsApp
-          </Button>
-        </div>
-
-        <div className="mt-20 grid gap-px border border-line bg-line md:grid-cols-3" data-stagger>
-          <div data-stagger-item className="group relative bg-void p-8">
-            <span className="ticks pointer-events-none absolute inset-0" aria-hidden="true" />
-            <Phone className="h-5 w-5 text-brass" strokeWidth={1.25} />
+        <div className="mt-5 grid gap-4 md:grid-cols-3" data-stagger>
+          <div data-stagger-item className="card card-ink group p-7 md:p-8">
+            <span className="icon-tile">
+              <Phone className="h-5 w-5" strokeWidth={1.4} />
+            </span>
             <p className="mt-6 font-mono text-[10px] uppercase tracking-[0.2em] text-dim">Call</p>
             <ul className="mt-3 space-y-2">
               {site.contact.phones.map((line) => (
@@ -70,15 +99,19 @@ export default function CallToAction({
             </ul>
           </div>
 
-          <div data-stagger-item className="group relative bg-void p-8">
-            <span className="ticks pointer-events-none absolute inset-0" aria-hidden="true" />
-            <WhatsAppIcon className="h-5 w-5 text-brass" />
+          <div data-stagger-item className="card card-ink group p-7 md:p-8">
+            <span className="icon-tile">
+              <WhatsAppIcon className="h-5 w-5" />
+            </span>
             <p className="mt-6 font-mono text-[10px] uppercase tracking-[0.2em] text-dim">
               WhatsApp
             </p>
-            <ul className="mt-3 space-y-2">
-              {site.contact.whatsapps.map((line) => (
+            <ul className="mt-3 space-y-3">
+              {site.contact.whatsappByOffice.map((line) => (
                 <li key={line.href}>
+                  <span className="block font-mono text-[9px] uppercase tracking-[0.18em] text-brass">
+                    {line.label}
+                  </span>
                   <a
                     href={line.href}
                     target="_blank"
@@ -95,12 +128,13 @@ export default function CallToAction({
           <a
             href={site.contact.emailHref}
             data-stagger-item
-            className="group relative bg-void p-8 transition-colors duration-500 hover:bg-raise"
+            className="card card-ink group block p-7 md:p-8"
           >
-            <span className="ticks pointer-events-none absolute inset-0" aria-hidden="true" />
-            <Mail className="h-5 w-5 text-brass" strokeWidth={1.25} />
+            <span className="icon-tile">
+              <Mail className="h-5 w-5" strokeWidth={1.4} />
+            </span>
             <p className="mt-6 font-mono text-[10px] uppercase tracking-[0.2em] text-dim">Email</p>
-            <p className="mt-3 font-display text-lg font-semibold tracking-[-0.01em] text-bone">
+            <p className="mt-3 break-all font-display text-lg font-semibold tracking-[-0.01em] text-bone transition-colors duration-300 group-hover:text-brass">
               {site.contact.email}
             </p>
           </a>

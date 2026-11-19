@@ -6,10 +6,24 @@ import { gsap, ScrollTrigger, prefersReducedMotion } from "@/lib/gsap";
 
 let lenisInstance: Lenis | null = null;
 
-/** Clearance for the fixed header, so an anchored heading is not hidden by it. */
+/**
+ * Clearance for the floating navbar — and the page's shortcut bar when it has
+ * one — so an anchored heading is never hidden behind the chrome. The heights
+ * come from the --nav-h / --subnav-h tokens in globals.css.
+ */
 export function headerOffset() {
   if (typeof window === "undefined") return 0;
-  return window.innerWidth >= 768 ? 152 : 136;
+  const styles = getComputedStyle(document.documentElement);
+  const rem = parseFloat(styles.fontSize) || 16;
+  const px = (name: string, fallback: number) => {
+    const raw = styles.getPropertyValue(name).trim();
+    const n = parseFloat(raw);
+    if (!n) return fallback;
+    return raw.endsWith("rem") ? n * rem : n;
+  };
+  const nav = px("--nav-h", 88);
+  const sub = document.querySelector("[data-subnav]") ? px("--subnav-h", 52) : 0;
+  return nav + sub + 1.5 * rem;
 }
 
 /**
@@ -23,7 +37,21 @@ export function scrollToTarget(
   { offset = 0, immediate = false }: { offset?: number; immediate?: boolean } = {},
 ) {
   if (lenisInstance) {
-    lenisInstance.scrollTo(target, { duration: 1.2, offset, immediate });
+    const lenis = lenisInstance;
+    lenis.scrollTo(target, {
+      duration: 1.2,
+      offset,
+      immediate,
+      // Lazy images and fonts can change the page's height during the
+      // glide; re-measure on arrival and settle on the exact spot.
+      onComplete: () => {
+        if (typeof target !== "string") return;
+        const el = document.querySelector(target);
+        if (!el) return;
+        const miss = el.getBoundingClientRect().top + offset;
+        if (Math.abs(miss) > 2) lenis.scrollTo(target, { offset, duration: 0.45 });
+      },
+    });
     return;
   }
   if (typeof window === "undefined") return;

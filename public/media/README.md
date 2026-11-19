@@ -1,5 +1,15 @@
-# Photography
+# public/media — generated, do not edit by hand
 
-Drop BSM's own photographs here and reference them from `<MediaFrame src="/media/....jpg" />`.
-Until then every frame renders a composed placeholder naming the shot required.
-See the shot list in the project README.
+Every file here is a WebP written by `npm run media` from a master in
+`assets-src/media/`. Edit the master, re-run the script, and the matching file
+here is rebuilt.
+
+| Folder | What it holds | Dictionary |
+| --- | --- | --- |
+| `photos/` | general and stand-in photography | `lib/media/photos.ts` |
+| `services/` | one photograph per service category | `lib/media/photos.ts` |
+| `people/` | leadership portraits | `lib/media/photos.ts` |
+| `clients/` | client logos (transparent WebP) | `lib/media/client-logos.ts` |
+
+Brand artwork lives one level up in `public/brand/`, and the hand-drawn SVG
+textures used by the stylesheet in `public/patterns/`.

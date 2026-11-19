@@ -139,7 +139,7 @@ function EnquiryPanel({ onClose }: { onClose: () => void }) {
       <div
         ref={panel}
         data-lenis-prevent
-        className="enquiry-panel relative z-10 max-h-[92dvh] w-full overflow-y-auto border-2 border-brass/55 bg-ink sm:max-w-lg"
+        className="enquiry-panel relative z-10 max-h-[92dvh] w-full overflow-y-auto rounded-t-[2rem] border border-brass/30 bg-ink shadow-[0_40px_120px_-30px_rgba(0,0,0,1)] sm:max-w-lg sm:rounded-[2rem]"
       >
         <span className="grain-layer" aria-hidden="true" />
 
@@ -147,7 +147,7 @@ function EnquiryPanel({ onClose }: { onClose: () => void }) {
           <div className="flex items-start justify-between gap-6">
             <div className="enquiry-row">
               <div className="flex items-center gap-4">
-                <span className="h-px w-8 bg-brass" />
+                <span className="h-1.5 w-1.5 rounded-full bg-brass" />
                 <span className="eyebrow">Request security</span>
               </div>
               <h2
@@ -160,7 +160,7 @@ function EnquiryPanel({ onClose }: { onClose: () => void }) {
             <button
               type="button"
               onClick={onClose}
-              className="-mr-1 -mt-1 flex h-10 w-10 shrink-0 items-center justify-center border border-line text-mist transition-colors duration-300 hover:border-brass hover:text-brass"
+              className="-mr-1 -mt-1 flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-line text-mist transition-[color,border-color,rotate] duration-500 hover:rotate-90 hover:border-brass hover:text-brass"
             >
               <span className="sr-only">Close</span>
               <X className="h-4 w-4" strokeWidth={1.5} />
@@ -172,8 +172,9 @@ function EnquiryPanel({ onClose }: { onClose: () => void }) {
               <button
                 type="button"
                 onClick={onClose}
-                className="bg-brass px-6 py-3.5 font-mono text-[11px] uppercase tracking-[0.2em] text-void transition-colors duration-300 hover:bg-brass-lit"
+                className="btn btn-primary"
               >
+                <span className="btn-fill" aria-hidden="true" />
                 Close
               </button>
             </EnquiryForm>

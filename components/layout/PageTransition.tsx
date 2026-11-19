@@ -136,7 +136,10 @@ export function TransitionProvider({ children }: { children: ReactNode }) {
       .fromTo(
         "main",
         { opacity: 0.4, y: 18 },
-        { opacity: 1, y: 0, duration: 0.8, ease: "expo.out" },
+        // clearProps: a leftover transform on <main> would become the
+        // containing block for every position:fixed element inside it (the
+        // services preview, the lightbox) and throw them off-screen.
+        { opacity: 1, y: 0, duration: 0.8, ease: "expo.out", clearProps: "transform,opacity" },
         "-=0.5",
       );
     return () => {

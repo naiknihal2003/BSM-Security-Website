@@ -1,46 +1,44 @@
 import type { Metadata } from "next";
-import { Check } from "lucide-react";
-import { services, site, type ServiceSlug } from "@/lib/site";
+import { pageMetadata } from "@/lib/seo";
+import { ArrowDown, Check } from "lucide-react";
+import { services } from "@/lib/site";
 import { JsonLd, breadcrumbSchema } from "@/lib/schema";
-import { media, type Shot } from "@/lib/media";
+import { serviceShots } from "@/lib/media";
+import { shortcuts, serviceShortLabels } from "@/lib/navigation";
 import { PageHero } from "@/components/ui/PageHero";
 import { Section } from "@/components/ui/Section";
 import { MediaFrame } from "@/components/ui/MediaFrame";
 import { Copy } from "@/components/ui/Placeholder";
 import { Button } from "@/components/ui/Button";
+import { TransitionLink } from "@/components/layout/PageTransition";
+import SubNav from "@/components/layout/SubNav";
+import CallToAction from "@/components/sections/CallToAction";
 import RevealEngine from "@/components/layout/RevealEngine";
 
-export const metadata: Metadata = {
-  title: "Security Services in Goa — Guards, Corporate, Event & Industrial",
+export const metadata: Metadata = pageMetadata({
+  path: "/services",
+  title: "Security Services — Guards, Industrial, Banking, Event & Bouncer Services",
   description:
-    "Security services from BSM in Goa, India: security guarding, corporate security, residential security, event security, industrial security and hotel and hospitality security.",
-  alternates: { canonical: "/services" },
-  openGraph: {
-    title: "Security Services in Goa | BSM",
-    description:
-      "Security guarding, corporate, residential, event, industrial and hospitality security across Goa, India.",
-    url: `${site.url}/services`,
-  },
-};
+    "Ten service categories from BSM Security Agency in Goa: public sector, government and defence security; industrial and corporate security; security guards; bouncer and personal security; access control and CCTV surveillance; banking and ATM security; residential and institutional security; wedding and event security; security training; and housekeeping.",
+  keywords: [
+    "security guard services Goa",
+    "bouncer services Goa",
+    "wedding security Goa",
+    "event security Goa",
+    "bank security guards Goa",
+    "ATM security Goa",
+    "CCTV surveillance Goa",
+    "access control services Goa",
+    "industrial security Goa",
+    "housekeeping services Goa",
+    "security training Goa",
+  ],
+});
 
-/**
- * One frame per category. These are the site's licensed stand-in photographs
- * (see lib/media.ts) chosen for the closest subject match — none of them
- * depicts BSM, its people or its sites, and the footer says so. Replace a
- * `src` in lib/media.ts to drop BSM's own photography in behind these frames.
+/*
+ * Photographs come from the serviceShots dictionary in lib/media. Most are the
+ * category images BSM supplied; replace a `src` there to change one.
  */
-const serviceShots: Record<ServiceSlug, Shot> = {
-  "public-sector-government-defence-security": media.publicSectorSecurity,
-  "industrial-corporate-security": media.industrialCorporateSecurity,
-  "security-guard-services": media.securityGuardServices,
-  "bouncer-personal-security-services": media.bouncerPersonalSecurity,
-  "access-control-surveillance": media.accessControlSurveillance,
-  "banking-commercial-security": media.bankingCommercialSecurity,
-  "residential-institutional-security": media.residentialInstitutionalSecurity,
-  "wedding-event-specialised-security": media.weddingEventSecurity,
-  "security-training-personnel-development": media.securityTrainingDevelopment,
-  "housekeeping-services": media.housekeepingServices,
-};
 
 export default function ServicesPage() {
   return (
@@ -53,6 +51,7 @@ export default function ServicesPage() {
       />
 
       <PageHero
+        id="overview"
         eyebrow="Services"
         index="04"
         breadcrumb={[
@@ -67,59 +66,60 @@ export default function ServicesPage() {
         }
         lead="Our services are designed to address a wide range of security requirements across different sectors and establishments."
       >
-        {/* Contents */}
-        {/* Ten categories, centred in the measure. Five rows filled column by
-            column on tablet and up, so the numbering runs 01–05 down the left
-            and 06–10 down the right; on a phone the single column keeps them
-            in plain numerical order. */}
-        <ul
-          className="mx-auto mt-16 grid w-full max-w-[1150px] gap-px border border-line bg-line sm:grid-flow-col sm:grid-cols-2 sm:grid-rows-5"
-          data-stagger
-        >
+        {/* Contents: ten rounded cards, each with its photograph. */}
+        <ul className="mt-10 lg:mt-[clamp(1.5rem,4.5svh,3.25rem)] grid gap-3 sm:grid-cols-2 lg:grid-cols-5 xl:gap-4" data-stagger>
           {services.map((service) => (
             <li key={service.slug} data-stagger-item>
-              <a
+              <TransitionLink
                 href={`#${service.slug}`}
-                className={`group flex h-full items-baseline gap-3 p-6 transition-colors duration-500 ${
-                  service.highlight
-                    ? "border border-brass/45 bg-brass/[0.08] hover:bg-brass/[0.14]"
-                    : "bg-void hover:bg-raise"
+                className={`card group flex h-full items-center gap-4 p-4 lg:py-[clamp(0.85rem,2.2svh,1.25rem)] ${
+                  service.highlight ? "card-feature" : "card-void"
                 }`}
               >
-                <span className="font-mono text-[11px] tracking-[0.2em] text-brass">
-                  {service.index}
+                <span className="index-chip shrink-0">{service.index}</span>
+                <span className="min-w-0 flex-1">
+                  <span
+                    className={`block font-display text-[15px] font-semibold leading-snug ${
+                      service.highlight ? "text-brass" : "text-bone"
+                    }`}
+                  >
+                    {serviceShortLabels[service.slug]}
+                  </span>
+                  <span className="mt-1 block font-mono text-[9.5px] uppercase tracking-[0.16em] text-dim">
+                    {service.points.length ? `${service.points.length} services` : "Additional service"}
+                  </span>
                 </span>
-                <span
-                  className={`font-display text-sm font-semibold uppercase leading-snug tracking-[0.01em] transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-x-1 ${
-                    service.highlight ? "text-brass" : "text-white"
-                  }`}
-                >
-                  {service.title}
-                </span>
-              </a>
+                <ArrowDown
+                  className="h-4 w-4 shrink-0 text-dim transition-[color,translate] duration-500 group-hover:translate-y-0.5 group-hover:text-brass"
+                  strokeWidth={1.75}
+                />
+              </TransitionLink>
             </li>
           ))}
         </ul>
       </PageHero>
 
+      <SubNav items={shortcuts.services} label="Service shortcuts" />
+
       {/* Service detail blocks */}
       {services.map((service, i) => {
         const shot = serviceShots[service.slug];
         const flipped = i % 2 === 1;
+        const next = services[i + 1];
         return (
           <Section
             key={service.slug}
             id={service.slug}
             label={service.title}
-            className={`scroll-mt-28 md:scroll-mt-32 ${i % 2 === 1 ? "bg-ink" : ""}`}
+            className={i % 2 === 1 ? "bg-ink" : ""}
           >
-            <div className="grid gap-12 lg:grid-cols-12 lg:gap-10">
+            <div className="grid items-start gap-12 lg:grid-cols-12 lg:gap-10">
               <div className={`lg:col-span-6 ${flipped ? "lg:order-2 lg:col-start-7" : ""}`}>
-                <div className="flex items-center gap-4" data-reveal="up">
-                  <span className="font-mono text-[11px] tracking-[0.2em] text-dim">
-                    {service.index}
-                  </span>
-                  <span className="h-px w-8 bg-brass" />
+                <div
+                  className="inline-flex items-center gap-3 rounded-full border border-white/[0.07] bg-white/[0.025] py-1.5 pl-1.5 pr-4"
+                  data-reveal="up"
+                >
+                  <span className="index-chip !h-7">{service.index}</span>
                   <span className="eyebrow">
                     {service.highlight ? "Additional service" : "Service"}
                   </span>
@@ -134,8 +134,8 @@ export default function ServicesPage() {
                   {service.title}
                 </h2>
                 <span
-                  className="mt-6 block h-0.5 w-28 bg-brass"
-                  data-reveal="up"
+                  className="mt-6 block h-0.5 w-28 origin-left rounded-full bg-gradient-to-r from-brass to-brass/0"
+                  data-rule
                   aria-hidden="true"
                 />
 
@@ -143,34 +143,52 @@ export default function ServicesPage() {
                     heading and its frame only — nothing is written in for it. */}
                 {service.points.length > 0 && (
                   <>
-                    <ul className="mt-10 space-y-px border-t border-line" data-stagger>
+                    <ul className="mt-10 grid gap-2.5" data-stagger>
                       {service.points.map((point) => (
                         <li
                           key={point}
                           data-stagger-item
-                          className="flex items-start gap-4 border-b border-line py-4"
+                          className="card card-still group flex items-start gap-4 rounded-2xl px-5 py-4"
+                          style={{ ["--card-bg" as string]: i % 2 === 1 ? "var(--color-void)" : "var(--color-surface)" }}
                         >
-                          <Check className="mt-0.5 h-4 w-4 shrink-0 text-brass" strokeWidth={1.5} />
-                          <span className="text-sm leading-relaxed text-white">
+                          <span className="mt-0.5 grid h-6 w-6 shrink-0 place-items-center rounded-full bg-brass/15 text-brass transition-colors duration-500 group-hover:bg-brass group-hover:text-void">
+                            <Check className="h-3.5 w-3.5" strokeWidth={2} />
+                          </span>
+                          <span className="text-sm leading-relaxed text-bone/90">
                             <Copy text={point} />
                           </span>
                         </li>
                       ))}
                     </ul>
-
-                    <div className="mt-10" data-reveal="up">
-                      <Button href="/contact" variant="outline">
-                        Enquire about this service
-                      </Button>
-                    </div>
                   </>
                 )}
+
+                <div className="mt-10 flex flex-wrap items-center gap-3" data-reveal="up">
+                  <Button href="/contact#enquiry" variant="outline">
+                    Enquire about this service
+                  </Button>
+                  {next && (
+                    <TransitionLink
+                      href={`/services#${next.slug}`}
+                      className="group inline-flex items-center gap-2 rounded-full px-4 py-3 font-mono text-[10px] uppercase tracking-[0.18em] text-dim transition-colors hover:text-brass"
+                    >
+                      Next: {serviceShortLabels[next.slug]}
+                      <ArrowDown className="h-3.5 w-3.5 transition-transform duration-500 group-hover:translate-y-0.5" strokeWidth={1.75} />
+                    </TransitionLink>
+                  )}
+                </div>
               </div>
 
-              <div className={`lg:col-span-5 ${flipped ? "lg:order-1 lg:col-start-1" : "lg:col-start-8"}`}>
+              <div
+                className={`lg:sticky lg:top-[calc(var(--nav-h)+var(--subnav-h)+2.5rem)] lg:col-span-5 ${
+                  flipped ? "lg:order-1 lg:col-start-1" : "lg:col-start-8"
+                }`}
+                data-tilt="4"
+              >
                 <MediaFrame
                   shot={shot}
-                  figure={`Fig. ${service.index} / ${service.title}`}
+                  figure={`Fig. ${service.index}`}
+                  label={serviceShortLabels[service.slug]}
                   parallax={0}
                   sizes="(max-width: 1024px) 100vw, 35vw"
                 />
@@ -180,6 +198,11 @@ export default function ServicesPage() {
         );
       })}
 
+      <CallToAction
+        eyebrow="Plan a deployment"
+        title="Start with a site survey."
+        body="Tell us where the site is, what the hours look like and which of these services you need. We will walk it, then put a written deployment plan in front of you."
+      />
       <RevealEngine />
     </>
   );

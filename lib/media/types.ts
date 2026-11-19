@@ -15,6 +15,8 @@ export type Shot = {
   brief: string;
   /** Native aspect ratio, so the whole photograph is shown uncropped. */
   ratio?: string;
+  /** CSS object-position used when the photograph is cropped to fill. */
+  focus?: string;
 };
 
 /** One frame on the gallery page. */

@@ -28,19 +28,19 @@
   --text-mega--line-height: 0.88;
   --text-mega--letter-spacing: -0.035em;
 
-  --text-hero: clamp(2.4rem, 6.1vw, 5.3rem);
+  --text-hero: clamp(2.3rem, min(6.1vw, 9.5svh), 5.3rem);
   --text-hero--line-height: 0.96;
   --text-hero--letter-spacing: -0.03em;
 
-  --text-display: clamp(2.1rem, 5vw, 4.25rem);
+  --text-display: clamp(1.9rem, min(5vw, 7.2svh), 4.25rem);
   --text-display--line-height: 1.02;
   --text-display--letter-spacing: -0.025em;
 
-  --text-title: clamp(1.55rem, 2.6vw, 2.35rem);
+  --text-title: clamp(1.4rem, min(2.6vw, 4.2svh), 2.35rem);
   --text-title--line-height: 1.12;
   --text-title--letter-spacing: -0.02em;
 
-  --text-lead: clamp(1.05rem, 1.35vw, 1.3rem);
+  --text-lead: clamp(1rem, min(1.35vw, 2.3svh), 1.3rem);
   --text-lead--line-height: 1.6;
 
   --text-label: 0.6875rem;
@@ -48,6 +48,26 @@
   --text-label--letter-spacing: 0.22em;
 
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* Corner language: generous, consistent radii instead of hard edges. */
+  --radius-card: 1.5rem;
+  --radius-panel: 2rem;
+  --radius-chip: 999px;
+}
+
+/* Heights the chrome is built to. Anchored scrolling and the sticky sub-nav
+   both read these, so the numbers live in exactly one place. */
+:root {
+  /* rem, so the chrome grows with the type on large canvases */
+  --nav-h: 4.75rem;
+  --subnav-h: 3.25rem;
+  --brass-rgb: 200, 164, 92;
+}
+@media (width >= 48rem) {
+  :root {
+    --nav-h: 5.5rem;
+  }
 }
 
 /* --------------------------------------------------------------------------
@@ -61,6 +81,25 @@
   html {
     -webkit-tap-highlight-color: transparent;
     scroll-behavior: smooth;
+  }
+  /* Large canvases — big monitors, or a laptop browser at 67–75% zoom —
+     step the rem up gently so the layout keeps its proportions instead of
+     shrinking into a sparse page. Never enough to read as "zoomed in". */
+  @media (width >= 105rem) {
+    html {
+      font-size: 106.25%;
+    }
+  }
+  @media (width >= 131.25rem) {
+    html {
+      font-size: 112.5%;
+    }
+  }
+  /* Browser at 50% zoom, or a 4K panel. */
+  @media (width >= 165rem) {
+    html {
+      font-size: 125%;
+    }
   }
 
   /* Lenis drives scrolling when it is active; native smooth would fight it. */
@@ -96,7 +135,7 @@
   :focus-visible {
     outline: 2px solid var(--color-brass);
     outline-offset: 3px;
-    border-radius: 1px;
+    border-radius: 0.6rem;
   }
 
   h1,
@@ -135,6 +174,28 @@
   @media (width >= 80rem) {
     padding-inline: 4rem;
   }
+  /* Very wide screens (and zoomed-out browsers): let the layout breathe
+     instead of leaving a narrow column in the middle of a full-bleed page. */
+  @media (width >= 120rem) {
+    max-width: 112rem;
+    padding-inline: 5rem;
+  }
+  @media (width >= 150rem) {
+    max-width: 128rem;
+  }
+}
+
+/* Vertical rhythm for every section. On desktop it is tied to the screen
+   height, so a section and its content fit one screen even on short windows
+   (laptops, or a browser zoomed out to 67–75%). */
+@utility section-pad {
+  padding-block: 6rem;
+  @media (width >= 48rem) {
+    padding-block: 7.5rem;
+  }
+  @media (width >= 64rem) {
+    padding-block: clamp(4rem, 10svh, 9rem);
+  }
 }
 
 @utility rule-top {
@@ -162,7 +223,7 @@
   pointer-events: none;
   opacity: 0.16;
   mix-blend-mode: overlay;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.45'/%3E%3C/svg%3E");
+  background-image: url("/patterns/grain.svg");
 }
 
 /* --------------------------------------------------------------------------
@@ -183,8 +244,26 @@
   transform: scale(1.06);
 }
 
+.anim-ready [data-reveal="left"] {
+  transform: translate3d(-2.5rem, 0, 0);
+}
+
+.anim-ready [data-reveal="right"] {
+  transform: translate3d(2.5rem, 0, 0);
+}
+
+.anim-ready [data-reveal="blur"] {
+  filter: blur(14px);
+  transform: translate3d(0, 1.25rem, 0);
+}
+
+.anim-ready [data-reveal="pop"] {
+  transform: scale(0.92);
+}
+
+/* Photographs fade up softly — no wipe. */
 .anim-ready [data-clip] {
-  clip-path: inset(100% 0 0 0);
+  opacity: 0;
 }
 
 .anim-ready [data-split] {
@@ -223,7 +302,37 @@
   transform: translate3d(0, 1.25rem, 0);
 }
 .anim-ready .hero-media {
-  clip-path: inset(100% 0 0 0);
+  opacity: 0;
+  transform: scale(1.05);
+}
+.anim-ready .hero-vrule {
+  transform: scaleY(0);
+}
+
+/* The hero photograph dissolves into the page: towards the copy on wide
+   screens, and into the dark at the foot everywhere. */
+.hero-mask {
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 7%, #000 60%, transparent 100%);
+  mask-image: linear-gradient(180deg, transparent 0%, #000 7%, #000 60%, transparent 100%);
+}
+@media (width >= 64rem) {
+  .hero-mask {
+    -webkit-mask-image:
+      linear-gradient(90deg, #000 45%, transparent 100%),
+      linear-gradient(180deg, transparent 0%, #000 7%, #000 70%, transparent 100%);
+    -webkit-mask-composite: source-in;
+    mask-image:
+      linear-gradient(90deg, #000 45%, transparent 100%),
+      linear-gradient(180deg, transparent 0%, #000 7%, #000 70%, transparent 100%);
+    mask-composite: intersect;
+  }
+}
+.anim-ready .hero-underline {
+  stroke-dashoffset: 1;
+}
+.anim-ready .hero-chip {
+  opacity: 0;
+  transform: translate3d(0, 1rem, 0) scale(0.94);
 }
 
 /* SplitText writes these wrappers; the mask is what the lines rise out of.
@@ -249,10 +358,22 @@
   .hero-sub,
   .hero-cta,
   .hero-cue,
+  .hero-chip,
+  .hero-underline,
+  .hero-vrule,
   .hero-media {
     opacity: 1 !important;
     transform: none !important;
     clip-path: none !important;
+    filter: none !important;
+    stroke-dashoffset: 0 !important;
+  }
+  .marquee-track {
+    animation: none !important;
+  }
+  /* Without motion the strip becomes a row the visitor can scroll. */
+  .marquee {
+    overflow-x: auto !important;
   }
   *,
   *::before,
@@ -367,4 +488,358 @@ svg {
 /* The frame, not the photograph, is what a pointer can reach. */
 figure img {
   pointer-events: none;
+}
+
+/* Component classes live in the components layer, so Tailwind utilities on
+   the same element (hidden, padding, display, radius) always win. */
+@layer components {
+/* --------------------------------------------------------------------------
+   Surfaces
+   One card language for the whole site: rounded, layered, and alive under the
+   pointer. `--mx` / `--my` are written by components/layout/PointerFX.tsx as
+   the pointer moves over a card, so the glow and the lit edge follow it.
+
+   The hover lift uses the individual `translate` property on purpose: GSAP
+   animates `transform` for reveals and tilt, and a CSS transition on the same
+   property would fight it every frame. The two compose instead.
+   -------------------------------------------------------------------------- */
+.card {
+  --mx: 50%;
+  --my: 0%;
+  --card-bg: var(--color-surface);
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border-radius: var(--radius-card);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.035) 0%, rgba(255, 255, 255, 0) 38%),
+    var(--card-bg);
+  box-shadow:
+    0 1px 0 0 rgba(255, 255, 255, 0.04) inset,
+    0 24px 48px -32px rgba(0, 0, 0, 0.7);
+  transition:
+    translate 0.7s var(--ease-out-expo),
+    border-color 0.5s ease,
+    box-shadow 0.7s var(--ease-out-expo),
+    background-color 0.5s ease;
+}
+
+/* The glow: a soft brass pool that sits under the content. */
+.card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  pointer-events: none;
+  background: radial-gradient(
+    30rem circle at var(--mx) var(--my),
+    rgba(var(--brass-rgb), 0.13),
+    transparent 45%
+  );
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+/* The lit edge: a 1px ring masked out of a gradient centred on the pointer. */
+.card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  pointer-events: none;
+  background: radial-gradient(
+    16rem circle at var(--mx) var(--my),
+    rgba(226, 196, 134, 0.85),
+    rgba(var(--brass-rgb), 0.15) 45%,
+    transparent 70%
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+@media (hover: hover) {
+  .card:hover {
+    translate: 0 -6px;
+    border-color: rgba(var(--brass-rgb), 0.22);
+    box-shadow:
+      0 1px 0 0 rgba(255, 255, 255, 0.06) inset,
+      0 40px 80px -36px rgba(0, 0, 0, 0.95),
+      0 0 0 1px rgba(var(--brass-rgb), 0.05);
+  }
+  .card:hover::before,
+  .card:hover::after {
+    opacity: 1;
+  }
+  /* Cards that should glow but not move (long text blocks, forms). */
+  .card-still:hover {
+    translate: none;
+  }
+}
+.card:focus-within::after,
+.card:focus-visible::after {
+  opacity: 1;
+}
+
+.card-ink {
+  --card-bg: var(--color-ink);
+}
+.card-void {
+  --card-bg: var(--color-void);
+}
+
+/* The one card per group that carries a confirmed credential. */
+.card-feature {
+  border-color: rgba(var(--brass-rgb), 0.4);
+  background:
+    radial-gradient(120% 90% at 0% 0%, rgba(var(--brass-rgb), 0.16) 0%, transparent 60%),
+    var(--card-bg);
+}
+
+/* A numbered index badge used on cards. */
+.index-chip {
+  display: inline-grid;
+  place-items: center;
+  min-width: 2.25rem;
+  height: 2.25rem;
+  padding-inline: 0.6rem;
+  border-radius: var(--radius-chip);
+  border: 1px solid rgba(var(--brass-rgb), 0.35);
+  background: rgba(var(--brass-rgb), 0.08);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  color: var(--color-brass);
+  transition:
+    background-color 0.5s ease,
+    color 0.5s ease,
+    border-color 0.5s ease;
+}
+.group:hover .index-chip,
+.card:hover .index-chip {
+  background: var(--color-brass);
+  border-color: var(--color-brass);
+  color: var(--color-void);
+}
+
+/* An icon housed in a rounded tile that warms on hover. */
+.icon-tile {
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 1rem;
+  border: 1px solid rgba(var(--brass-rgb), 0.25);
+  background: linear-gradient(160deg, rgba(var(--brass-rgb), 0.16), rgba(var(--brass-rgb), 0.02));
+  color: var(--color-brass);
+  transition:
+    rotate 0.6s var(--ease-spring),
+    scale 0.6s var(--ease-spring);
+}
+.group:hover .icon-tile,
+.card:hover .icon-tile {
+  rotate: -6deg;
+  scale: 1.08;
+}
+
+/* Glass: the floating chrome (navbar, sub-nav, menus). */
+.glass {
+  background: rgba(7, 10, 16, 0.72);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  backdrop-filter: blur(18px) saturate(140%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Heavier glass once the page has moved under the chrome. */
+.glass-strong {
+  background: rgba(4, 6, 10, 0.8);
+  -webkit-backdrop-filter: blur(28px) saturate(160%);
+  backdrop-filter: blur(28px) saturate(160%);
+  border-color: rgba(255, 255, 255, 0.09);
+}
+
+/* Dotted texture for large panels. */
+.dot-field {
+  background-image: url("/patterns/dots.svg");
+  background-size: 22px 22px;
+  -webkit-mask-image: radial-gradient(80% 70% at 50% 0%, #000 0%, transparent 75%);
+  mask-image: radial-gradient(80% 70% at 50% 0%, #000 0%, transparent 75%);
+}
+
+/* --------------------------------------------------------------------------
+   Buttons — pills with a liquid fill that rises from below.
+   -------------------------------------------------------------------------- */
+.btn {
+  position: relative;
+  isolation: isolate;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  overflow: hidden;
+  border-radius: var(--radius-chip);
+  padding: 1rem 1.75rem;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  transition:
+    color 0.5s var(--ease-out-expo),
+    border-color 0.5s ease,
+    box-shadow 0.6s var(--ease-out-expo);
+}
+.btn-fill {
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  z-index: -1;
+  width: 150%;
+  height: 300%;
+  border-radius: 50%;
+  translate: -50% 0;
+  transition: translate 0.75s var(--ease-out-expo);
+  pointer-events: none;
+}
+.btn:hover .btn-fill,
+.btn:focus-visible .btn-fill {
+  translate: -50% -72%;
+}
+.btn-primary {
+  background: var(--color-brass);
+  color: var(--color-void);
+  box-shadow: 0 12px 32px -14px rgba(var(--brass-rgb), 0.7);
+}
+.btn-primary .btn-fill {
+  background: var(--color-bone);
+}
+.btn-primary:hover {
+  box-shadow: 0 18px 44px -14px rgba(var(--brass-rgb), 0.85);
+}
+.btn-outline {
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: var(--color-bone);
+  background: rgba(255, 255, 255, 0.02);
+}
+.btn-outline .btn-fill {
+  background: var(--color-brass);
+}
+.btn-outline:hover,
+.btn-outline:focus-visible {
+  color: var(--color-void);
+  border-color: var(--color-brass);
+}
+.btn-quiet {
+  color: var(--color-mist);
+}
+.btn-quiet:hover {
+  color: var(--color-bone);
+}
+
+/* The arrow leaves top-right and a twin arrives from bottom-left. */
+.btn-arrow {
+  position: relative;
+  display: inline-block;
+  width: 0.875rem;
+  height: 0.875rem;
+  overflow: hidden;
+}
+.btn-arrow > * {
+  position: absolute;
+  inset: 0;
+  transition: translate 0.6s var(--ease-out-expo);
+}
+.btn-arrow > :last-child {
+  translate: -110% 110%;
+}
+.btn:hover .btn-arrow > :first-child,
+.btn:focus-visible .btn-arrow > :first-child,
+.group:hover .btn-arrow > :first-child {
+  translate: 110% -110%;
+}
+.btn:hover .btn-arrow > :last-child,
+.btn:focus-visible .btn-arrow > :last-child,
+.group:hover .btn-arrow > :last-child {
+  translate: 0 0;
+}
+
+/* --------------------------------------------------------------------------
+   Media frames — rounded, with a slow zoom on hover.
+   -------------------------------------------------------------------------- */
+.frame {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border-radius: var(--radius-panel);
+  border: 1px solid rgba(var(--brass-rgb), 0.28);
+  background: var(--color-surface);
+  box-shadow: 0 40px 80px -48px rgba(0, 0, 0, 0.9);
+  transition:
+    border-color 0.6s ease,
+    box-shadow 0.8s var(--ease-out-expo);
+}
+.frame-zoom {
+  position: absolute;
+  inset: 0;
+  transition: scale 1.4s var(--ease-out-expo);
+}
+.group:hover .frame-zoom {
+  scale: 1.06;
+}
+.group:hover .frame {
+  border-color: rgba(var(--brass-rgb), 0.6);
+  box-shadow: 0 50px 100px -50px rgba(0, 0, 0, 1);
+}
+/* A soft vignette so captions and chips stay legible on any photograph. */
+.frame-shade {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, transparent 55%, rgba(4, 6, 10, 0.55) 100%);
+}
+
+/* --------------------------------------------------------------------------
+   Marquee
+   -------------------------------------------------------------------------- */
+.marquee {
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 55s linear infinite;
+  will-change: transform;
+}
+.marquee:hover .marquee-track,
+.marquee:focus-within .marquee-track {
+  animation-play-state: paused;
+}
+@keyframes marquee {
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Sub-nav and anchors
+   -------------------------------------------------------------------------- */
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Anchored sections ([data-anchor]) are reached through scrollToTarget() in
+   SmoothScroll.tsx, which applies the navbar + sub-nav clearance itself. No
+   scroll-margin here: Lenis honours it too, and the clearance would count
+   twice, landing every section one bar-height short. */
 }

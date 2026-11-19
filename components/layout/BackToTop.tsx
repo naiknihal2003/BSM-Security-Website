@@ -4,15 +4,16 @@ import { useEffect, useRef, useState } from "react";
 import { ArrowUp } from "lucide-react";
 import { scrollToTarget } from "./SmoothScroll";
 
-const PERIMETER = 4 * 52; // square ring, 52px per side
+const RADIUS = 26;
+const PERIMETER = 2 * Math.PI * RADIUS; // circular progress ring
 
 /**
- * Appears once the page has been scrolled, with a square progress ring that
+ * Appears once the page has been scrolled, with a circular progress ring that
  * traces how much of the page is behind you.
  */
 export default function BackToTop() {
   const [visible, setVisible] = useState(false);
-  const ring = useRef<SVGRectElement>(null);
+  const ring = useRef<SVGCircleElement>(null);
 
   useEffect(() => {
     let frame = 0;
@@ -42,7 +43,7 @@ export default function BackToTop() {
       onClick={() => scrollToTarget(0)}
       aria-label="Back to top"
       tabIndex={visible ? 0 : -1}
-      className={`group fixed bottom-6 right-6 z-[105] grid h-14 w-14 place-items-center border border-line bg-void/80 text-mist backdrop-blur transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] hover:border-brass hover:text-brass md:bottom-10 md:right-10 ${
+      className={`group fixed bottom-6 right-6 z-[105] grid h-14 w-14 place-items-center rounded-full border border-line bg-void/80 text-mist backdrop-blur transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] hover:border-brass hover:text-brass md:bottom-10 md:right-10 ${
         visible ? "pointer-events-auto translate-y-0 opacity-100" : "pointer-events-none translate-y-4 opacity-0"
       }`}
     >
@@ -52,12 +53,11 @@ export default function BackToTop() {
         fill="none"
         aria-hidden="true"
       >
-        <rect
+        <circle
           ref={ring}
-          x="2"
-          y="2"
-          width="52"
-          height="52"
+          cx="28"
+          cy="28"
+          r={RADIUS}
           stroke="currentColor"
           strokeWidth="1"
           strokeDasharray={PERIMETER}

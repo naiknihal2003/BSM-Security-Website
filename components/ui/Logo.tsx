@@ -53,7 +53,7 @@ export function Logo({
         alt={logo.alt}
         width={size}
         height={size}
-        priority={priority}
+        preload={priority}
         sizes={`${size}px`}
         className={`block h-auto object-contain ${imgClassName ?? ""}`}
         style={imgClassName ? undefined : { width: size }}

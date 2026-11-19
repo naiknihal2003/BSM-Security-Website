@@ -51,8 +51,15 @@ lib/
   about.ts        About Us copy, verbatim as BSM supplied it
   schema.tsx      structured data for search engines
   gsap.ts         the single GSAP registration point
-public/           served as-is: /media photographs, /media/clients logos
-assets-src/       masters that are NOT served — run `npm run media`
+public/           served as-is — every image is WebP or SVG:
+  brand/          bsm-logo.webp, bsm-mark.svg
+  media/photos/   general and stand-in photography
+  media/services/ one photograph per service category
+  media/people/   leadership portraits
+  media/clients/  client logos (transparent WebP)
+  patterns/       hand-drawn SVG textures used by the stylesheet
+assets-src/       masters (JPG/PNG) that are NOT served — `npm run media`
+                  writes the WebP files above from them
 scripts/          one-off tooling (media pipeline, content check)
 ```
 
@@ -75,8 +82,14 @@ import { media, logo, gallery, clientLogos } from "@/lib/media";
 | `lib/media/photos.ts` | every photograph, plus the BSM logo |
 | `lib/media/gallery.ts` | which photographs appear on the gallery page |
 | `lib/media/client-logos.ts` | one line per client, keyed by slug |
+| `lib/media/services.ts` | one photograph per service category, keyed by slug |
 
-**To change an image** point its entry at another file in `public/media`.
+`media.heroBackdrop` is the home page hero photograph. It dissolves into the
+dark on its right and bottom edges, so a full photograph or a transparent
+cut-out of a guard both work; `focus` sets which part stays in view.
+
+**To change an image** put the master in `assets-src/media/<folder>/`, run
+`npm run media`, and point its entry at the `.webp` it writes.
 **To remove one** set the value to `""` — the frame falls back to a placeholder
 that states on the page what belongs there. **To add one** drop the file in
 `public/media` (or put the master in `assets-src/media` and run `npm run media`)
@@ -113,7 +126,7 @@ grep -rn "\[[A-Z][A-Z /&-]*\]" lib/ app/ components/
 | --- | --- |
 | Business hours | `9am-5:30pm` |
 | Legal entity | `BSM SECURITY AGENCY` |
-| `site.url` | currently `https://www.bsmsecurity.in` — set the real domain; it drives canonical URLs, sitemap, OG tags and schema |
+| `site.url` | `https://bsmsecurityagency.com` — drives canonical URLs, sitemap, robots.txt, OG tags and schema |
 
 Phone, WhatsApp, email and the Head Office address are set. `contact.phones`
 holds all three general lines in order and `contact.phone` / `phoneHref` is the
@@ -282,6 +295,28 @@ effects:
 | `data-parallax="0.15"` | drifts against the scroll (desktop only) |
 | `data-rule` | hairline rule draws itself across |
 | `data-delay="0.08"` | delays a `data-reveal` |
+| `data-reveal="left\|right\|blur\|pop"` | slides, un-blurs or pops into place |
+| `data-scrub-words` | words light up one by one as the block scrolls through |
+| `data-tilt="6"` | card tilts in 3D toward the pointer (desktop) |
+| `data-zoom` | panel grows into place as it scrolls in |
+| `data-spin="40"` / `data-float` | slow rotating ornament / gentle bob |
+
+Photographs (`data-clip`) fade in while the image settles from a slight zoom —
+there is no wipe.
+
+### Navigation
+
+`lib/navigation.ts` drives the navbar dropdowns, the mobile menu and the
+shortcut bar (`components/layout/SubNav.tsx`) under each inner page's hero.
+Shortcut targets are elements with an `id` and `data-anchor`; adding a service,
+client or office in `lib/site.ts` adds it to the menus automatically.
+
+### Cards and hover
+
+`.card` (in `app/globals.css`, `@layer components`) is the one surface: rounded,
+with a brass glow and lit edge that follow the pointer
+(`components/layout/PointerFX.tsx`) and a small lift on hover. Variants:
+`card-ink`, `card-void`, `card-feature`, `card-still` (glows, does not lift).
 
 Every animation is created inside a `gsap.context()` and reverted on route
 change, so no ScrollTrigger outlives its DOM. Bespoke timelines (hero,

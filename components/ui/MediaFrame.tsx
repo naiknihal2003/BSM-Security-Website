@@ -1,8 +1,9 @@
 import Image from "next/image";
+import { ImageIcon } from "lucide-react";
 import type { Shot } from "@/lib/media";
 
 type MediaFrameProps = {
-  /** A shot from lib/media.ts — fills src, alt, label and note in one go. */
+  /** A shot from lib/media — fills src, alt, label and note in one go. */
   shot?: Shot;
   /** Drop a real photograph in /public/media and pass its path here. */
   src?: string;
@@ -14,13 +15,26 @@ type MediaFrameProps = {
   ratio?: string;
   className?: string;
   parallax?: number;
+  /** Above-the-fold image: preloaded instead of lazy-loaded. */
   priority?: boolean;
   sizes?: string;
+  /** Show the label as a glass chip over the photograph. */
+  chip?: boolean;
 };
 
 /**
  * Every image on the site goes through this frame, so art direction stays
  * consistent whether or not BSM's own photography has been supplied yet.
+ *
+ * Layers, outside in:
+ *   .frame          rounded keyline, soft fade-in reveal (data-clip)
+ *   parallax        drifts against the scroll (data-parallax)
+ *   .frame-zoom     slow CSS zoom on hover (the `scale` property)
+ *   <img>           scaled down into place by GSAP on reveal (data-clip-img)
+ *
+ * Each layer owns a different property, so the scroll reveal, the parallax and
+ * the hover zoom never overwrite one another.
+ *
  * With no `src` it renders a composed placeholder that states plainly what
  * photograph belongs there — never a stock image standing in for BSM's work.
  */
@@ -36,6 +50,7 @@ export function MediaFrame({
   parallax = 0.08,
   priority = false,
   sizes = "(max-width: 768px) 100vw, 50vw",
+  chip = false,
 }: MediaFrameProps) {
   const src = srcProp ?? shot?.src;
   const alt = altProp ?? shot?.alt;
@@ -45,72 +60,75 @@ export function MediaFrame({
   const frameRatio = shot?.ratio ?? ratio;
   /* The parallax drift needs the image oversized; without it the frame
      would crop ~10% off every edge for no reason. */
-  const drifts = parallax > 0;
+  const drifts = parallax > 0 && !shot?.ratio;
 
   return (
     <figure className={`group relative ${className}`} data-parallax-scope>
-      <div
-        data-clip
-        /* Subtle brass keyline on every photograph — one hairline, no glow. */
-        className="relative w-full overflow-hidden border-2 border-brass/55 bg-surface transition-colors duration-500 group-hover:border-brass/80"
-        style={{ aspectRatio: frameRatio }}
-      >
+      <div data-clip className="frame w-full" style={{ aspectRatio: frameRatio }}>
         {src ? (
           <div
             className={drifts ? "absolute inset-[-10%]" : "absolute inset-0"}
             data-parallax={drifts ? parallax : undefined}
           >
-            <Image
-              src={src}
-              alt={alt ?? label}
-              fill
-              priority={priority}
-              sizes={sizes}
-              /* The optimiser defaults to 75, which visibly softens
-                 photographs behind the brass frames. */
-              quality={90}
-              className={shot?.ratio ? "object-contain" : "object-cover"}
-            />
+            <div className="frame-zoom">
+              <Image
+                src={src}
+                alt={alt ?? label}
+                fill
+                preload={priority}
+                sizes={sizes}
+                data-clip-img
+                className={shot?.ratio ? "object-contain" : "object-cover"}
+                /* Which part of a cropped photograph stays in view. */
+                style={shot?.focus ? { objectPosition: shot.focus } : undefined}
+              />
+            </div>
           </div>
         ) : (
           <PlaceholderArt label={label} note={note} />
         )}
-        <span className="ticks pointer-events-none absolute inset-0" aria-hidden="true" />
+        {src && <span className="frame-shade" aria-hidden="true" />}
+        {chip && src && (
+          <span className="glass absolute bottom-4 left-4 inline-flex items-center gap-2 rounded-full px-3.5 py-2 font-mono text-[10px] uppercase tracking-[0.18em] text-bone">
+            <span className="h-1.5 w-1.5 rounded-full bg-brass" aria-hidden="true" />
+            {label}
+          </span>
+        )}
       </div>
       {figure && (
-        <figcaption className="mt-3 flex items-baseline justify-between border-t border-line-soft pt-3 font-mono text-[10px] uppercase tracking-[0.2em] text-dim">
-          <span>{figure}</span>
-          <span className="text-dim/70">{label}</span>
+        <figcaption className="mt-4 flex items-baseline justify-between gap-4 px-1 font-mono text-[10px] uppercase tracking-[0.2em] text-dim">
+          <span className="text-brass/80">{figure}</span>
+          <span className="truncate text-right text-dim/80">{label}</span>
         </figcaption>
       )}
     </figure>
   );
 }
 
-/** The composed empty state: grid, sweep line, and a plain-language brief. */
+/** The composed empty state: dot field, crosshair and a plain-language brief. */
 function PlaceholderArt({ label, note }: { label: string; note?: string }) {
   return (
     <div className="absolute inset-0 grid place-items-center bg-[radial-gradient(120%_90%_at_50%_0%,#111925_0%,#070a10_60%,#04060a_100%)]">
+      <span className="dot-field absolute inset-0" aria-hidden="true" />
       <svg
         className="absolute inset-0 h-full w-full text-line"
         aria-hidden="true"
         preserveAspectRatio="none"
       >
-        <defs>
-          <pattern id={`g-${label.replace(/\W/g, "")}`} width="44" height="44" patternUnits="userSpaceOnUse">
-            <path d="M44 0H0V44" fill="none" stroke="currentColor" strokeWidth="1" opacity="0.5" />
-          </pattern>
-        </defs>
-        <rect width="100%" height="100%" fill={`url(#g-${label.replace(/\W/g, "")})`} />
-        <line x1="0" y1="50%" x2="100%" y2="50%" stroke="currentColor" strokeWidth="1" />
-        <line x1="50%" y1="0" x2="50%" y2="100%" stroke="currentColor" strokeWidth="1" />
+        <line x1="0" y1="50%" x2="100%" y2="50%" stroke="currentColor" strokeWidth="1" strokeDasharray="3 6" />
+        <line x1="50%" y1="0" x2="50%" y2="100%" stroke="currentColor" strokeWidth="1" strokeDasharray="3 6" />
       </svg>
-      <div className="relative z-10 max-w-[80%] text-center">
-        <span className="inline-block border border-brass/40 px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.22em] text-brass">
+      <div className="relative z-10 flex max-w-[80%] flex-col items-center text-center">
+        <span className="icon-tile">
+          <ImageIcon className="h-5 w-5" strokeWidth={1.25} />
+        </span>
+        <span className="mt-5 inline-block rounded-full border border-brass/40 px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.22em] text-brass">
           [Image]
         </span>
         <p className="mt-4 font-display text-sm uppercase tracking-[0.14em] text-bone/80">{label}</p>
-        {note && <p className="mt-2 font-mono text-[10px] leading-relaxed tracking-[0.06em] text-dim">{note}</p>}
+        {note && (
+          <p className="mt-2 font-mono text-[10px] leading-relaxed tracking-[0.06em] text-dim">{note}</p>
+        )}
       </div>
     </div>
   );

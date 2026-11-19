@@ -11,6 +11,7 @@
  *   photos.ts        every photograph, plus the BSM logo
  *   gallery.ts       which photographs appear on the gallery page
  *   client-logos.ts  one line per client, keyed by slug
+ *   services.ts      one photograph per service category, keyed by slug
  *
  * Nothing imports those files directly; components import this barrel, so a
  * dictionary can be split or renamed without touching a component.
@@ -20,3 +21,4 @@ export type { Shot, GalleryItem } from "./types";
 export { media, logo, type MediaKey } from "./photos";
 export { gallery, galleryGroups } from "./gallery";
 export { clientLogos } from "./client-logos";
+export { serviceShots } from "./services";

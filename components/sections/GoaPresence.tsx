@@ -1,10 +1,18 @@
+import { Building, Factory, Home, Waves, type LucideIcon } from "lucide-react";
 import { Section, SectionLabel } from "@/components/ui/Section";
 import { Copy } from "@/components/ui/Placeholder";
 import { goaPresence } from "@/lib/site";
 
+const icons: Record<string, LucideIcon> = {
+  "Coastal properties": Waves,
+  "Urban and commercial": Building,
+  "Industrial estates": Factory,
+  "Residential societies": Home,
+};
+
 /**
  * Presence. The photograph pair that used to sit alongside this copy has been
- * removed at BSM's request; the section is now a single text-and-cards block.
+ * removed at BSM's request; the section is a single text-and-cards block.
  */
 export default function GoaPresence() {
   return (
@@ -24,17 +32,23 @@ export default function GoaPresence() {
         </div>
 
         <div className="lg:col-span-6 lg:col-start-7">
-          <dl className="grid gap-px border border-line bg-line sm:grid-cols-2" data-stagger>
-            {goaPresence.map((area) => (
-              <div key={area.name} data-stagger-item className="bg-void p-7">
-                <dt className="font-display text-lg font-semibold tracking-[-0.02em] text-bone">
-                  {area.name}
-                </dt>
-                <dd className="mt-3 text-sm text-mist">
-                  <Copy text={area.note} />
-                </dd>
-              </div>
-            ))}
+          <dl className="grid gap-4 sm:grid-cols-2" data-stagger>
+            {goaPresence.map((area) => {
+              const Icon = icons[area.name] ?? Building;
+              return (
+                <div key={area.name} data-stagger-item data-tilt="6" className="card card-void group p-7">
+                  <span className="icon-tile">
+                    <Icon className="h-5 w-5" strokeWidth={1.4} />
+                  </span>
+                  <dt className="mt-6 font-display text-lg font-semibold tracking-[-0.02em] text-bone">
+                    {area.name}
+                  </dt>
+                  <dd className="mt-3 text-sm text-mist">
+                    <Copy text={area.note} />
+                  </dd>
+                </div>
+              );
+            })}
           </dl>
         </div>
       </div>

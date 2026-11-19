@@ -1,6 +1,27 @@
+import {
+  Award,
+  BadgeCheck,
+  Briefcase,
+  Building,
+  GraduationCap,
+  ShieldHalf,
+  UsersRound,
+  type LucideIcon,
+} from "lucide-react";
 import { coreStrengths } from "@/lib/site";
 import { Section, SectionLabel } from "@/components/ui/Section";
 import { Marked } from "@/components/ui/Marked";
+
+/** One mark per strength, in the order BSM listed them. */
+const icons: Record<string, LucideIcon> = {
+  "01": Award,
+  "02": ShieldHalf,
+  "03": Building,
+  "04": Briefcase,
+  "05": GraduationCap,
+  "06": UsersRound,
+  "07": BadgeCheck,
+};
 
 /**
  * Our Core Strengths — seven points supplied by BSM, reproduced verbatim.
@@ -11,32 +32,40 @@ export default function CoreStrengths() {
     <Section id="core-strengths" label="Our core strengths" className="bg-ink">
       <div className="grid gap-12 lg:grid-cols-12 lg:gap-10">
         <div className="lg:col-span-4">
-          <SectionLabel index="02">Our Core Strengths</SectionLabel>
-          <h2 data-split className="mt-8 text-display font-semibold text-bone">
-            What BSM is built <span className="accent-serif text-brass">on</span>.
-          </h2>
+          <div className="lg:sticky lg:top-[calc(var(--nav-h)+3rem)]">
+            <SectionLabel index="02">Our Core Strengths</SectionLabel>
+            <h2 data-split className="mt-8 text-display font-semibold text-bone">
+              What BSM is built <span className="accent-serif text-brass">on</span>.
+            </h2>
+          </div>
         </div>
 
-        <div className="lg:col-span-7 lg:col-start-6">
-          <ol className="grid gap-px border border-line bg-line sm:grid-cols-2" data-stagger>
-            {coreStrengths.map((item) => {
+        <div className="lg:col-span-8">
+          <ol className="grid gap-4 sm:grid-cols-2" data-stagger>
+            {coreStrengths.map((item, i) => {
               /* The DGR sponsorship is the one credential BSM has confirmed,
                  so that card carries the brass treatment. Wording unchanged. */
               const featured = item.index === "02";
+              const Icon = icons[item.index] ?? Award;
+              /* Seven cards in two columns: the last one spans the row. */
+              const last = i === coreStrengths.length - 1 && coreStrengths.length % 2 === 1;
               return (
                 <li
                   key={item.index}
                   data-stagger-item
-                  className={`group relative flex flex-col p-7 md:p-8 ${
-                    featured ? "bg-brass/[0.07] ring-1 ring-inset ring-brass/45" : "bg-ink"
-                  }`}
+                  data-tilt="5"
+                  className={`card group flex flex-col p-7 md:p-8 ${
+                    featured ? "card-feature" : ""
+                  } ${last ? "sm:col-span-2" : ""}`}
                 >
-                  <span className="ticks pointer-events-none absolute inset-0" aria-hidden="true" />
-                  <span className="font-mono text-[11px] tracking-[0.2em] text-brass">
-                    {item.index}
-                  </span>
+                  <div className="flex items-center justify-between">
+                    <span className="icon-tile">
+                      <Icon className="h-5 w-5" strokeWidth={1.4} />
+                    </span>
+                    <span className="index-chip">{item.index}</span>
+                  </div>
                   <h3
-                    className={`mt-5 font-display text-lg font-semibold tracking-[-0.01em] ${
+                    className={`mt-7 font-display text-lg font-semibold tracking-[-0.01em] ${
                       featured ? "text-brass" : "text-bone"
                     }`}
                   >

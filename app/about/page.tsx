@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { site } from "@/lib/site";
+import { pageMetadata } from "@/lib/seo";
 import {
   legacy,
   legacyMarks,
@@ -14,20 +14,27 @@ import { JsonLd, breadcrumbSchema } from "@/lib/schema";
 import { PageHero } from "@/components/ui/PageHero";
 import { Section, SectionLabel } from "@/components/ui/Section";
 import { MediaFrame } from "@/components/ui/MediaFrame";
+import { shortcuts } from "@/lib/navigation";
+import SubNav from "@/components/layout/SubNav";
 import { Marked } from "@/components/ui/Marked";
+import { ArrowDown, Quote, UserRound } from "lucide-react";
+import { TransitionLink } from "@/components/layout/PageTransition";
+import { titleCase } from "@/lib/navigation";
 import RevealEngine from "@/components/layout/RevealEngine";
 
-export const metadata: Metadata = {
-  title: "About BSM Security Agency — Legacy, Leadership and Commitment",
+export const metadata: Metadata = pageMetadata({
+  path: "/about",
+  title: "About Us — Legacy, Leadership & Commitment",
   description:
-    "BSM Security Agency: a legacy built on decades of industry experience as a DGR-sponsored agency, the leadership behind it, and our commitment to disciplined, professionally supervised security services.",
-  alternates: { canonical: "/about" },
-  openGraph: {
-    title: "About BSM Security Agency",
-    description: "Our legacy and experience, our leadership and management, and our commitment.",
-    url: `${site.url}/about`,
-  },
-};
+    "BSM Security Agency began as a DGR-sponsored security agency registered with the Directorate General Resettlement, Ministry of Defence, and now operates as an independent private agency led by Principal Partner Mr. Dattatray B. Naik, with Lt. Col. Bhupinder Singh Malhi (Retd.) guiding military-discipline training.",
+  keywords: [
+    "about BSM Security Agency",
+    "Dattatray B Naik",
+    "Lt Col Bhupinder Singh Malhi",
+    "DGR security agency Goa",
+    "military trained security guards Goa",
+  ],
+});
 
 /**
  * Body copy on this page is justified. Hyphenation is deliberately off:
@@ -55,6 +62,7 @@ export default function AboutPage() {
 
       {/* 01 — Our Legacy & Experience */}
       <PageHero
+        id="legacy"
         eyebrow="About Us"
         index="01"
         breadcrumb={[
@@ -74,58 +82,118 @@ export default function AboutPage() {
         {/* A single centred editorial column. No scroll-reveal here — this
             block is above the fold, and a reveal whose ScrollTrigger has not
             fired would leave it invisible. */}
-        <div className="mx-auto mt-16 w-full max-w-[1150px] space-y-8">
-          {legacy.paragraphs.map((paragraph, i) => (
-            <p key={i} className={`text-[1.0625rem] leading-[1.75] text-mist ${prose}`}>
-              <Marked text={paragraph} marks={legacyMarks} />
-            </p>
-          ))}
+        <div className="card card-still card-ink relative mt-10 lg:mt-[clamp(1.5rem,4.5svh,3.25rem)] w-full overflow-hidden p-7 md:p-10 lg:p-[clamp(1.5rem,4svh,3rem)]">
+          <span className="dot-field pointer-events-none absolute inset-0 opacity-60" aria-hidden="true" />
+          <span
+            className="accent-serif pointer-events-none absolute -right-2 -top-10 select-none text-[14rem] leading-none text-brass/[0.06]"
+            aria-hidden="true"
+          >
+            &ldquo;
+          </span>
+          <div className="relative space-y-6 lg:columns-2 lg:gap-12 lg:space-y-0 [&>p]:break-inside-avoid lg:[&>p+p]:mt-5">
+            {legacy.paragraphs.map((paragraph, i) => (
+              <p key={i} className={`text-[clamp(0.95rem,min(1.05vw,2.05svh),1.0625rem)] leading-[1.75] text-mist ${prose}`}>
+                <Marked text={paragraph} marks={legacyMarks} />
+              </p>
+            ))}
+          </div>
         </div>
       </PageHero>
 
-      {/* 02 — Our Leadership & Management */}
-      <Section id="leadership" label={leadershipIntro.heading} className="bg-ink">
-        <div className="grid gap-10 lg:grid-cols-12">
-          <div className="lg:col-span-5">
+      <SubNav items={shortcuts.about} label="About page shortcuts" />
+
+      {/* 02 — Our Leadership & Management: the introduction, with a way into
+          each profile. */}
+      <Section id="leadership" label={leadershipIntro.heading} className="bg-ink" fill>
+        <div className="grid gap-6 lg:grid-cols-12 lg:items-end lg:gap-10">
+          <div className="lg:col-span-6">
             <SectionLabel index="02">Leadership</SectionLabel>
-            <h2 data-split className="mt-8 text-display font-semibold text-bone">
+            <h2 data-split className="mt-6 text-display font-semibold text-bone">
               {leadershipIntro.heading}
             </h2>
           </div>
-          <div className="lg:col-span-6 lg:col-start-7">
-            <p data-reveal="up" className={`text-lead leading-relaxed text-mist ${prose}`}>
-              {leadershipIntro.body}
-            </p>
-          </div>
+          <p
+            data-reveal="up"
+            className={`text-lead leading-relaxed text-mist lg:col-span-6 lg:pb-[0.3em] ${prose}`}
+          >
+            {leadershipIntro.body}
+          </p>
         </div>
 
-        <div className="mt-20 space-y-16 md:space-y-20">
-          {leaders.map((leader) => (
-            <LeaderBlock key={leader.id} leader={leader} />
-          ))}
+        <div className="mt-10 grid gap-4 md:grid-cols-3 lg:mt-[clamp(1.5rem,5svh,3.5rem)]" data-stagger>
+          {leaders.map((leader) => {
+            const shot = leaderShots[leader.id as keyof typeof leaderShots];
+            return (
+              <TransitionLink
+                key={leader.id}
+                href={`#${leader.id}`}
+                data-stagger-item
+                className="card card-void group flex items-center gap-4 p-3 pr-5"
+              >
+                <span className="relative grid aspect-square w-[clamp(4rem,11svh,6.5rem)] shrink-0 place-items-center overflow-hidden rounded-[0.9rem] bg-surface">
+                  {shot.src ? (
+                    <img
+                      src={shot.src}
+                      alt=""
+                      loading="lazy"
+                      decoding="async"
+                      className="h-full w-full object-cover"
+                      style={{ objectPosition: shot.focus ?? "50% 20%" }}
+                    />
+                  ) : (
+                    <UserRound className="h-7 w-7 text-brass/60" strokeWidth={1} />
+                  )}
+                </span>
+                <span className="min-w-0 flex-1">
+                  <span className="block font-mono text-[10px] tracking-[0.18em] text-brass">
+                    {leader.index}
+                  </span>
+                  <span className="mt-1 block font-display text-[1.05rem] font-semibold leading-snug text-bone transition-colors group-hover:text-brass-lit">
+                    {titleCase(leader.name)}
+                  </span>
+                  <span className="mt-1 block text-[13px] leading-snug text-mist">
+                    {leader.designation}
+                  </span>
+                </span>
+                <ArrowDown
+                  className="h-4 w-4 shrink-0 text-dim transition-[color,translate] duration-500 group-hover:translate-y-0.5 group-hover:text-brass"
+                  strokeWidth={1.75}
+                />
+              </TransitionLink>
+            );
+          })}
         </div>
       </Section>
 
+      {/* One full-screen section per leader. */}
+      {leaders.map((leader, i) => (
+        <Section
+          key={leader.id}
+          id={leader.id}
+          label={leader.name}
+          className={i % 2 === 0 ? "" : "bg-ink"}
+          fill
+        >
+          <LeaderBlock leader={leader} />
+        </Section>
+      ))}
+
       {/* 03 — Our Commitment */}
-      <Section id="commitment" label={commitment.heading}>
-        <div className="grid gap-10 lg:grid-cols-12">
+      <Section id="commitment" label={commitment.heading} className="bg-ink" fill>
+        <div className="grid gap-10 lg:grid-cols-12 lg:items-center">
           <div className="lg:col-span-5">
             <SectionLabel index="03">Commitment</SectionLabel>
-            <h2 data-split className="mt-8 text-display font-semibold text-bone">
+            <h2 data-split className="mt-6 text-display font-semibold text-bone">
               {commitment.heading}
             </h2>
           </div>
-          <div className="lg:col-span-6 lg:col-start-7">
-            <div className="space-y-7 border-l border-brass/50 pl-7">
-              {commitment.paragraphs.map((paragraph, i) => (
-                <p
-                  key={i}
-                  data-reveal="up"
-                  data-delay={(i * 0.06).toFixed(2)}
-                  className={`text-lead leading-relaxed text-mist ${prose}`}
-                >
-                  {paragraph}
-                </p>
+          <div className="lg:col-span-7">
+            <div className="space-y-4" data-stagger>
+              {commitment.paragraphs.map((paragraph, n) => (
+                <div key={n} data-stagger-item className="card card-void group flex gap-5 p-7 md:p-8">
+                  <span className="index-chip shrink-0">{String(n + 1).padStart(2, "0")}</span>
+                  <p className={`text-lead leading-relaxed text-mist ${prose}`}>{paragraph}</p>
+                </div>
               ))}
             </div>
           </div>
@@ -135,7 +203,7 @@ export default function AboutPage() {
       {/* 04 — Closing brand statement */}
       <section
         aria-label="BSM Security Agency"
-        className="relative overflow-hidden border-t border-line bg-ink py-28 md:py-36 lg:py-44"
+        className="relative overflow-hidden border-t border-line bg-ink section-pad"
       >
         <span
           className="section-divider pointer-events-none absolute inset-x-0 top-0"
@@ -148,15 +216,18 @@ export default function AboutPage() {
         />
 
         <div className="shell relative text-center">
+          <span className="icon-tile mx-auto !h-14 !w-14 !rounded-2xl" data-reveal="pop">
+            <Quote className="h-6 w-6" strokeWidth={1.25} />
+          </span>
           <p
             data-reveal="up"
-            className="font-display text-display font-semibold tracking-[-0.02em] text-bone"
+            className="mt-8 font-display text-display font-semibold tracking-[-0.02em] text-bone"
           >
             {brandStatement.name}
           </p>
           <span
-            className="mx-auto mt-8 block h-px w-24 bg-brass"
-            data-reveal="fade"
+            className="mx-auto mt-8 block h-0.5 w-24 rounded-full bg-brass"
+            data-rule
             aria-hidden="true"
           />
           <p
@@ -175,51 +246,49 @@ export default function AboutPage() {
 }
 
 /**
- * One leadership profile: photograph on the left, text on the right, the same
- * way down the page so the three read as a set. The frame carries the site's
- * brass keyline and falls back to the composed placeholder until BSM supplies
- * a photograph — no stock or generated portraits.
+ * One leadership profile, sized to fill one screen on desktop.
+ *
+ * The portrait is still — no parallax drift, no tilt — and square, its size
+ * tied to the screen height so it never pushes the profile past the fold.
+ * Text is set a step smaller on short screens for the same reason. The frame
+ * falls back to the composed placeholder until BSM supplies a photograph —
+ * no stock or generated portraits.
  */
 function LeaderBlock({ leader }: { leader: LeaderProfile }) {
   const shot = leaderShots[leader.id as keyof typeof leaderShots];
+  const body = `text-[clamp(0.92rem,min(1.05vw,2.05svh),1.0625rem)] leading-[1.7] text-mist ${prose}`;
 
   return (
-    <article
-      id={leader.id}
-      className="grid gap-10 border-t border-line pt-14 lg:grid-cols-12 lg:gap-12"
-    >
+    <article className="grid gap-10 lg:grid-cols-12 lg:items-center lg:gap-12">
       <div className="lg:col-span-4">
-        <MediaFrame
-          shot={shot}
-          figure={`${leader.index} / Leadership`}
-          ratio="4 / 5"
-          sizes="(max-width: 1024px) 100vw, 30vw"
-        />
+        <div className="mx-auto w-full max-w-md lg:max-w-[min(100%,calc(100svh-var(--nav-h)-var(--subnav-h)-12rem))]">
+          <MediaFrame
+            shot={shot}
+            ratio="1 / 1"
+            parallax={0}
+            sizes="(max-width: 1024px) 100vw, 30vw"
+          />
+        </div>
       </div>
 
-      <div className="lg:col-span-7 lg:col-start-6">
-        <span className="font-mono text-[11px] tracking-[0.2em] text-brass">{leader.index}</span>
-        <h3
-          data-reveal="up"
-          className="mt-5 font-display text-title font-semibold tracking-[-0.02em] text-bone"
-        >
-          {leader.name}
-        </h3>
-        {/* The designation sits on its own brass underline. */}
-        <div data-reveal="up" data-delay="0.04" className="mt-5">
-          <p className="inline-block border-b-2 border-brass pb-2 font-mono text-[13px] font-semibold uppercase tracking-[0.16em] text-bone/90">
+      <div className="lg:col-span-8">
+        <div className="flex flex-wrap items-center gap-3" data-reveal="up">
+          <span className="index-chip">{leader.index}</span>
+          <p className="inline-block rounded-full border border-brass/40 bg-brass/[0.08] px-4 py-2 font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-brass-lit">
             {leader.designation}
           </p>
         </div>
+        <h3
+          data-reveal="up"
+          className="mt-4 font-display text-title font-semibold tracking-[-0.02em] text-bone"
+        >
+          {leader.name}
+        </h3>
 
         {leader.paragraphs.length > 0 && (
-          <div className="mt-9 space-y-6">
-            {leader.paragraphs.map((paragraph, i) => (
-              <p
-                key={i}
-                data-reveal="up"
-                className={`text-[1.0625rem] leading-relaxed text-mist ${prose}`}
-              >
+          <div className="mt-[clamp(1rem,2.6svh,1.75rem)] space-y-[clamp(0.6rem,1.6svh,1rem)]">
+            {leader.paragraphs.map((paragraph, n) => (
+              <p key={n} data-reveal="up" className={body}>
                 <Marked text={paragraph} marks={leader.marks} />
               </p>
             ))}
@@ -227,41 +296,32 @@ function LeaderBlock({ leader }: { leader: LeaderProfile }) {
         )}
 
         {leader.listIntro && (
-          <p data-reveal="up" className={`mt-8 text-[1.0625rem] leading-relaxed text-mist ${prose}`}>
+          <p data-reveal="up" className={`mt-[clamp(0.6rem,1.6svh,1rem)] ${body}`}>
             {leader.listIntro}
           </p>
         )}
 
+        {leader.list && (
+          <ul className="mt-3 grid gap-x-6 gap-y-1.5 sm:grid-cols-2" data-stagger>
+            {leader.list.map((item) => (
+              <li
+                key={item}
+                data-stagger-item
+                className="flex items-baseline gap-3 text-[clamp(0.88rem,min(0.98vw,1.9svh),0.98rem)] leading-snug text-bone/85"
+              >
+                <span className="mt-[0.45em] h-1.5 w-1.5 shrink-0 rounded-full bg-brass" aria-hidden="true" />
+                {item}
+              </li>
+            ))}
+          </ul>
+        )}
+
+        {leader.closing && (
+          <p data-reveal="up" className={`mt-[clamp(0.6rem,1.6svh,1rem)] ${body}`}>
+            {leader.closing}
+          </p>
+        )}
       </div>
-
-      {/* The focus areas run the full width of the block — under the
-          photograph and across the text column — as two rows of four. */}
-      {leader.list && (
-        <ul
-          className="grid gap-px border border-line bg-line sm:grid-cols-2 lg:col-span-12 lg:grid-cols-4"
-          data-stagger
-        >
-          {leader.list.map((item) => (
-            <li
-              key={item}
-              data-stagger-item
-              className="flex items-baseline gap-3 bg-ink px-6 py-6"
-            >
-              <span className="mt-2 h-1 w-1 shrink-0 bg-brass" aria-hidden="true" />
-              <span className="text-[0.95rem] leading-relaxed text-mist">{item}</span>
-            </li>
-          ))}
-        </ul>
-      )}
-
-      {leader.closing && (
-        <p
-          data-reveal="up"
-          className={`text-[1.0625rem] leading-relaxed text-mist lg:col-span-12 ${prose}`}
-        >
-          {leader.closing}
-        </p>
-      )}
     </article>
   );
 }

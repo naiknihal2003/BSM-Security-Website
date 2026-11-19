@@ -1,31 +1,55 @@
 import type { Metadata } from "next";
-import { Mail, MapPin, Phone, Scale, UserRound } from "lucide-react";
+import type { ReactNode } from "react";
+import { pageMetadata } from "@/lib/seo";
+import {
+  ArrowDown,
+  ArrowUpRight,
+  Building2,
+  Clock,
+  Mail,
+  MapPin,
+  Navigation,
+  Phone,
+  Scale,
+  ShieldCheck,
+  UserRound,
+} from "lucide-react";
 import { WhatsAppIcon } from "@/components/ui/WhatsAppIcon";
-import { site, offices, type Office } from "@/lib/site";
+import { offices, site, type Office } from "@/lib/site";
 import { media } from "@/lib/media";
 import { JsonLd, breadcrumbSchema } from "@/lib/schema";
 import { Section, SectionLabel } from "@/components/ui/Section";
+import { PageHero } from "@/components/ui/PageHero";
+import { shortcuts } from "@/lib/navigation";
+import SubNav from "@/components/layout/SubNav";
+import { TransitionLink } from "@/components/layout/PageTransition";
 import { MediaFrame } from "@/components/ui/MediaFrame";
+import { MapEmbed } from "@/components/ui/MapEmbed";
 import RevealEngine from "@/components/layout/RevealEngine";
 
-export const metadata: Metadata = {
-  title: "Our Offices — Head Office, Margao & Branch Office, Goa",
+export const metadata: Metadata = pageMetadata({
+  path: "/branch",
+  title: "Our Offices — Head Office Margao & Branch Office Panjim",
   description:
-    "BSM Security Agency offices in Goa: the Head Office at Aquem, Margao and the Branch Office at Kadamba Govt Housing Society, Chimbel — addresses, contact numbers, email and leadership.",
-  alternates: { canonical: "/branch" },
-  openGraph: {
-    title: "Our Offices | BSM Security, Goa",
-    description:
-      "Head Office at Aquem, Margao and Branch Office at Chimbel, Goa — addresses, contacts and leadership.",
-    url: `${site.url}/branch`,
-  },
-};
+    "BSM Security Agency offices in Goa: Head Office at Kurtarkar Classic, Aquem, Margao and Branch Office at Kadamba Govt Housing Society, Chimbel, Panjim — addresses, phone and WhatsApp numbers, email, maps and office leadership.",
+  keywords: [
+    "security agency office Margao",
+    "security agency Aquem Margao",
+    "security agency Chimbel",
+    "security agency Old Goa",
+    "BSM Security contact address",
+  ],
+});
 
-/** One frame per office, so there are exactly two photographs on this page. */
+/** One photograph per office. Shown only once BSM supplies it. */
 const officeShots = {
   "head-office": media.headOffice,
   "branch-office-goa": media.branchOfficeGoa,
 } as const;
+
+/** Turn-by-turn directions to an address, in Google Maps. */
+const directions = (address: string) =>
+  `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(address)}`;
 
 export default function BranchPage() {
   return (
@@ -37,8 +61,142 @@ export default function BranchPage() {
         ])}
       />
 
+      <PageHero
+        eyebrow="Branch"
+        index="02"
+        breadcrumb={[
+          { label: "Home", href: "/" },
+          { label: "Branch", href: "/branch" },
+        ]}
+        title={
+          <>
+            Our offices in <span className="accent-serif text-brass">Goa</span>.
+          </>
+        }
+        lead="The Head Office at Aquem, Margao and the Branch Office at Chimbel — addresses, contact numbers, email and the people who lead each one."
+      >
+        {/* One full contact panel per office. */}
+        <div className="mt-10 grid gap-4 lg:mt-[clamp(1.5rem,4.5svh,3.25rem)] md:grid-cols-2" data-stagger>
+          {offices.map((office) => (
+            <article
+              key={office.id}
+              data-stagger-item
+              className="card card-void card-still flex flex-col p-5 md:p-6 lg:p-[clamp(1.1rem,2.8svh,1.75rem)]"
+            >
+              <div className="flex items-start gap-4">
+                <span className="icon-tile !h-12 !w-12 !rounded-2xl">
+                  {office.id === "head-office" ? (
+                    <Building2 className="h-5 w-5" strokeWidth={1.25} />
+                  ) : (
+                    <MapPin className="h-5 w-5" strokeWidth={1.25} />
+                  )}
+                </span>
+                <div className="min-w-0 flex-1">
+                  <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-brass">
+                    {office.index} / {office.kind}
+                  </p>
+                  <h2 className="mt-1 font-display text-[clamp(1.15rem,min(1.5vw,2.9svh),1.45rem)] font-semibold tracking-[-0.01em] text-bone">
+                    {office.name}
+                  </h2>
+                  <address className="mt-2 text-sm not-italic leading-relaxed text-mist">
+                    {office.address}
+                  </address>
+                </div>
+              </div>
+
+              {/* Every way to reach this office, one click each. */}
+              <div className="mt-[clamp(1rem,2.6svh,1.5rem)] flex flex-wrap gap-2 border-t border-white/[0.06] pt-[clamp(1rem,2.6svh,1.5rem)]">
+                {office.phones.map((p) => (
+                  <a
+                    key={p.href}
+                    href={p.href}
+                    className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.02] px-3.5 py-2 text-[13px] font-medium text-bone transition-colors hover:border-brass hover:text-brass"
+                  >
+                    <Phone className="h-3.5 w-3.5 text-brass" strokeWidth={1.75} />
+                    {p.display}
+                  </a>
+                ))}
+                {office.whatsapps[0] && (
+                  <a
+                    href={office.whatsapps[0].href}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center gap-2 rounded-full border border-[#25d366]/30 bg-[#25d366]/[0.06] px-3.5 py-2 text-[13px] font-medium text-bone transition-colors hover:border-[#25d366]"
+                  >
+                    <WhatsAppIcon className="h-3.5 w-3.5 text-[#25d366]" />
+                    WhatsApp
+                  </a>
+                )}
+                <a
+                  href={office.email.href}
+                  className="inline-flex min-w-0 items-center gap-2 rounded-full border border-white/10 bg-white/[0.02] px-3.5 py-2 text-[13px] font-medium text-bone transition-colors hover:border-brass hover:text-brass"
+                >
+                  <Mail className="h-3.5 w-3.5 shrink-0 text-brass" strokeWidth={1.75} />
+                  <span className="truncate">{office.email.display}</span>
+                </a>
+              </div>
+
+              <div className="mt-auto flex flex-wrap gap-2 pt-[clamp(1rem,2.6svh,1.5rem)]">
+                <TransitionLink
+                  href={`#${office.id}`}
+                  className="group inline-flex items-center gap-2 rounded-full bg-brass px-4 py-2.5 font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-void transition-colors hover:bg-brass-lit"
+                >
+                  Office details
+                  <ArrowDown className="h-3.5 w-3.5 transition-transform group-hover:translate-y-0.5" strokeWidth={2} />
+                </TransitionLink>
+                <a
+                  href={directions(office.address)}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-2 rounded-full border border-white/15 px-4 py-2.5 font-mono text-[10px] uppercase tracking-[0.14em] text-bone transition-colors hover:border-brass hover:text-brass"
+                >
+                  <Navigation className="h-3.5 w-3.5" strokeWidth={1.75} />
+                  Directions
+                </a>
+              </div>
+            </article>
+          ))}
+        </div>
+
+        {/* Facts that apply to both offices. */}
+        <dl
+          className="mt-4 grid gap-px overflow-hidden rounded-[1.25rem] border border-white/[0.06] bg-white/[0.06] sm:grid-cols-3"
+          data-reveal="up"
+        >
+          <div className="flex items-center gap-3 bg-void px-5 py-[clamp(0.85rem,2.2svh,1.25rem)]">
+            <Clock className="h-4 w-4 shrink-0 text-brass" strokeWidth={1.5} />
+            <div>
+              <dt className="font-mono text-[10px] uppercase tracking-[0.18em] text-dim">Office hours</dt>
+              <dd className="mt-0.5 text-sm font-medium text-bone">
+                {site.contact.hours[0].days}, {site.contact.hours[0].time}
+              </dd>
+            </div>
+          </div>
+          <div className="flex items-center gap-3 bg-void px-5 py-[clamp(0.85rem,2.2svh,1.25rem)]">
+            <ShieldCheck className="h-4 w-4 shrink-0 text-brass" strokeWidth={1.5} />
+            <div>
+              <dt className="font-mono text-[10px] uppercase tracking-[0.18em] text-dim">Services available</dt>
+              <dd className="mt-0.5 text-sm font-medium text-bone">{site.contact.servicesAvailable}</dd>
+            </div>
+          </div>
+          <div className="flex items-center gap-3 bg-void px-5 py-[clamp(0.85rem,2.2svh,1.25rem)]">
+            <Phone className="h-4 w-4 shrink-0 text-brass" strokeWidth={1.5} />
+            <div className="min-w-0">
+              <dt className="font-mono text-[10px] uppercase tracking-[0.18em] text-dim">General enquiries</dt>
+              <dd className="mt-0.5 truncate text-sm font-medium text-bone">
+                <a href={site.contact.phoneHref} className="hover:text-brass">{site.contact.phone}</a>
+                <span className="text-dim"> · </span>
+                <a href={site.contact.emailHref} className="hover:text-brass">{site.contact.email}</a>
+              </dd>
+            </div>
+          </div>
+        </dl>
+      </PageHero>
+
+      <SubNav items={shortcuts.branch} label="Office shortcuts" />
+
       {offices.map((office, i) => (
-        <OfficeBlock key={office.id} office={office} tinted={i % 2 === 1} first={i === 0} />
+        <OfficeBlock key={office.id} office={office} tinted={i % 2 === 1} />
       ))}
 
       <RevealEngine />
@@ -46,251 +204,253 @@ export default function BranchPage() {
   );
 }
 
-function OfficeBlock({
-  office,
-  tinted,
-  first,
+/* -------------------------------------------------------------------------- */
+
+/** A full-width contact row: icon, small label, value — the whole row is the link. */
+function ContactRow({
+  href,
+  external,
+  icon,
+  label,
+  children,
 }: {
-  office: Office;
-  tinted: boolean;
-  first: boolean;
+  href?: string;
+  external?: boolean;
+  icon: ReactNode;
+  label: string;
+  children: ReactNode;
 }) {
+  const body = (
+    <>
+      <span className="icon-tile !h-10 !w-10 !rounded-xl">{icon}</span>
+      <span className="min-w-0 flex-1">
+        <span className="block font-mono text-[10px] uppercase tracking-[0.18em] text-dim">
+          {label}
+        </span>
+        <span className="mt-1 block break-words text-[15px] font-medium leading-snug text-bone transition-colors duration-300 group-hover/row:text-brass-lit">
+          {children}
+        </span>
+      </span>
+      {href && (
+        <ArrowUpRight
+          className="mt-1 h-4 w-4 shrink-0 text-dim transition-[color,translate] duration-300 group-hover/row:-translate-y-0.5 group-hover/row:translate-x-0.5 group-hover/row:text-brass"
+          strokeWidth={1.75}
+        />
+      )}
+    </>
+  );
+  const cls =
+    "group/row flex items-start gap-4 rounded-xl px-3 py-3.5 transition-colors duration-300";
+  return href ? (
+    <a
+      href={href}
+      {...(external ? { target: "_blank", rel: "noreferrer" } : {})}
+      className={`${cls} hover:bg-white/[0.04] focus-visible:bg-white/[0.04]`}
+    >
+      {body}
+    </a>
+  ) : (
+    <div className={cls}>{body}</div>
+  );
+}
+
+function OfficeBlock({ office, tinted }: { office: Office; tinted: boolean }) {
   const shot = officeShots[office.id as keyof typeof officeShots];
-  /* With no page hero, the first block carries the h1 and clears the navbar. */
-  const Heading = first ? "h1" : "h2";
+  const surface = tinted ? "card-void" : "card-ink";
+  const primaryPhone = office.phones[0];
+  const primaryWhatsApp = office.whatsapps[0];
 
   return (
-    <Section
-      id={office.id}
-      label={office.kind}
-      className={`scroll-mt-28 md:scroll-mt-32 ${tinted ? "bg-ink" : ""} ${
-        first ? "border-t-0 pt-40 md:pt-52" : ""
-      }`}
-    >
-      <SectionLabel index={office.index}>{office.kind}</SectionLabel>
-      <Heading
-        data-split
-        className="mt-8 max-w-3xl text-display font-semibold text-bone lg:max-w-none lg:whitespace-nowrap"
-      >
-        {office.name}
-      </Heading>
-
-      <div className="mt-14 grid gap-10 lg:grid-cols-12">
-        {/* Photograph */}
-        <div className="lg:col-span-5">
-          <MediaFrame
-            shot={shot}
-            figure={`${office.index} / ${office.kind}`}
-            ratio="4 / 3"
-            sizes="(max-width: 1024px) 100vw, 40vw"
-          />
+    <Section id={office.id} label={office.kind} className={tinted ? "bg-ink" : ""}>
+      {/* ---- Header: who, and the four things people come here to do ----- */}
+      <div className="flex flex-col gap-6">
+        <div>
+          <SectionLabel index={office.index}>{office.kind}</SectionLabel>
+          <h2 data-reveal="up" className="mt-6 text-display font-semibold text-bone">
+            {office.name}
+          </h2>
         </div>
-
-        {/* Address and contact */}
-        <div className="lg:col-span-6 lg:col-start-7">
-          <div className="grid gap-px border border-line bg-line" data-stagger>
-            <div data-stagger-item className="bg-void p-7 md:p-8">
-              <div className="flex items-center gap-3">
-                <MapPin className="h-4 w-4 shrink-0 text-brass" strokeWidth={1.5} />
-                <h3 className="font-mono text-[10px] uppercase tracking-[0.2em] text-dim">
-                  {office.addressLabel}
-                </h3>
-              </div>
-              <address className="mt-4 not-italic leading-relaxed text-mist">
-                {office.address}
-              </address>
-
-              {office.additionalAddress && (
-                <div className="mt-6 border-l border-brass/50 pl-4">
-                  <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-dim">
-                    {office.additionalAddressLabel}
-                  </p>
-                  <address className="mt-2 not-italic leading-relaxed text-mist">
-                    {office.additionalAddress}
-                  </address>
-                </div>
-              )}
-            </div>
-
-            <div data-stagger-item className="bg-void p-7 md:p-8">
-              <div className="flex items-center gap-3">
-                <Phone className="h-4 w-4 shrink-0 text-brass" strokeWidth={1.5} />
-                <h3 className="font-mono text-[10px] uppercase tracking-[0.2em] text-dim">
-                  {office.phones.length > 1 ? "Contact numbers" : "Contact number"}
-                </h3>
-              </div>
-              <ul className="mt-4 space-y-2">
-                {office.phones.map((line) => (
-                  <li key={line.href}>
-                    <a
-                      href={line.href}
-                      className="link-wipe font-display text-lg font-semibold tracking-[-0.01em] text-bone transition-colors duration-300 hover:text-brass"
-                    >
-                      {line.display}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {office.whatsapps.length > 0 && (
-              <div data-stagger-item className="bg-void p-7 md:p-8">
-                <div className="flex items-center gap-3">
-                  <WhatsAppIcon className="h-4 w-4 shrink-0 text-brass" />
-                  <h3 className="font-mono text-[10px] uppercase tracking-[0.2em] text-dim">
-                    WhatsApp
-                  </h3>
-                </div>
-                <ul className="mt-4 space-y-2">
-                  {office.whatsapps.map((line) => (
-                    <li key={line.href}>
-                      <a
-                        href={line.href}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="link-wipe font-display text-lg font-semibold tracking-[-0.01em] text-bone transition-colors duration-300 hover:text-brass"
-                      >
-                        {line.display}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-
-            <div data-stagger-item className="bg-void p-7 md:p-8">
-              <div className="flex items-center gap-3">
-                <Mail className="h-4 w-4 shrink-0 text-brass" strokeWidth={1.5} />
-                <h3 className="font-mono text-[10px] uppercase tracking-[0.2em] text-dim">Email</h3>
-              </div>
-              <a
-                href={office.email.href}
-                className="link-wipe mt-4 inline-block font-display text-lg font-semibold tracking-[-0.01em] text-bone transition-colors duration-300 hover:text-brass"
-              >
-                {office.email.display}
-              </a>
-            </div>
-          </div>
+        <div className="flex flex-wrap gap-2.5" data-reveal="up" data-delay="0.05">
+          {primaryPhone && (
+            <a
+              href={primaryPhone.href}
+              className="inline-flex items-center gap-2 rounded-full bg-brass px-5 py-3 font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-void transition-colors hover:bg-brass-lit"
+            >
+              <Phone className="h-4 w-4" strokeWidth={1.75} />
+              Call
+            </a>
+          )}
+          {primaryWhatsApp && (
+            <a
+              href={primaryWhatsApp.href}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-2 rounded-full border border-[#25d366]/40 bg-[#25d366]/[0.08] px-5 py-3 font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-bone transition-colors hover:border-[#25d366] hover:bg-[#25d366]/20"
+            >
+              <WhatsAppIcon className="h-4 w-4 text-[#25d366]" />
+              WhatsApp
+            </a>
+          )}
+          <a
+            href={office.email.href}
+            className="inline-flex items-center gap-2 rounded-full border border-white/15 px-5 py-3 font-mono text-[11px] uppercase tracking-[0.14em] text-bone transition-colors hover:border-brass hover:text-brass"
+          >
+            <Mail className="h-4 w-4" strokeWidth={1.75} />
+            Email
+          </a>
+          <a
+            href={directions(office.address)}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center gap-2 rounded-full border border-white/15 px-5 py-3 font-mono text-[11px] uppercase tracking-[0.14em] text-bone transition-colors hover:border-brass hover:text-brass"
+          >
+            <Navigation className="h-4 w-4" strokeWidth={1.75} />
+            Directions
+          </a>
         </div>
       </div>
 
-      {/* Map and leadership, side by side */}
-      <div className="mt-10 grid gap-10 lg:grid-cols-12">
-        <div className="lg:col-span-5">
-          <figure data-reveal="up">
-            <div className="relative h-[220px] w-full overflow-hidden border-2 border-brass/55 bg-surface md:h-[240px]">
-              <iframe
-                src={office.mapEmbed}
-                title={office.mapTitle}
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                className="absolute inset-0 h-full w-full border-0 grayscale-[0.9] contrast-[1.1] invert-[0.92] hue-rotate-180"
-              />
-            </div>
-            <figcaption className="mt-4 flex flex-wrap items-center justify-between gap-4">
-              <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-dim">
-                Location
-              </span>
-              <a
-                href={office.mapLink}
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center gap-2 border border-brass bg-brass/10 px-5 py-3 font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-brass transition-colors duration-300 hover:bg-brass hover:text-void"
+      {/* ---- Contact details beside a large, readable map ---------------- */}
+      <div className="mt-12 grid gap-5 lg:grid-cols-12">
+        <div className="flex flex-col gap-5 lg:col-span-5" data-reveal="up">
+          {shot.src && (
+            <MediaFrame
+              shot={shot}
+              ratio="16 / 10"
+              parallax={0}
+              sizes="(max-width: 1024px) 100vw, 40vw"
+            />
+          )}
+
+          <div className={`card card-still ${surface} divide-y divide-white/[0.06] p-2.5`}>
+            <ContactRow
+              href={directions(office.address)}
+              external
+              icon={<MapPin className="h-4 w-4" strokeWidth={1.5} />}
+              label={office.addressLabel}
+            >
+              <address className="not-italic">{office.address}</address>
+            </ContactRow>
+
+            {office.additionalAddress && (
+              <ContactRow
+                icon={<Building2 className="h-4 w-4" strokeWidth={1.5} />}
+                label={office.additionalAddressLabel ?? "Address"}
               >
-                <MapPin className="h-3.5 w-3.5" strokeWidth={1.75} />
-                Open in Google Maps
-              </a>
-            </figcaption>
-          </figure>
+                <address className="not-italic text-mist">{office.additionalAddress}</address>
+              </ContactRow>
+            )}
+
+            {office.phones.map((line, i) => (
+              <ContactRow
+                key={line.href}
+                href={line.href}
+                icon={<Phone className="h-4 w-4" strokeWidth={1.5} />}
+                label={office.phones.length > 1 ? `Phone ${i + 1}` : "Phone"}
+              >
+                {line.display}
+              </ContactRow>
+            ))}
+
+            {office.whatsapps.map((line, i) => (
+              <ContactRow
+                key={line.href}
+                href={line.href}
+                external
+                icon={<WhatsAppIcon className="h-4 w-4" />}
+                label={office.whatsapps.length > 1 ? `WhatsApp ${i + 1}` : "WhatsApp"}
+              >
+                {line.display}
+              </ContactRow>
+            ))}
+
+            <ContactRow
+              href={office.email.href}
+              icon={<Mail className="h-4 w-4" strokeWidth={1.5} />}
+              label="Email"
+            >
+              {office.email.display}
+            </ContactRow>
+          </div>
         </div>
 
-        <div className="lg:col-span-6 lg:col-start-7">
-          <div className="flex items-center gap-4" data-reveal="up">
-            <span className="h-px w-8 bg-brass" />
-            <span className="eyebrow">{office.leadershipLabel}</span>
-          </div>
+        <div className="lg:col-span-7" data-reveal="fade">
+          <MapEmbed
+            src={office.mapEmbed}
+            title={office.mapTitle}
+            address={office.address}
+            directionsHref={directions(office.address)}
+            openHref={office.mapLink}
+            className="h-[26rem] lg:h-full lg:min-h-[32rem]"
+          />
+        </div>
+      </div>
 
-          <div
-            className={`mt-8 grid gap-px border border-line bg-line ${
-              office.leadership.length > 1 ? "sm:grid-cols-2" : ""
-            }`}
-            data-stagger
-          >
-            {office.leadership.map((person) => (
-              <article
-                key={person.name}
-                data-stagger-item
-                className={`group relative p-7 md:p-8 ${tinted ? "bg-ink" : "bg-void"}`}
-              >
-                <span className="ticks pointer-events-none absolute inset-0" aria-hidden="true" />
-                {person.advisory ? (
-                  <Scale className="h-5 w-5 text-brass" strokeWidth={1.25} />
-                ) : (
-                  <UserRound className="h-5 w-5 text-brass" strokeWidth={1.25} />
-                )}
+      {/* ---- Leadership -------------------------------------------------- */}
+      <div id={`${office.id}-leadership`} data-anchor="" className="mt-16">
+        <div className="flex items-center gap-3" data-reveal="up">
+          <span className="h-1.5 w-1.5 rounded-full bg-brass" aria-hidden="true" />
+          <h3 className="eyebrow">{office.leadershipLabel}</h3>
+        </div>
 
-                <h3 className="mt-6 font-display text-xl font-semibold tracking-[-0.02em] text-bone">
-                  {person.name}
-                </h3>
-                <p
-                  className={`mt-3 font-mono text-[11px] uppercase tracking-[0.18em] ${
-                    person.advisory ? "text-brass" : "text-mist"
-                  }`}
-                >
-                  {person.role}
-                  {person.advisory && (
-                    <span className="mt-1 block text-dim">To the Head Office</span>
+        <div
+          className={`mt-6 grid gap-4 sm:grid-cols-2 ${
+            office.leadership.length > 2 ? "xl:grid-cols-4" : ""
+          }`}
+          data-stagger
+        >
+          {office.leadership.map((person) => (
+            <article
+              key={person.name}
+              data-stagger-item
+              className={`card card-still ${surface} flex flex-col p-6 ${person.advisory ? "card-feature" : ""}`}
+            >
+              <div className="flex items-start gap-4">
+                <span className="icon-tile">
+                  {person.advisory ? (
+                    <Scale className="h-5 w-5" strokeWidth={1.25} />
+                  ) : (
+                    <UserRound className="h-5 w-5" strokeWidth={1.25} />
                   )}
+                </span>
+                <div className="min-w-0">
+                  <h4 className="font-display text-lg font-semibold leading-snug tracking-[-0.01em] text-bone">
+                    {person.name}
+                  </h4>
+                  <p
+                    className={`mt-1.5 text-[13px] leading-snug ${
+                      person.advisory ? "text-brass" : "text-mist"
+                    }`}
+                  >
+                    {person.role}
+                    {person.advisory && <span className="block text-dim">To the Head Office</span>}
+                  </p>
+                </div>
+              </div>
+
+              {person.responsibilities && (
+                <p className="mt-5 border-t border-white/[0.06] pt-4 text-sm leading-relaxed text-mist">
+                  {person.responsibilities}
                 </p>
+              )}
 
-                {person.responsibilities && (
-                  <div className="mt-6 border-t border-line-soft pt-5">
-                    <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-dim">
-                      Responsibilities
-                    </p>
-                    <p className="mt-3 text-sm leading-relaxed text-mist">
-                      {person.responsibilities}
-                    </p>
-                  </div>
-                )}
-
-                {(person.phone || person.email) && (
-                  <dl className="mt-6 space-y-3 border-t border-line-soft pt-5">
-                    {person.phone && (
-                      <div>
-                        <dt className="font-mono text-[10px] uppercase tracking-[0.18em] text-dim">
-                          Contact number
-                        </dt>
-                        <dd className="mt-1.5">
-                          <a
-                            href={person.phone.href}
-                            className="link-wipe font-display text-base font-semibold tracking-[-0.01em] text-bone transition-colors duration-300 hover:text-brass"
-                          >
-                            {person.phone.display}
-                          </a>
-                        </dd>
-                      </div>
-                    )}
-                    {person.email && (
-                      <div>
-                        <dt className="font-mono text-[10px] uppercase tracking-[0.18em] text-dim">
-                          Email
-                        </dt>
-                        <dd className="mt-1.5">
-                          <a
-                            href={person.email.href}
-                            className="link-wipe font-display text-base font-semibold tracking-[-0.01em] text-bone transition-colors duration-300 hover:text-brass"
-                          >
-                            {person.email.display}
-                          </a>
-                        </dd>
-                      </div>
-                    )}
-                  </dl>
-                )}
-              </article>
-            ))}
-          </div>
+              {person.phone && (
+                <a
+                  href={person.phone.href}
+                  className="group/row mt-5 flex items-center justify-between gap-3 border-t border-white/[0.06] pt-4"
+                >
+                  <span className="inline-flex items-center gap-2.5 text-[15px] font-medium text-bone transition-colors group-hover/row:text-brass-lit">
+                    <Phone className="h-4 w-4 text-brass" strokeWidth={1.5} />
+                    {person.phone.display}
+                  </span>
+                  <ArrowUpRight
+                    className="h-4 w-4 text-dim transition-colors group-hover/row:text-brass"
+                    strokeWidth={1.75}
+                  />
+                </a>
+              )}
+            </article>
+          ))}
         </div>
       </div>
     </Section>

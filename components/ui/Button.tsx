@@ -7,24 +7,26 @@ import { TransitionLink } from "@/components/layout/PageTransition";
 
 type Variant = "primary" | "outline" | "quiet";
 
-const base =
-  "group/btn relative inline-flex items-center justify-center gap-3 overflow-hidden px-7 py-4 font-mono text-[11px] uppercase tracking-[0.2em] transition-colors duration-500";
-
 const variants: Record<Variant, string> = {
-  primary: "bg-brass text-void hover:text-void",
-  outline: "border border-line text-bone hover:text-void",
-  quiet: "border border-transparent text-mist hover:text-bone",
+  primary: "btn-primary",
+  outline: "btn-outline",
+  quiet: "btn-quiet",
 };
 
-const wipes: Record<Variant, string> = {
-  primary: "bg-brass-lit",
-  outline: "bg-brass",
-  quiet: "bg-transparent",
-};
+/** The arrow that slips out top-right while its twin slides in. */
+export function ArrowSwap() {
+  return (
+    <span className="btn-arrow" aria-hidden="true">
+      <ArrowUpRight className="h-3.5 w-3.5" strokeWidth={1.75} />
+      <ArrowUpRight className="h-3.5 w-3.5" strokeWidth={1.75} />
+    </span>
+  );
+}
 
 /**
- * Magnetic CTA. The button drifts toward the pointer and the label trails it
- * slightly, which reads as weight rather than as a gimmick. Pointer-fine only.
+ * Magnetic pill CTA. The button drifts toward the pointer and the label trails
+ * it slightly, which reads as weight rather than as a gimmick; on hover a
+ * liquid fill rises from below (see .btn in globals.css). Pointer-fine only.
  */
 export function Button({
   href,
@@ -35,6 +37,7 @@ export function Button({
   type,
   onClick,
   disabled,
+  external,
 }: {
   href?: string;
   children: ReactNode;
@@ -44,6 +47,8 @@ export function Button({
   type?: "button" | "submit";
   onClick?: () => void;
   disabled?: boolean;
+  /** Opens in a new tab (WhatsApp, maps). */
+  external?: boolean;
 }) {
   const ref = useRef<HTMLSpanElement>(null);
 
@@ -63,12 +68,12 @@ export function Button({
 
     const onMove = (e: PointerEvent) => {
       const r = el.getBoundingClientRect();
-      const x = (e.clientX - (r.left + r.width / 2)) * 0.35;
-      const y = (e.clientY - (r.top + r.height / 2)) * 0.45;
+      const x = (e.clientX - (r.left + r.width / 2)) * 0.3;
+      const y = (e.clientY - (r.top + r.height / 2)) * 0.4;
       xTo(x);
       yTo(y);
-      lxTo?.(x * 0.4);
-      lyTo?.(y * 0.4);
+      lxTo?.(x * 0.35);
+      lyTo?.(y * 0.35);
     };
     const onLeave = () => {
       xTo(0);
@@ -88,30 +93,28 @@ export function Button({
 
   const inner = (
     <>
-      <span
-        aria-hidden="true"
-        className={`absolute inset-0 origin-bottom scale-y-0 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover/btn:scale-y-100 group-focus-visible/btn:scale-y-100 ${wipes[variant]}`}
-      />
-      <span data-btn-label className="relative z-10 flex items-center gap-3">
+      <span className="btn-fill" aria-hidden="true" />
+      <span data-btn-label className="relative flex items-center gap-3">
         {children}
-        {icon && (
-          <ArrowUpRight
-            className="h-3.5 w-3.5 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5"
-            strokeWidth={1.75}
-          />
-        )}
+        {icon && <ArrowSwap />}
       </span>
     </>
   );
 
-  const classes = `${base} ${variants[variant]} ${className}`;
+  const classes = `btn ${variants[variant]} ${className}`;
 
   return (
     <span ref={ref} className="inline-block">
       {href ? (
-        <TransitionLink href={href} className={classes}>
-          {inner}
-        </TransitionLink>
+        external ? (
+          <a href={href} target="_blank" rel="noreferrer" className={classes}>
+            {inner}
+          </a>
+        ) : (
+          <TransitionLink href={href} className={classes}>
+            {inner}
+          </TransitionLink>
+        )
       ) : (
         <button type={type ?? "button"} onClick={onClick} disabled={disabled} className={classes}>
           {inner}

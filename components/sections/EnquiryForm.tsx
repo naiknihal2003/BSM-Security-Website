@@ -14,7 +14,7 @@ export function isIndianMobile(digits: string) {
 }
 
 const fieldCls =
-  "w-full border border-line bg-void px-4 py-3.5 text-sm text-bone placeholder:text-dim focus:border-brass focus:outline-none focus:ring-0 transition-colors duration-300";
+  "w-full rounded-2xl border border-line bg-void px-4 py-3.5 text-sm text-bone placeholder:text-dim focus:border-brass focus:shadow-[0_0_0_4px_rgba(200,164,92,0.12)] focus:outline-none focus:ring-0 transition-[border-color,box-shadow] duration-300";
 const labelCls = "block font-mono text-[10px] uppercase tracking-[0.2em] text-dim";
 
 /**
@@ -130,8 +130,10 @@ export default function EnquiryForm({
 
   if (status === "composed") {
     return (
-      <div className={`border-2 border-brass/55 bg-ink p-8 md:p-10 ${rowClass}`} role="status">
-        <Mail className="h-6 w-6 text-brass" strokeWidth={1.5} />
+      <div className={`rounded-[1.5rem] border border-brass/40 bg-brass/[0.05] p-8 md:p-10 ${rowClass}`} role="status">
+        <span className="icon-tile">
+          <Mail className="h-5 w-5" strokeWidth={1.4} />
+        </span>
         <h3 className="mt-6 font-display text-title font-semibold text-bone">
           Your enquiry is ready to send.
         </h3>
@@ -160,9 +162,9 @@ export default function EnquiryForm({
           Contact number <span className="text-brass">* required</span>
         </label>
         <div
-          className={`mt-3 flex items-stretch border ${
+          className={`mt-3 flex items-stretch overflow-hidden rounded-2xl border ${
             phoneError ? "border-alert" : "border-line"
-          } bg-void transition-colors duration-300 focus-within:border-brass`}
+          } bg-void transition-[border-color,box-shadow] duration-300 focus-within:border-brass focus-within:shadow-[0_0_0_4px_rgba(200,164,92,0.12)]`}
         >
           <span
             className="flex shrink-0 items-center border-r border-line px-4 font-mono text-sm text-mist"
@@ -222,7 +224,7 @@ export default function EnquiryForm({
       {blocked && (
         <div
           role="alert"
-          className={`flex items-start gap-3 border border-alert/50 bg-alert/5 p-4 ${rowClass}`}
+          className={`flex items-start gap-3 rounded-2xl border border-alert/50 bg-alert/5 p-4 ${rowClass}`}
         >
           <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-alert" strokeWidth={1.5} />
           <p className="text-sm text-mist">{blocked}</p>
@@ -232,8 +234,9 @@ export default function EnquiryForm({
       <div className={`flex flex-wrap items-center gap-5 pt-2 ${rowClass}`}>
         <button
           type="submit"
-          className="inline-flex items-center gap-3 bg-brass px-7 py-4 font-mono text-[11px] uppercase tracking-[0.2em] text-void transition-colors duration-300 hover:bg-brass-lit"
+          className="btn btn-primary"
         >
+          <span className="btn-fill" aria-hidden="true" />
           <Mail className="h-3.5 w-3.5" strokeWidth={1.75} />
           Send via Gmail
         </button>

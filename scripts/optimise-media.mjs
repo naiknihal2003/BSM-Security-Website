@@ -1,29 +1,50 @@
 /**
- * Media pipeline: assets-src/media  →  public/media
+ * Media pipeline: assets-src/{brand,media}/**  →  public/{brand,media}/**.webp
  *
- *   npm run media
+ *   npm run media            rebuild what changed
+ *   npm run media -- --force rebuild everything
  *
- * Masters (full-resolution photographs, logo artwork, anything BSM is sent)
- * live in assets-src/media and are never served. This script resizes each one
- * to a sensible web width and writes it into public/media, where the
- * dictionaries in lib/media point at it.
+ * Masters (full-resolution photographs, logo artwork, anything BSM sends) live
+ * in assets-src and are never served. This script walks every folder in there,
+ * resizes each image to a sensible web width and writes a WebP file to the
+ * same relative path under public/, where the dictionaries in lib/media point.
  *
- * Re-running is safe: a file is skipped when the output is already newer than
- * its master, so only what changed is rebuilt. Pass --force to redo everything.
+ *   assets-src/media/services/banking-commercial-security.jpg
+ *     → public/media/services/banking-commercial-security.webp
  *
- * JPEG for photographs, PNG kept as PNG so logos keep their transparency.
+ * Each folder has its own profile: photographs are encoded lossy at a high
+ * quality, while logos and brand artwork keep their transparency and are
+ * encoded near-losslessly so edges and type stay crisp.
+ *
+ * Re-running is safe: a file is skipped when its output is already newer than
+ * its master. SVG files are copied as they are.
  */
 
-import { readdir, mkdir, stat } from "node:fs/promises";
-import { join, parse } from "node:path";
+import { readdir, mkdir, stat, copyFile } from "node:fs/promises";
+import { join, parse, relative, sep } from "node:path";
 import sharp from "sharp";
 
-const SRC = "assets-src/media";
-const OUT = "public/media";
-const MAX_WIDTH = 2000;
-const QUALITY = 90;
+const SRC = "assets-src";
+const OUT = "public";
+/** Only these top-level folders of assets-src are published. */
+const ROOTS = ["brand", "media"];
+
+/** Per-folder encoding profiles, matched on the first path segment(s). */
+const PROFILES = [
+  { match: "brand", width: 720, webp: { quality: 92, alphaQuality: 100, effort: 6 } },
+  /* Logos fit inside a box, so tall marks (crests, emblems) stay light too. */
+  { match: "media/clients", width: 640, height: 360, webp: { quality: 92, alphaQuality: 100, effort: 6 } },
+  { match: "media/people", width: 1400, webp: { quality: 84, effort: 6 } },
+  { match: "media", width: 1800, webp: { quality: 80, effort: 6, smartSubsample: true } },
+];
 
 const force = process.argv.includes("--force");
+const RASTER = /\.(jpe?g|png|webp|tiff?|avif)$/i;
+
+function profileFor(rel) {
+  const path = rel.split(sep).join("/");
+  return PROFILES.find((p) => path === p.match || path.startsWith(`${p.match}/`));
+}
 
 async function newer(a, b) {
   try {
@@ -34,50 +55,97 @@ async function newer(a, b) {
   }
 }
 
-async function run() {
-  let files;
+async function* walk(dir) {
+  let entries;
   try {
-    files = await readdir(SRC);
+    entries = await readdir(dir, { withFileTypes: true });
   } catch {
-    console.log(`Nothing to do — ${SRC} does not exist yet.`);
     return;
   }
-
-  await mkdir(OUT, { recursive: true });
-
-  const images = files.filter((f) => /\.(jpe?g|png|webp|tiff?)$/i.test(f));
-  if (images.length === 0) {
-    console.log(`Nothing to do — no images in ${SRC}.`);
-    return;
+  for (const entry of entries) {
+    const path = join(dir, entry.name);
+    if (entry.isDirectory()) yield* walk(path);
+    else yield path;
   }
+}
 
-  for (const file of images) {
-    const { name, ext } = parse(file);
-    const keepPng = /\.png$/i.test(ext);
-    const from = join(SRC, file);
-    const to = join(OUT, `${name}${keepPng ? ".png" : ".jpg"}`);
+async function run() {
+  let written = 0;
+  let skipped = 0;
+  let before = 0;
+  let after = 0;
 
-    if (!force && !(await newer(from, to))) {
-      console.log(`  skip   ${file}`);
-      continue;
+  for (const root of ROOTS) {
+    for await (const from of walk(join(SRC, root))) {
+      const rel = relative(SRC, from);
+      const { dir, name, ext } = parse(rel);
+      const outDir = join(OUT, dir);
+
+      if (/\.svg$/i.test(ext)) {
+        await mkdir(outDir, { recursive: true });
+        await copyFile(from, join(outDir, `${name}${ext}`));
+        continue;
+      }
+      if (!RASTER.test(ext)) continue;
+
+      const to = join(outDir, `${name}.webp`);
+      if (!force && !(await newer(from, to))) {
+        skipped++;
+        continue;
+      }
+
+      const profile = profileFor(dir) ?? PROFILES[PROFILES.length - 1];
+      await mkdir(outDir, { recursive: true });
+
+      const info = await sharp(from)
+        .rotate()
+        .resize({
+          width: profile.width,
+          height: profile.height,
+          fit: "inside",
+          withoutEnlargement: true,
+          kernel: "lanczos3",
+        })
+        .webp(profile.webp)
+        .toFile(to);
+
+      const size = (await stat(from)).size;
+      before += size;
+      after += info.size;
+      written++;
+      console.log(
+        `  write  ${to.split(sep).join("/")}  ${info.width}×${info.height}  ` +
+          `${Math.round(size / 1024)} KB → ${Math.round(info.size / 1024)} KB`,
+      );
     }
-
-    const pipeline = sharp(from)
-      .resize({ width: MAX_WIDTH, withoutEnlargement: true, kernel: "lanczos3" })
-      .sharpen();
-
-    const info = keepPng
-      ? await pipeline.png({ compressionLevel: 9 }).toFile(to)
-      : await pipeline
-          .jpeg({ quality: QUALITY, mozjpeg: true, chromaSubsampling: "4:4:4" })
-          .toFile(to);
-
-    console.log(
-      `  write  ${to}  ${info.width}×${info.height}  ${Math.round(info.size / 1024)} KB`,
-    );
   }
 
-  console.log("\nDone. Point an entry in lib/media/photos.ts at the new file.");
+  /* App icons from the logo master: home-screen icons (PNG, which every
+     platform accepts) and the Apple touch icon Next.js serves from app/. */
+  const logoMaster = join(SRC, "brand", "bsm-logo.jpg");
+  const icons = [
+    [join(OUT, "brand", "icon-192.png"), 192],
+    [join(OUT, "brand", "icon-512.png"), 512],
+    [join("app", "apple-icon.png"), 180],
+  ];
+  for (const [to, size] of icons) {
+    if (!force && !(await newer(logoMaster, to))) continue;
+    await sharp(logoMaster)
+      .resize(size, size, { fit: "contain", background: "#04060a" })
+      .png({ compressionLevel: 9 })
+      .toFile(to);
+    console.log(`  icon   ${to.split(sep).join("/")}  ${size}×${size}`);
+  }
+
+  if (written) {
+    console.log(
+      `\n${written} written, ${skipped} unchanged. ` +
+        `${(before / 1048576).toFixed(1)} MB of masters → ${(after / 1048576).toFixed(1)} MB served.`,
+    );
+  } else {
+    console.log(`Nothing to do — ${skipped} files already up to date.`);
+  }
+  console.log("Point an entry in lib/media at the new .webp file.");
 }
 
 run().catch((error) => {
