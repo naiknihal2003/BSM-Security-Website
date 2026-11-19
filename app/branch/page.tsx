@@ -36,6 +36,7 @@ const portraits: Record<string, Shot> = {
   "dattatray-b-naik": media.leaderPrincipalPartner,
   "bhupinder-singh-malhi": media.leaderTrainingPartner,
   "bhagyashree-dattatray-naik": media.leaderAdminPartner,
+  "nihal-d-naik": media.legalAdvisor,
   "vighnesh-shet": media.branchInCharge,
   "pranali-v-shet": media.branchAdmin,
 };

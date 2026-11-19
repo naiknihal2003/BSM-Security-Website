@@ -495,8 +495,10 @@ export const offices: Office[] = [
     additionalAddress:
       "42/D/7, God's Gift Residency, Plot no. 15, Dicarpale Davorlim, Navelim, Salcete, Goa.",
     additionalAddressLabel: "Registered address",
-    mapEmbed:
-      "https://www.google.com/maps?q=Kurtarkar+Classic+A2,+Shop+no.+G-7,+Opposite+Lawande+Hospital,+Aquem,+Margao,+Goa+403601&output=embed",
+    /* Pinned to the coordinates behind BSM's own Head Office listing
+       (maps.app.goo.gl/Qb579bF8vCCBCAAb6). A short link cannot drive an
+       iframe, so the place it resolves to is embedded directly. */
+    mapEmbed: "https://www.google.com/maps?q=15.2747065,73.9775982&z=16&output=embed",
     /* BSM's own Google Maps link for the Head Office. */
     mapLink: "https://maps.app.goo.gl/Qb579bF8vCCBCAAb6",
     mapTitle: "Map showing the BSM Head Office at Aquem, Margao, Goa",
@@ -524,6 +526,7 @@ export const offices: Office[] = [
       { id: "bhupinder-singh-malhi", name: "Lt. Col. Bhupinder S Malhi (retd.)", role: "Partner" },
       { id: "bhagyashree-dattatray-naik", name: "Mrs. Bhagyashree Dattatray Naik", role: "Partner" },
       {
+        id: "nihal-d-naik",
         name: "Adv Nihal D Naik",
         role: "Legal Advisor",
         advisory: true,

@@ -187,6 +187,13 @@ export const media = {
     brief: "Supplied by BSM for the housekeeping services category.",
     ratio: "1536 / 1024",
   },
+  legalAdvisor: {
+    src: "/media/people/legal-advisor.webp",
+    alt: "Adv Nihal D Naik, Legal Advisor to BSM Security Agency, in advocate's bands",
+    label: "Legal Advisor",
+    brief: "Supplied by BSM for the Head Office.",
+    focus: "50% 20%",
+  },
   branchInCharge: {
     src: "/media/people/branch-in-charge.webp",
     alt: "Mr. Vighnesh Shet, Branch In-Charge of BSM's Panjim operations",
