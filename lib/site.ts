@@ -472,6 +472,8 @@ export const clientFacts = [
    -------------------------------------------------------------------------- */
 
 export type OfficePerson = {
+  /** Set only where a portrait exists; the branch page keys the photograph off it. */
+  id?: string;
   name: string;
   role: string;
   /** Marks the one non-partner advisory role at the Head Office. */
@@ -526,6 +528,7 @@ export const offices: Office[] = [
     phones: [
       { display: "+91 94212 49677", href: "tel:+919421249677" },
       { display: "+91 87889 65649", href: "tel:+918788965649" },
+      { display: "+91 79722 08392", href: "tel:+917972208392" },
     ],
     whatsapps: [
       { display: "+91 94212 49677", href: "https://wa.me/919421249677" },
@@ -573,12 +576,14 @@ export const offices: Office[] = [
     leadershipLabel: "Branch leadership",
     leadership: [
       {
+        id: "vighnesh-shet",
         name: "Mr. Vighnesh Shet (M.D)",
         role: "Branch In-Charge – Panjim Operations",
         responsibilities:
           "Responsible for branch administration, security operations, manpower coordination, client relations and operational supervision.",
       },
       {
+        id: "pranali-v-shet",
         name: "Mrs. Pranali V Shet",
         role: "She heads Administration & Billing department - Panjim",
         phone: { display: "+91 91086 63502", href: "tel:+919108663502" },

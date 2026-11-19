@@ -187,6 +187,20 @@ export const media = {
     brief: "Supplied by BSM for the housekeeping services category.",
     ratio: "1536 / 1024",
   },
+  branchInCharge: {
+    src: "/media/people/branch-in-charge.webp",
+    alt: "Mr. Vighnesh Shet, Branch In-Charge of BSM's Panjim operations",
+    label: "Branch In-Charge, Panjim",
+    brief: "Supplied by BSM for the Branch Office.",
+    focus: "50% 22%",
+  },
+  branchAdmin: {
+    src: "/media/people/branch-admin.webp",
+    alt: "Mrs. Pranali V Shet, who heads Administration and Billing at BSM's Panjim branch",
+    label: "Administration and Billing, Panjim",
+    brief: "Supplied by BSM for the Branch Office.",
+    focus: "50% 22%",
+  },
   leaderPrincipalPartner: {
     src: "/media/people/leader-principal-partner.webp",
     alt: "Mr. Dattatray B. Naik, Principal Partner of BSM Security Agency",
