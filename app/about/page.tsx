@@ -75,13 +75,10 @@ export default function AboutPage() {
           </>
         }
       >
-        {/* Two columns of equal width and equal type, tops aligned: the
-            opening paragraph on the left, the rest of the account on the
-            right. The measure stays around 60 characters, which justifies
-            without opening gaps. */}
-        {/* A single centred editorial column. No scroll-reveal here — this
-            block is above the fold, and a reveal whose ScrollTrigger has not
-            fired would leave it invisible. */}
+        {/* One full-width column: the account runs straight down the card
+            at every width. No scroll-reveal here — this block is above the
+            fold, and a reveal whose ScrollTrigger has not fired would leave
+            it invisible. */}
         <div className="card card-still card-ink relative mt-10 lg:mt-[clamp(1.5rem,4.5svh,3.25rem)] w-full overflow-hidden p-7 md:p-10 lg:p-[clamp(1.5rem,4svh,3rem)]">
           <span className="dot-field pointer-events-none absolute inset-0 opacity-60" aria-hidden="true" />
           <span
@@ -90,7 +87,7 @@ export default function AboutPage() {
           >
             &ldquo;
           </span>
-          <div className="relative space-y-6 lg:columns-2 lg:gap-12 lg:space-y-0 [&>p]:break-inside-avoid lg:[&>p+p]:mt-5">
+          <div className="relative space-y-6">
             {legacy.paragraphs.map((paragraph, i) => (
               <p key={i} className={`text-[clamp(0.95rem,min(1.05vw,2.05svh),1.0625rem)] leading-[1.75] text-mist ${prose}`}>
                 <Marked text={paragraph} marks={legacyMarks} />

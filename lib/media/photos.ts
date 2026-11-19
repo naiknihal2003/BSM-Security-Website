@@ -181,10 +181,11 @@ export const media = {
     ratio: "1671 / 941",
   },
   housekeepingServices: {
-    src: "",
-    alt: "",
+    src: "/media/services/housekeeping-services.webp",
+    alt: "Housekeeping staff in BSM uniform wiping down a marble table in a corporate lobby, a colleague machine-cleaning the floor behind and a service trolley alongside",
     label: "Housekeeping services",
-    brief: "Photograph awaited from BSM for the housekeeping services category.",
+    brief: "Supplied by BSM for the housekeeping services category.",
+    ratio: "1536 / 1024",
   },
   leaderPrincipalPartner: {
     src: "/media/people/leader-principal-partner.webp",
