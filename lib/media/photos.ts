@@ -34,16 +34,16 @@ export const media = {
    */
   heroBackdrop: {
     src: "/media/photos/hero-security-officer.webp",
-    alt: "Security officer in a dark suit wearing a security identification lanyard, lit from one side",
+    alt: "BSM security officer in a black suit and tie wearing sunglasses and an earpiece, with a BSM Security lanyard and identification card",
     label: "Personnel on post",
-    brief: "BSM guard in uniform at a site entrance, at night — portrait or a transparent cut-out.",
+    brief: "Supplied by BSM — officer in uniform, shot in portrait for the hero.",
     focus: "50% 13%",
   },
   heroDeployment: {
     src: "/media/photos/hero-security-officer.webp",
-    alt: "Security officer in a dark suit wearing a security identification lanyard, lit from one side",
+    alt: "BSM security officer in a black suit and tie wearing sunglasses and an earpiece, with a BSM Security lanyard and identification card",
     label: "Personnel on post",
-    brief: "Replace with BSM's own photography — a guard at a gate or lobby, shot in low light.",
+    brief: "Supplied by BSM — officer in uniform, shot against a dark panelled wall.",
   },
   briefing: {
     src: "/media/photos/briefing-team.webp",
@@ -181,10 +181,32 @@ export const media = {
     ratio: "1671 / 941",
   },
   housekeepingServices: {
-    src: "",
-    alt: "",
+    src: "/media/services/housekeeping-services.webp",
+    alt: "Housekeeping staff in BSM uniform wiping down a marble table in a corporate lobby, a colleague machine-cleaning the floor behind and a service trolley alongside",
     label: "Housekeeping services",
-    brief: "Photograph awaited from BSM for the housekeeping services category.",
+    brief: "Supplied by BSM for the housekeeping services category.",
+    ratio: "1536 / 1024",
+  },
+  legalAdvisor: {
+    src: "/media/people/legal-advisor.webp",
+    alt: "Adv Nihal D Naik, Legal Advisor to BSM Security Agency, in advocate's bands",
+    label: "Legal Advisor",
+    brief: "Supplied by BSM for the Head Office.",
+    focus: "50% 20%",
+  },
+  branchInCharge: {
+    src: "/media/people/branch-in-charge.webp",
+    alt: "Mr. Vighnesh Shet, Branch In-Charge of BSM's Panjim operations",
+    label: "Branch In-Charge, Panjim",
+    brief: "Supplied by BSM for the Branch Office.",
+    focus: "50% 22%",
+  },
+  branchAdmin: {
+    src: "/media/people/branch-admin.webp",
+    alt: "Mrs. Pranali V Shet, who heads Administration and Billing at BSM's Panjim branch",
+    label: "Administration and Billing, Panjim",
+    brief: "Supplied by BSM for the Branch Office.",
+    focus: "50% 22%",
   },
   leaderPrincipalPartner: {
     src: "/media/people/leader-principal-partner.webp",

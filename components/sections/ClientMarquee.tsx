@@ -42,7 +42,7 @@ export default function ClientMarquee() {
                 ) : (
                   <span className="flex flex-col items-center gap-1 text-center">
                     <span className="font-display text-3xl font-semibold tracking-[-0.02em] text-[#0b1a33]">
-                      {client.abbr ?? client.index}
+                      {client.abbr ?? client.name.split(" – ")[0]}
                     </span>
                     <span className="h-0.5 w-8 rounded-full bg-brass" aria-hidden="true" />
                   </span>

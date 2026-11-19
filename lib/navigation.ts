@@ -9,7 +9,7 @@
  * wording and are never shortened in place.
  */
 
-import { services, clients, offices, site, type ServiceSlug } from "./site";
+import { clients, offices, site, type ServiceSlug } from "./site";
 import { leaders } from "./about";
 import { galleryGroups } from "./media";
 
@@ -21,6 +21,16 @@ export function titleCase(value: string) {
     .toLowerCase()
     .replace(/(^|[\s(])(\p{L})/gu, (_, lead: string, ch: string) => lead + ch.toUpperCase());
 }
+
+/**
+ * Longer labels for the homepage service list, which gives each service a
+ * row of its own. The short labels below are sized for the menus, the
+ * footer, the Hero chips and the shortcut bar, where a longer line wraps or
+ * is clipped. A service with no entry here uses its short label.
+ */
+export const serviceHomeLabels: Partial<Record<ServiceSlug, string>> = {
+  "public-sector-government-defence-security": "Public Sector & Defence Ex-Security",
+};
 
 /** Short labels for menus and the shortcut bar. Headings stay verbatim. */
 export const serviceShortLabels: Record<ServiceSlug, string> = {
@@ -74,13 +84,7 @@ export const shortcuts = {
   clients: [
     { id: "overview", label: "Overview" },
     { id: "roster", label: "Our Clients" },
-    { id: "working-with-bsm", label: "Working with BSM" },
-    { id: "testimonials", label: "Testimonials" },
     { id: "get-in-touch", label: "Become a Client" },
-  ],
-  services: [
-    { id: "overview", label: "All Services" },
-    ...services.map((s) => ({ id: s.slug, label: serviceShortLabels[s.slug] })),
   ],
   gallery: galleryGroups.map((g) => ({ id: g.toLowerCase(), label: g })),
   contact: [

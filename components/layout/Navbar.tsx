@@ -100,6 +100,9 @@ export default function Navbar() {
      menus when the pointer settles on an item, so a sweep from one end to the
      other does not flick through every menu on the way. */
   const hoverMenu = (key: MenuKey | null) => {
+    /* A tap also fires pointerenter. Without this, touching a nav link on an
+       iPad opened the panel over the page the tap was navigating to. */
+    if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
     if (switchTimer.current) window.clearTimeout(switchTimer.current);
     switchTimer.current = null;
     if (menu === null || key === menu) {
@@ -289,7 +292,7 @@ export default function Navbar() {
 
       <header
         data-site-header
-        className="fixed inset-x-0 top-0 z-[100] pt-3 md:pt-4"
+        className="fixed inset-x-0 top-0 z-[100] pt-[calc(0.75rem+env(safe-area-inset-top))] md:pt-[calc(1rem+env(safe-area-inset-top))]"
         onPointerLeave={() => menu && scheduleClose()}
       >
         <div className="shell relative">
@@ -377,7 +380,7 @@ export default function Navbar() {
                             openMenu(item.menu);
                           }
                         }}
-                        className="relative grid h-8 w-6 place-items-center pr-1 text-dim transition-colors duration-300 hover:text-brass xl:pr-2"
+                        className="relative grid h-8 w-6 place-items-center pr-1 text-dim transition-colors duration-300 hover:text-brass pointer-coarse:after:absolute pointer-coarse:after:-inset-2.5 pointer-coarse:after:content-[''] xl:pr-2"
                       >
                         <ChevronDown
                           className={`h-3.5 w-3.5 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${

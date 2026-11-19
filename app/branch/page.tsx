@@ -16,7 +16,7 @@ import {
 } from "lucide-react";
 import { WhatsAppIcon } from "@/components/ui/WhatsAppIcon";
 import { offices, site, type Office } from "@/lib/site";
-import { media } from "@/lib/media";
+import { media, type Shot } from "@/lib/media";
 import { JsonLd, breadcrumbSchema } from "@/lib/schema";
 import { Section, SectionLabel } from "@/components/ui/Section";
 import { PageHero } from "@/components/ui/PageHero";
@@ -26,6 +26,20 @@ import { TransitionLink } from "@/components/layout/PageTransition";
 import { MediaFrame } from "@/components/ui/MediaFrame";
 import { MapEmbed } from "@/components/ui/MapEmbed";
 import RevealEngine from "@/components/layout/RevealEngine";
+
+/**
+ * Portraits for the people who have one, keyed by the id in lib/site.ts. An
+ * office person with no entry here keeps the icon — which is still everyone
+ * at the Head Office.
+ */
+const portraits: Record<string, Shot> = {
+  "dattatray-b-naik": media.leaderPrincipalPartner,
+  "bhupinder-singh-malhi": media.leaderTrainingPartner,
+  "bhagyashree-dattatray-naik": media.leaderAdminPartner,
+  "nihal-d-naik": media.legalAdvisor,
+  "vighnesh-shet": media.branchInCharge,
+  "pranali-v-shet": media.branchAdmin,
+};
 
 export const metadata: Metadata = pageMetadata({
   path: "/branch",
@@ -399,20 +413,33 @@ function OfficeBlock({ office, tinted }: { office: Office; tinted: boolean }) {
           }`}
           data-stagger
         >
-          {office.leadership.map((person) => (
+          {office.leadership.map((person) => {
+            const portrait = person.id ? portraits[person.id] : undefined;
+            return (
             <article
               key={person.name}
               data-stagger-item
               className={`card card-still ${surface} flex flex-col p-6 ${person.advisory ? "card-feature" : ""}`}
             >
               <div className="flex items-start gap-4">
-                <span className="icon-tile">
-                  {person.advisory ? (
-                    <Scale className="h-5 w-5" strokeWidth={1.25} />
-                  ) : (
-                    <UserRound className="h-5 w-5" strokeWidth={1.25} />
-                  )}
-                </span>
+                {portrait?.src ? (
+                  <img
+                    src={portrait.src}
+                    alt={portrait.alt}
+                    loading="lazy"
+                    decoding="async"
+                    className="h-14 w-14 shrink-0 rounded-2xl border border-brass/25 object-cover"
+                    style={{ objectPosition: portrait.focus ?? "50% 25%" }}
+                  />
+                ) : (
+                  <span className="icon-tile">
+                    {person.advisory ? (
+                      <Scale className="h-5 w-5" strokeWidth={1.25} />
+                    ) : (
+                      <UserRound className="h-5 w-5" strokeWidth={1.25} />
+                    )}
+                  </span>
+                )}
                 <div className="min-w-0">
                   <h4 className="font-display text-lg font-semibold leading-snug tracking-[-0.01em] text-bone">
                     {person.name}
@@ -450,7 +477,8 @@ function OfficeBlock({ office, tinted }: { office: Office; tinted: boolean }) {
                 </a>
               )}
             </article>
-          ))}
+            );
+          })}
         </div>
       </div>
     </Section>

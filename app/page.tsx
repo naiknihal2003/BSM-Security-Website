@@ -6,9 +6,7 @@ import Statement from "@/components/sections/Statement";
 import CoreStrengths from "@/components/sections/CoreStrengths";
 import VisionMission from "@/components/sections/VisionMission";
 import ServicesOverview from "@/components/sections/ServicesOverview";
-import Industries from "@/components/sections/Industries";
 import Process from "@/components/sections/Process";
-import GoaPresence from "@/components/sections/GoaPresence";
 import CallToAction from "@/components/sections/CallToAction";
 import RevealEngine from "@/components/layout/RevealEngine";
 import { JsonLd, websiteSchema } from "@/lib/schema";
@@ -39,9 +37,7 @@ export default function HomePage() {
       <CoreStrengths />
       <VisionMission />
       <ServicesOverview />
-      <Industries />
       <Process />
-      <GoaPresence />
       <CallToAction />
       <RevealEngine />
     </>

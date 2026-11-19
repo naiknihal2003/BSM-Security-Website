@@ -105,7 +105,7 @@ export const services: Service[] = [
   {
     slug: "public-sector-government-defence-security",
     index: "01",
-    title: "PUBLIC SECTOR, GOVERNMENT & DEFENCE SECURITY",
+    title: "PUBLIC SECTOR, GOVERNMENT & DEFENCE Ex-SECURITY SERVICES",
     points: [
       "Security services for Public Sector Undertakings (PSUs).",
       "Security for government departments and establishments.",
@@ -232,38 +232,6 @@ export const services: Service[] = [
   },
 ];
 
-export const industries = [
-  {
-    name: "Hospitality & Resorts",
-    note: "Hotels, resorts, beach clubs and restaurants.",
-  },
-  { name: "Corporate & IT", note: "Offices, IT parks and shared workspaces." },
-  {
-    name: "Residential Communities",
-    note: "Villas, apartments and gated societies.",
-  },
-  {
-    name: "Industrial & Logistics",
-    note: "Factories, warehouses and estates.",
-  },
-  {
-    name: "Retail & Commercial",
-    note: "Showrooms, malls and commercial complexes.",
-  },
-  {
-    name: "Events & Entertainment",
-    note: "Weddings, festivals and private events.",
-  },
-  {
-    name: "Healthcare & Education",
-    note: "Hospitals, clinics, schools and campuses.",
-  },
-  {
-    name: "Construction & Projects",
-    note: "Project sites and material yards.",
-  },
-];
-
 export const processSteps = [
   {
     index: "01",
@@ -330,13 +298,6 @@ export const values = [
   },
 ];
 
-export const goaPresence = [
-  { name: "Coastal properties", note: "[COVERAGE DETAILS]" },
-  { name: "Urban and commercial", note: "[COVERAGE DETAILS]" },
-  { name: "Industrial estates", note: "[COVERAGE DETAILS]" },
-  { name: "Residential societies", note: "[COVERAGE DETAILS]" },
-];
-
 export const faqs = [
   {
     q: "Which areas of Goa does BSM cover?",
@@ -380,7 +341,6 @@ export type ClientSlug =
 export type ClientEntry = {
   /** Stable key; the logo for this client is clientLogos[slug]. */
   slug: ClientSlug;
-  index: string;
   /** Organisation name, exactly as supplied. */
   name: string;
   /** Abbreviation, where BSM supplied one. */
@@ -392,7 +352,6 @@ export type ClientEntry = {
 export const clients: ClientEntry[] = [
   {
     slug: "hpcl",
-    index: "01",
     name: "Hindustan Petroleum Corporation Limited",
     abbr: "HPCL",
     details: [
@@ -403,7 +362,6 @@ export const clients: ClientEntry[] = [
   },
   {
     slug: "gsl",
-    index: "02",
     name: "Goa Shipyard Limited",
     abbr: "GSL",
     details: [
@@ -412,14 +370,12 @@ export const clients: ClientEntry[] = [
   },
   {
     slug: "csir-nio",
-    index: "03",
     name: "CSIR – National Institute of Oceanography",
     abbr: "CSIR-NIO",
     details: ["Dona Paula, Goa."],
   },
   {
     slug: "aai",
-    index: "04",
     name: "Airports Authority of India",
     abbr: "AAI",
     details: [
@@ -429,41 +385,35 @@ export const clients: ClientEntry[] = [
   },
   {
     slug: "iocl",
-    index: "05",
     name: "Indian Oil Corporation Limited",
     abbr: "IOCL",
     details: ["Sada, Vasco, Goa."],
   },
   {
     slug: "bpcl",
-    index: "06",
     name: "Bharat Petroleum Corporation Limited",
     abbr: "BPCL",
     details: ["Aviation, Chicalim, Goa", "Mopa International Airport, Aviation"],
   },
   {
     slug: "gia",
-    index: "07",
     name: "Goa International Airport",
     abbr: "GIA",
     details: ["JCO for Airport Operational Control Centre."],
   },
   {
     slug: "ins-hansa",
-    index: "08",
     name: "INS Hansa – SBTF Naval Air Station",
     details: ["Dabolim, Goa."],
   },
   {
     slug: "esic",
-    index: "09",
     name: "Employees’ State Insurance Corporation",
     abbr: "ESIC",
     details: ["Regional Office, Patto, Panjim, Goa."],
   },
   {
     slug: "concor",
-    index: "10",
     name: "Container Corporation of India Limited",
     abbr: "CONCOR",
     details: ["A Government of India Enterprise."],
@@ -476,32 +426,7 @@ export type Testimonial = {
   role: string;
 };
 
-export const testimonials: Testimonial[] = [
-  {
-    quote: "[CLIENT TESTIMONIAL]",
-    attribution: "[NAME]",
-    role: "[ROLE, ORGANISATION]",
-  },
-  {
-    quote: "[CLIENT TESTIMONIAL]",
-    attribution: "[NAME]",
-    role: "[ROLE, ORGANISATION]",
-  },
-  {
-    quote: "[CLIENT TESTIMONIAL]",
-    attribution: "[NAME]",
-    role: "[ROLE, ORGANISATION]",
-  },
-];
-
 /** Figures BSM will confirm; shown as fields, never as claims. */
-export const clientFacts = [
-  { k: "Active deployments", v: "[NUMBER]" },
-  { k: "Sites covered", v: "[NUMBER]" },
-  { k: "Years in operation", v: "[NUMBER]" },
-  { k: "Personnel on roll", v: "[NUMBER]" },
-];
-
 /* --------------------------------------------------------------------------
    Offices
    Supplied by BSM. Addresses, numbers, emails, names and designations are
@@ -511,6 +436,8 @@ export const clientFacts = [
    -------------------------------------------------------------------------- */
 
 export type OfficePerson = {
+  /** Set only where a portrait exists; the branch page keys the photograph off it. */
+  id?: string;
   name: string;
   role: string;
   /** Marks the one non-partner advisory role at the Head Office. */
@@ -557,14 +484,17 @@ export const offices: Office[] = [
     additionalAddress:
       "42/D/7, God's Gift Residency, Plot no. 15, Dicarpale Davorlim, Navelim, Salcete, Goa.",
     additionalAddressLabel: "Registered address",
-    mapEmbed:
-      "https://www.google.com/maps?q=Kurtarkar+Classic+A2,+Shop+no.+G-7,+Opposite+Lawande+Hospital,+Aquem,+Margao,+Goa+403601&output=embed",
-    /* BSM's own Google Maps link for the registered address. */
-    mapLink: "https://share.google/qjQSkfbcxMmjiws4j",
+    /* Pinned to the coordinates behind BSM's own Head Office listing
+       (maps.app.goo.gl/Qb579bF8vCCBCAAb6). A short link cannot drive an
+       iframe, so the place it resolves to is embedded directly. */
+    mapEmbed: "https://www.google.com/maps?q=15.2747065,73.9775982&z=16&output=embed",
+    /* BSM's own Google Maps link for the Head Office. */
+    mapLink: "https://maps.app.goo.gl/Qb579bF8vCCBCAAb6",
     mapTitle: "Map showing the BSM Head Office at Aquem, Margao, Goa",
     phones: [
       { display: "+91 94212 49677", href: "tel:+919421249677" },
       { display: "+91 87889 65649", href: "tel:+918788965649" },
+      { display: "+91 79722 08392", href: "tel:+917972208392" },
     ],
     whatsapps: [
       { display: "+91 94212 49677", href: "https://wa.me/919421249677" },
@@ -577,13 +507,15 @@ export const offices: Office[] = [
     leadershipLabel: "Leadership and management",
     leadership: [
       {
+        id: "dattatray-b-naik",
         name: "Mr. Dattatray B Naik",
         role: "Principal Partner",
         phone: { display: "+91 94212 49677", href: "tel:+919421249677" },
       },
-      { name: "Lt. Col. Bhupinder S Malhi (retd.)", role: "Partner" },
-      { name: "Mrs. Bhagyashree Dattatray Naik", role: "Partner" },
+      { id: "bhupinder-singh-malhi", name: "Lt. Col. Bhupinder S Malhi (retd.)", role: "Partner" },
+      { id: "bhagyashree-dattatray-naik", name: "Mrs. Bhagyashree Dattatray Naik", role: "Partner" },
       {
+        id: "nihal-d-naik",
         name: "Adv Nihal D Naik",
         role: "Legal Advisor",
         advisory: true,
@@ -612,12 +544,14 @@ export const offices: Office[] = [
     leadershipLabel: "Branch leadership",
     leadership: [
       {
+        id: "vighnesh-shet",
         name: "Mr. Vighnesh Shet (M.D)",
         role: "Branch In-Charge – Panjim Operations",
         responsibilities:
           "Responsible for branch administration, security operations, manpower coordination, client relations and operational supervision.",
       },
       {
+        id: "pranali-v-shet",
         name: "Mrs. Pranali V Shet",
         role: "She heads Administration & Billing department - Panjim",
         phone: { display: "+91 91086 63502", href: "tel:+919108663502" },

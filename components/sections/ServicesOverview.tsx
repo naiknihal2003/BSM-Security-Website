@@ -5,7 +5,7 @@ import { createPortal } from "react-dom";
 import { gsap, prefersReducedMotion } from "@/lib/gsap";
 import { services } from "@/lib/site";
 import { serviceShots } from "@/lib/media";
-import { serviceShortLabels } from "@/lib/navigation";
+import { serviceHomeLabels, serviceShortLabels } from "@/lib/navigation";
 import { Section, SectionLabel } from "@/components/ui/Section";
 import { Button, ArrowSwap } from "@/components/ui/Button";
 import { TransitionLink } from "@/components/layout/PageTransition";
@@ -107,7 +107,7 @@ export default function ServicesOverview() {
                   service.highlight ? "text-brass" : "text-bone"
                 }`}
               >
-                {serviceShortLabels[service.slug]}
+                {serviceHomeLabels[service.slug] ?? serviceShortLabels[service.slug]}
               </span>
               <span className="mt-1 block font-mono text-[10px] uppercase tracking-[0.16em] text-dim">
                 {service.points.length
@@ -175,7 +175,7 @@ export default function ServicesOverview() {
                   {active !== null ? services[active].index : "00"}
                 </span>
                 <div>
-                  <p className="font-display text-lg font-semibold uppercase leading-tight tracking-[-0.01em] text-bone">
+                  <p className="font-display text-lg font-semibold leading-tight tracking-[-0.01em] text-bone">
                     {active !== null ? services[active].title : ""}
                   </p>
                   <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.16em] text-brass/80">

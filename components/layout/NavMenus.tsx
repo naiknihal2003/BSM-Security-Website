@@ -5,16 +5,13 @@ import {
   ArrowUpRight,
   Building2,
   Clock,
-  Factory,
   FileText,
-  Handshake,
   Images,
   Landmark,
   LayoutGrid,
   ListChecks,
   Mail,
   MapPin,
-  MessageSquareQuote,
   Phone,
   ShieldCheck,
   UserRound,
@@ -147,7 +144,6 @@ function ServicesMenu({ onNavigate }: MenuProps) {
   const links = [
     { href: "/services#overview", label: "All service categories", note: `${services.length} categories, one page`, icon: LayoutGrid },
     { href: "/#process", label: "How we work", note: "Six steps, every deployment", icon: ListChecks },
-    { href: "/#sectors", label: "Sectors served", note: "From resorts to industrial estates", icon: Factory },
     { href: "/contact#enquiry", label: "Enquire about a service", note: "We call you back", icon: FileText },
   ];
   /* A collage of the supplied category photographs. */
@@ -218,8 +214,6 @@ function ServicesMenu({ onNavigate }: MenuProps) {
 function ClientsMenu({ onNavigate }: MenuProps) {
   const sections = [
     { id: "roster", label: "Our Esteemed Clients", note: `${clients.length} organisations, with their locations as supplied.`, icon: Landmark },
-    { id: "working-with-bsm", label: "Working with BSM", note: "A named contact, a written plan, records and reviews.", icon: Handshake },
-    { id: "testimonials", label: "Testimonials", note: "In our clients' own words, once approved.", icon: MessageSquareQuote },
     { id: "get-in-touch", label: "Become a client", note: "Start with a site survey and a written plan.", icon: ShieldCheck },
   ];
   return (
@@ -231,8 +225,14 @@ function ClientsMenu({ onNavigate }: MenuProps) {
       cta="View all clients"
       onNavigate={onNavigate}
     >
-      {/* Four blocks that fill the band edge to edge and top to bottom. */}
-      <div className="grid h-full grid-cols-4 gap-2">
+      {/* The blocks fill the band edge to edge and top to bottom, however
+          many there are — the column count follows the list rather than
+          assuming four, which left half a row empty once two of the page's
+          sections were removed. */}
+      <div
+        className="grid h-full gap-2"
+        style={{ gridTemplateColumns: `repeat(${sections.length}, minmax(0, 1fr))` }}
+      >
         {sections.map((s, i) => {
           const feature = i === sections.length - 1;
           return (

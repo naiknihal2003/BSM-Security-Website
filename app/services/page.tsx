@@ -4,14 +4,13 @@ import { ArrowDown, Check } from "lucide-react";
 import { services } from "@/lib/site";
 import { JsonLd, breadcrumbSchema } from "@/lib/schema";
 import { serviceShots } from "@/lib/media";
-import { shortcuts, serviceShortLabels } from "@/lib/navigation";
+import { serviceShortLabels } from "@/lib/navigation";
 import { PageHero } from "@/components/ui/PageHero";
 import { Section } from "@/components/ui/Section";
 import { MediaFrame } from "@/components/ui/MediaFrame";
 import { Copy } from "@/components/ui/Placeholder";
 import { Button } from "@/components/ui/Button";
 import { TransitionLink } from "@/components/layout/PageTransition";
-import SubNav from "@/components/layout/SubNav";
 import CallToAction from "@/components/sections/CallToAction";
 import RevealEngine from "@/components/layout/RevealEngine";
 
@@ -99,7 +98,6 @@ export default function ServicesPage() {
         </ul>
       </PageHero>
 
-      <SubNav items={shortcuts.services} label="Service shortcuts" />
 
       {/* Service detail blocks */}
       {services.map((service, i) => {
@@ -127,7 +125,7 @@ export default function ServicesPage() {
 
                 <h2
                   data-split
-                  className={`mt-8 text-title font-semibold uppercase tracking-[-0.01em] ${
+                  className={`mt-8 text-title font-semibold tracking-[-0.01em] ${
                     service.highlight ? "text-brass" : "text-bone"
                   }`}
                 >
@@ -164,7 +162,7 @@ export default function ServicesPage() {
                 )}
 
                 <div className="mt-10 flex flex-wrap items-center gap-3" data-reveal="up">
-                  <Button href="/contact#enquiry" variant="outline">
+                  <Button href={`/contact?service=${service.slug}#enquiry`} variant="outline">
                     Enquire about this service
                   </Button>
                   {next && (

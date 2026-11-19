@@ -42,7 +42,7 @@ export function PageHero({
       <span className="grain-layer" aria-hidden="true" />
       <div className="pointer-events-none absolute inset-0 grid-veil opacity-25" aria-hidden="true" />
       <div
-        className="pointer-events-none absolute inset-x-0 top-0 h-[60vh] bg-[radial-gradient(60%_60%_at_15%_0%,rgba(200,164,92,0.10)_0%,transparent_70%)]"
+        className="pointer-events-none absolute inset-x-0 top-0 h-[60svh] bg-[radial-gradient(60%_60%_at_15%_0%,rgba(200,164,92,0.10)_0%,transparent_70%)]"
         aria-hidden="true"
       />
       {/* Radar ornament */}

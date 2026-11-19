@@ -88,6 +88,14 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   themeColor: "#04060a",
   colorScheme: "dark",
+  /**
+   * iOS only: let the page fill the display, including the area beside the
+   * notch in landscape. It is what makes env(safe-area-inset-*) non-zero,
+   * and every element pinned to an edge adds the matching inset back (the
+   * header, the scroll bar, the back-to-top button, the page gutters). On
+   * anything without a notch the insets are 0 and nothing moves.
+   */
+  viewportFit: "cover",
 };
 
 export default function RootLayout({
