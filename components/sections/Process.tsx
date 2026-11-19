@@ -65,7 +65,7 @@ export default function Process() {
       <div className="shell grid gap-16 lg:grid-cols-12 lg:gap-10">
         <div className="lg:col-span-4">
           <div className="lg:sticky lg:top-[calc(var(--nav-h)+3rem)]">
-            <SectionLabel index="06">How we work</SectionLabel>
+            <SectionLabel index="05">How we work</SectionLabel>
             <h2 data-split className="mt-8 text-display font-semibold text-bone">
               Six steps, in order, every time.
             </h2>

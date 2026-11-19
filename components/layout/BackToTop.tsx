@@ -43,7 +43,7 @@ export default function BackToTop() {
       onClick={() => scrollToTarget(0)}
       aria-label="Back to top"
       tabIndex={visible ? 0 : -1}
-      className={`group fixed bottom-6 right-6 z-[105] grid h-14 w-14 place-items-center rounded-full border border-line bg-void/80 text-mist backdrop-blur transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] hover:border-brass hover:text-brass md:bottom-10 md:right-10 ${
+      className={`group fixed bottom-[calc(1.5rem+env(safe-area-inset-bottom))] right-[calc(1.5rem+env(safe-area-inset-right))] z-[105] grid h-14 w-14 place-items-center rounded-full border border-line bg-void/80 text-mist backdrop-blur transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] hover:border-brass hover:text-brass md:bottom-[calc(2.5rem+env(safe-area-inset-bottom))] md:right-[calc(2.5rem+env(safe-area-inset-right))] ${
         visible ? "pointer-events-auto translate-y-0 opacity-100" : "pointer-events-none translate-y-4 opacity-0"
       }`}
     >

@@ -167,12 +167,15 @@
   width: 100%;
   margin-inline: auto;
   max-width: 96rem;
-  padding-inline: 1.25rem;
+  /* max() with the safe-area inset keeps text clear of the notch when an
+     iPhone is held in landscape. Without a notch both insets are 0 and the
+     padding is unchanged. */
+  padding-inline: max(1.25rem, env(safe-area-inset-left)) max(1.25rem, env(safe-area-inset-right));
   @media (width >= 48rem) {
-    padding-inline: 2.5rem;
+    padding-inline: max(2.5rem, env(safe-area-inset-left)) max(2.5rem, env(safe-area-inset-right));
   }
   @media (width >= 80rem) {
-    padding-inline: 4rem;
+    padding-inline: max(4rem, env(safe-area-inset-left)) max(4rem, env(safe-area-inset-right));
   }
   /* Very wide screens (and zoomed-out browsers): let the layout breathe
      instead of leaving a narrow column in the middle of a full-bleed page. */

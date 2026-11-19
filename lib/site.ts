@@ -232,38 +232,6 @@ export const services: Service[] = [
   },
 ];
 
-export const industries = [
-  {
-    name: "Hospitality & Resorts",
-    note: "Hotels, resorts, beach clubs and restaurants.",
-  },
-  { name: "Corporate & IT", note: "Offices, IT parks and shared workspaces." },
-  {
-    name: "Residential Communities",
-    note: "Villas, apartments and gated societies.",
-  },
-  {
-    name: "Industrial & Logistics",
-    note: "Factories, warehouses and estates.",
-  },
-  {
-    name: "Retail & Commercial",
-    note: "Showrooms, malls and commercial complexes.",
-  },
-  {
-    name: "Events & Entertainment",
-    note: "Weddings, festivals and private events.",
-  },
-  {
-    name: "Healthcare & Education",
-    note: "Hospitals, clinics, schools and campuses.",
-  },
-  {
-    name: "Construction & Projects",
-    note: "Project sites and material yards.",
-  },
-];
-
 export const processSteps = [
   {
     index: "01",
@@ -328,13 +296,6 @@ export const values = [
     title: "Local Knowledge",
     body: "Goa is not one place. A beachfront resort, an industrial estate in the hinterland and a city office each need different judgement.",
   },
-];
-
-export const goaPresence = [
-  { name: "Coastal properties", note: "[COVERAGE DETAILS]" },
-  { name: "Urban and commercial", note: "[COVERAGE DETAILS]" },
-  { name: "Industrial estates", note: "[COVERAGE DETAILS]" },
-  { name: "Residential societies", note: "[COVERAGE DETAILS]" },
 ];
 
 export const faqs = [

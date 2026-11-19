@@ -14,7 +14,7 @@ export function isIndianMobile(digits: string) {
 }
 
 const fieldCls =
-  "w-full rounded-2xl border border-line bg-void px-4 py-3.5 text-sm text-bone placeholder:text-dim focus:border-brass focus:shadow-[0_0_0_4px_rgba(200,164,92,0.12)] focus:outline-none focus:ring-0 transition-[border-color,box-shadow] duration-300";
+  "w-full rounded-2xl border border-line bg-void px-4 py-3.5 text-sm pointer-coarse:text-base text-bone placeholder:text-dim focus:border-brass focus:shadow-[0_0_0_4px_rgba(200,164,92,0.12)] focus:outline-none focus:ring-0 transition-[border-color,box-shadow] duration-300";
 const labelCls = "block font-mono text-[10px] uppercase tracking-[0.2em] text-dim";
 
 /**
@@ -186,7 +186,7 @@ export default function EnquiryForm({
             aria-describedby={phoneError ? `${idPrefix}-phone-error` : `${idPrefix}-phone-hint`}
             onChange={() => phoneError && setPhoneError("")}
             placeholder="Your mobile number"
-            className="w-full bg-transparent px-4 py-3.5 text-sm text-bone placeholder:text-dim focus:outline-none"
+            className="w-full bg-transparent px-4 py-3.5 text-sm pointer-coarse:text-base text-bone placeholder:text-dim focus:outline-none"
           />
         </div>
         {phoneError ? (
